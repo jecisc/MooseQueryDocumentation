@@ -488,6 +488,7 @@ select {
 .section-block {
   padding-top: 15px;
   padding-bottom: 15px;
+  text-align: justify;
 }
 .section-block .block-title {
   margin-top: 0;
