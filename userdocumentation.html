@@ -275,7 +275,42 @@ FAMIXType allIncomingAssociationTypes. "=> { FAMIXAccess . FAMIXInheritance . FA
                         <section id="query-result" class="doc-section">
                             <h2 class="section-title">Query result handling</h2>
                             <div class="section-block">
-                                
+                                <p>
+                                    After a navigation query, we get a result in the form of a MooseQueryResult. It exist three types of query results:
+                                </p>
+                                <ul>
+                                    <li>
+                                        MooseIncomingQueryResult managing the result of a query on incoming associations.
+                                    </li>
+                                    <li>
+                                        MooseOutgoingQueryResult managing the result of a query on outgoing associations.
+                                    </li>
+                                    <li>
+                                        MooseObjectQueryResult. This special kind of query result can be obtained via the two others and includes the opposites of the receiver associations.
+                                    </li>
+                                </ul>
+                                <p>
+                                    These query result are special collections with some new features.
+                                </p>
+                                <p>
+                                    One of the most useful one is the #opposites method present on MooseIncomingQueryResult and MooseOutgoingQueryResult. It will return a MooseObjectQueryResult containing all the opposites entities of the query result compared to the receiver of the query.
+                                </p>
+                                <p>
+                                    Taking the previous model as example we can, for example, do:
+                                </p>
+                                <div class="code-block">
+                                    <h6>Opposite query example</h6>
+                                    <pre><code class="language-smalltalk">
+class1 queryAll: #in. "=> { inheritance1 . reference1 }"
+(class1 queryAll: #in) opposites. "=> { class2 . method2 }"
+                                    </code></pre>
+                                </div><!--//code-block-->
+                                <p>
+                                    Another possibility is to exclude all the result where the opposite in included inside the receiver of the original query. This can be done via the method #witoutSelfLoop. It is handy when we want to query a model to find external dependencies without internal ones.
+                                </p>
+                                <p>
+                                    Another feature is to be able to change the scope of the result. This feature will be covered in the next section.
+                                </p>
                             </div>
                         </section>
                     </div><!--//content-inner-->
