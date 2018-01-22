@@ -89,10 +89,10 @@
                                     succeed to Moose-Chef. It is designed to simplified and standardize inside a Moose
                                     model.
                                 </p>
-                                <div class="section-image">
+                                <figure class="section-image">
                                     <img src="assets/images/mse-graph.png" alt="Image representing a small model with containment and associations examples.">
                                     <figcaption>Example of an application model</figcaption>
-                                </div>
+                                </figure>
                                 <p>
                                     An application model in Moose is composed of two concepts:
                                 </p>
@@ -155,10 +155,10 @@
                                     </tbody>
                                 </table>
                                 <br>
-                                <div style="text-align: center">
+                                <figure style="text-align: center">
                                     <img src="assets/images/containmentTreeUser.png" alt="A schema of a containement tree">
                                     <figcaption>Example of a containment tree.</figcaption>
-                                </div>
+                                </figure>
                                 <p>For example, if we take the model present in the figure as example we can do: </p>
                                 <div class="code-block">
                                     <h6>Containment tree examples</h6>
@@ -218,24 +218,26 @@ attribut1 allParents. "=> { class3 . package2 . package1 }"
                                     </tbody>
                                 </table>
                                 <br>
-                                <div style="text-align: center">
+                                <figure style="text-align: center">
                                     <img src="assets/images/navigationUser.png" alt="A schema of a containment tree with relations">
                                     <figcaption>Example of a small model with associations.</figcaption>
-                                </div>
+                                </figure>
                                 <p>For example, if we take the model present in the figure as example we can do: </p>
                                 <div class="code-block">
                                     <h6>Navigation examples</h6>
                                     <pre><code class="language-smalltalk">
 class1 query: #in with: FAMIXInheritance. "=> { inheritance1 }"
-class1 queryLocal: #in with: FAMIXInheritance. "=> { inheritance1 }"
 class1 query: #out with: FAMIXInheritance. "=> { }"
-
 class1 query: #out with: FAMIXAccess. "=> { access1 }"
-classe1 queryLocal: #out with: FAMIXAccess. "=> { }"
+
+class1 queryLocal: #in with: FAMIXInheritance. "=> { inheritance1 }"
+class1 queryLocal: #out with: FAMIXAccess. "=> { }"
 
 class1 queryAll: #in. "=> { inheritance1 . reference1 }"
 class1 queryAll: #out. "=> { access1 }"
+
 class1 queryAllLocal: #out. "=> { }"
+class1 queryAllLocal: #in. "=> { inheritance1 . reference1 }"
                                     </code></pre>
                                 </div><!--//code-block-->
                                 <p>
@@ -313,6 +315,77 @@ class1 queryAll: #in. "=> { inheritance1 . reference1 }"
                                 </p>
                             </div>
                         </section>
+                        <section id="scope" class="doc-section">
+                            <h2 class="section-title">Scoping queries</h2>
+                            <div class="section-block">
+                                <p>
+                                    Depending on what we analyze, we might need different scope to handle in our queries. For example if I want to know all the classes referencing another class I can use a navigation query to get all the behavioural entities referencing this class, but then I need to find which classes includes those behavioural entities.
+                                </p>
+                                <p>
+                                    For this scenario it is possible to use scope queries. A scope query can be applied to:
+                                </p>
+                                <ul>
+                                    <li>
+                                        A moose entity
+                                    </li>
+                                    <li>
+                                        A MooseQueryResult obtained through a navigation query
+                                    </li>
+                                </ul>
+                                <p>
+                                    A scope query will have a direction to look for. You can look for entities higher, lower or both higher and lower than the receiver in the containment tree.
+                                </p>
+
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <td><strong>#atScope:   </strong></td>
+                                        <td>Return all the entities at a given famix class scope that are up in the containment tree of the metamodel.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#toScope:   </strong></td>
+                                        <td>Return all the entities at a given famix class scope that are down in the containment tree of the metamodel.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#withScope:   </strong></td>
+                                        <td>Return all the entities at a given famix class scope that are both up and down in the containment tree of the metamodel.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <br>
+                                <figure style="text-align: center">
+                                    <img src="assets/images/scopeUser.png" alt="A schema of a containement tree">
+                                    <figcaption>Example of a containment tree.</figcaption>
+                                </figure>
+                                <p>For example, if we take the model present in the figure as example we can do: </p>
+                                <div class="code-block">
+                                    <h6>Scope queries examples</h6>
+                                    <pre><code class="language-smalltalk">
+package2 atScope: FAMIXPackage. "=> { package1 }"
+package2 toScope: FAMIXPackage. "=> { }"
+package2 withScope: FAMIXPackage. "=> { package1 }"
+
+method1 atScope: FAMIXType. "=> { class3 }"
+method1 toScope: FAMIXType. "=> { class4 }"
+method2 withScope: FAMIXType. "=> { class3 . class4 }"
+                                    </code></pre>
+                                </div><!--//code-block-->
+                            </div>
+                        </section>
+                        <section id="examples" class="doc-section">
+                            <h2 class="section-title">Examples divers</h2>
+                            <div class="section-block">
+                                <p>
+                                    I will add here divers example of use of MooseQuery API.
+                                </p>
+                                <h3 class="question"><i class="fa fa-question-circle"></i> How do I get all the non-internal entities a class depend on at a method level?</h3>
+                                <div class="code-block">
+                                    <pre><code class="language-smalltalk">
+(aClass query: #out) opposites withoutSelfLoop withScope: FAMIXMethod
+                                    </code></pre>
+                                </div><!--//code-block-->
+                            </div>
+                        </section>
                     </div><!--//content-inner-->
                 </div><!--//doc-content-->
                 <div class="doc-sidebar hidden-xs">
@@ -322,6 +395,8 @@ class1 queryAll: #in. "=> { inheritance1 . reference1 }"
                             <li><a class="scrollto" href="#containment-tree">Containment tree exploration</a></li>
                             <li><a class="scrollto" href="#navigation">Navigation queries</a></li>
                             <li><a class="scrollto" href="#query-result">Query result handling</a></li>
+                            <li><a class="scrollto" href="#scope">Scoping queries</a></li>
+                            <li><a class="scrollto" href="#examples">Example divers</a></li>
                         </ul><!--//doc-menu-->
                     </nav>
                 </div><!--//doc-sidebar-->
