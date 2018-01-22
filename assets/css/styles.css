@@ -6,6 +6,20 @@
  * Twitter: @3rdwave_themes
  * Website: http://themes.3rdwavemedia.com/
 */
+
+/* Customisations */
+.section-image {
+  float:right;
+  margin:5px;
+}
+
+figcaption{
+  text-align: center;
+  font-style: italic;
+}
+
+
+
 /* Theme default */
 /* ======= Base ======= */
 body {

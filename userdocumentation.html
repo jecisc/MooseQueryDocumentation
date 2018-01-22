@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->  
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->  
-<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en"> <!--<![endif]-->
 <head>
     <title>Moose Query Documentation - User Documentation</title>
     <!-- Meta -->
@@ -21,7 +24,7 @@
     <link rel="apple-touch-icon" sizes="144x144" href="assets/favicon/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="assets/favicon/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="assets/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
@@ -31,7 +34,8 @@
     <meta name="theme-color" content="#ffffff">
     <!-- End Favicon -->
 
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
     <!-- Global CSS -->
     <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
     <!-- Plugins CSS -->
@@ -49,74 +53,175 @@
 </head>
 
 <body class="body-green">
-    <div class="page-wrapper">
-        <!-- ******Header****** -->
-        <header id="header" class="header">
-            <div class="container">
-                <div class="branding">
-                    <h1 class="logo">
-                        <a href="index.html">
-                            <span aria-hidden="true" class="icon_documents_alt icon"></span>
-                            <span class="text-highlight">Moose</span><span class="text-bold">Query</span>
-                        </a>
-                    </h1>
-                </div><!--//branding-->
-                <ol class="breadcrumb">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">User Documentation</li>
-                </ol>
-            </div><!--//container-->
-        </header><!--//header-->
-        <div class="doc-wrapper">
-            <div class="container">
-                <div id="doc-header" class="doc-header text-center">
-                    <h1 class="doc-title"><i class="icon fa fa-user"></i> User Documentation</h1>
-                    <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Nov 6th, 2017</div>
-                </div><!--//doc-header-->
-                <div class="doc-body">
-                    <div class="doc-content">
-                        <div class="content-inner">
-                            <section id="introduction" class="doc-section">
-                                <h2 class="section-title">Introduction</h2>
-                                <div class="section-block">
-                                    <p>
-                                        Moose-Query is a domain-specific language to build navigation and scope queries for entities in <a href="http://www.moosetechnology.org/" class="text-highlight">Moose</a>. It succeed to Moose-Chef. It is designed to simplified and standardize the gathering of the associations, their manipulation and the change of scope inside a Moose model.
-                                    </p>
-                                </div>
-                            </section><!--//doc-section-->
-                        </div><!--//content-inner-->
-                    </div><!--//doc-content-->
-                    <div class="doc-sidebar hidden-xs">
-                        <nav id="doc-nav">
-                            <ul id="doc-menu" class="nav doc-menu" data-spy="affix">
-                                <li><a class="scrollto" href="#introduction">Introduction</a></li>
-                            </ul><!--//doc-menu-->
-                        </nav>
-                    </div><!--//doc-sidebar-->
-                </div><!--//doc-body-->              
-            </div><!--//container-->
-        </div><!--//doc-wrapper-->
-        
-        
-    </div><!--//page-wrapper-->
-    
-    <footer id="footer" class="footer text-center">
+<div class="page-wrapper">
+    <!-- ******Header****** -->
+    <header id="header" class="header">
         <div class="container">
-            <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can check out other license options via our website: themes.3rdwavemedia.com */-->
-            <small class="copyright">Designed with <i class="fa fa-heart"></i> by <a href="http://themes.3rdwavemedia.com/" targe="_blank">Xiaoying Riley</a> for developers</small>
-            
+            <div class="branding">
+                <h1 class="logo">
+                    <a href="index.html">
+                        <span aria-hidden="true" class="icon_documents_alt icon"></span>
+                        <span class="text-highlight">Moose</span><span class="text-bold">Query</span>
+                    </a>
+                </h1>
+            </div><!--//branding-->
+            <ol class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li class="active">User Documentation</li>
+            </ol>
         </div><!--//container-->
-    </footer><!--//footer-->
-    
-     
-    <!-- Main Javascript -->          
-    <script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/prism/prism.js"></script>    
-    <script type="text/javascript" src="assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>                                                                
-    <script type="text/javascript" src="assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
-    <script type="text/javascript" src="assets/js/main.js"></script>
-    
+    </header><!--//header-->
+    <div class="doc-wrapper">
+        <div class="container">
+            <div id="doc-header" class="doc-header text-center">
+                <h1 class="doc-title"><i class="icon fa fa-user"></i> User Documentation</h1>
+                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Jan 22th, 2018</div>
+            </div><!--//doc-header-->
+            <div class="doc-body">
+                <div class="doc-content">
+                    <div class="content-inner">
+                        <section id="introduction" class="doc-section">
+                            <h2 class="section-title">Introduction</h2>
+                            <div class="section-block">
+                                <p>
+                                    Moose-Query is a domain-specific language to build queries for entities in <a
+                                        href="http://www.moosetechnology.org/" class="text-highlight">Moose</a>. It
+                                    succeed to Moose-Chef. It is designed to simplified and standardize inside a Moose
+                                    model.
+                                </p>
+                                <div class="section-image">
+                                    <img src="assets/images/mse-graph.png" alt="Image representing a small model with containment and associations examples.">
+                                    <figcaption>Example of an application model</figcaption>
+                                </div>
+                                <p>
+                                    An application model in Moose is composed of two concepts:
+                                </p>
+                                <dl>
+                                    <dt>
+                                        Imbrication of entities
+                                    </dt>
+                                    <dd>
+                                        Define which entity contains which entities. For example it will define the classes contained in a package and methods contained in a class. In the example image, it can be the relations "parentPackage", "container" or "parentType"
+                                    </dd>
+                                    <br>
+                                    <dt>
+                                        Interactions between entities
+                                    </dt>
+                                    <dd>
+                                        Define how the entities interact with each other. For example a inheritance is an interaction between a subclass and its superclass. Another example is that a reference is an interaction between a behavioural entity and a type. In the example image it can be the :Inheritance with the "superclass" and "subclass" relations.
+                                    </dd>
+                                </dl>
+                                <p>
+                                    MooseQuery allow to explore a model via those two concepts. With it you will be able to:
+                                </p>
+                                <ul>
+                                    <li>The exploration of the containment tree</li>
+                                    <li>The gathering of associations</li>
+                                    <li>The manipulation of those gathered associations</li>
+                                    <li>The change of scope</li>
+                                </ul>
+                                <p>
+                                    In this documentation we will explore the use of the DSL. At the end you will be able to query your moose model, for example, to:
+                                </p>
+                                <ul>
+                                    <li>Get the children of an entity (Exploration of the containment tree)</li>
+                                    <li>Get all the references contained in a class (Gathering of associations)</li>
+                                    <li>Get all the entities who depend on a specific entity (Manipulation of gathered associations)</li>
+                                    <li>Get all the methods contained in a package in a Java model, including those in inner/anonymous classes (Change of scope)</li>
+                                </ul>
+
+                            </div>
+                        </section>
+                        <section id="containment-tree" class="doc-section">
+                            <h2 class="section-title">Containment tree exploration</h2>
+                            <div class="section-block">
+                                <p>
+                                    Exploring the containment tree is the easiest way to query a model. It will be possible with the imbrication relations in the model. To do so, it exist a really simple API on entities:
+                                </p>
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td><strong>#children   </strong></td>
+                                        <td>Will return the direct children of the entity</td></tr>
+                                    <tr>
+                                        <td><strong>#parents   </strong></td>
+                                        <td>Will return the direct parents of the entity</td></tr>
+                                    <tr>
+                                        <td><strong>#allChildren   </strong></td>
+                                        <td>Will return the children of the entity and there children recursively</td></tr>
+                                    <tr>
+                                        <td><strong>#allParents   </strong></td>
+                                        <td>Will return the parents of the entity and there parents recursively</td></tr>
+                                    </tbody>
+                                </table>
+                                <br>
+                                <div style="text-align: center">
+                                    <img src="assets/images/containmentTreeUser.png" alt="A schema of a containement tree">
+                                    <figcaption>Example of a containment tree.</figcaption>
+                                </div>
+                                <p>For example, if we take the model present in the figure as example we can do: </p>
+                                <div class="code-block">
+                                    <h6>Containment tree examples</h6>
+                                    <pre><code class="language-smalltalk">
+package1 children. "=> { package2 . class1 }"
+class3 children. "=> { attribut1 . attribut2 }"
+
+package1 allChildren. "=> { package2 . class1 . class2 . class3 . attribut1 . attribut2 }"
+class3 allChildren. "=> { attribut1 . attribut2 }"
+
+package1 parents. "=> { }"
+class3 parents. "=> { package2 }"
+
+class3 allParents. "=> { package2 . package1 }"
+attribut1 allParents. "=> { class3 . package2 . package1 }"
+                                    </code></pre>
+                                </div><!--//code-block-->
+                            </div>
+                        </section>
+                        <section id="navigation" class="doc-section">
+                            <h2 class="section-title">Navigation queries</h2>
+                            <div class="section-block">
+
+                            </div>
+                        </section>
+                    </div><!--//content-inner-->
+                </div><!--//doc-content-->
+                <div class="doc-sidebar hidden-xs">
+                    <nav id="doc-nav">
+                        <ul id="doc-menu" class="nav doc-menu" data-spy="affix">
+                            <li><a class="scrollto" href="#introduction">Introduction</a></li>
+                            <li><a class="scrollto" href="#containment-tree">Containment tree exploration</a></li>
+                            <li><a class="scrollto" href="#navigation">Navigation queries</a></li>
+                        </ul><!--//doc-menu-->
+                    </nav>
+                </div><!--//doc-sidebar-->
+            </div><!--//doc-body-->
+        </div><!--//container-->
+    </div><!--//doc-wrapper-->
+
+
+</div><!--//page-wrapper-->
+
+<footer id="footer" class="footer text-center">
+    <div class="container">
+        <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can check out other license options via our website: themes.3rdwavemedia.com */-->
+        <small class="copyright">Designed with <i class="fa fa-heart"></i> by <a href="http://themes.3rdwavemedia.com/"
+                                                                                 targe="_blank">Xiaoying Riley</a> for
+            developers
+        </small>
+
+    </div><!--//container-->
+</footer><!--//footer-->
+
+
+<!-- Main Javascript -->
+<script type="text/javascript" src="assets/plugins/jquery-1.12.3.min.js"></script>
+<script type="text/javascript" src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/plugins/prism/prism.js"></script>
+<script type="text/javascript" src="assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js"></script>
+<script type="text/javascript" src="assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+<script type="text/javascript" src="assets/js/main.js"></script>
+
 </body>
 </html> 
 
