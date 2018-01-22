@@ -138,7 +138,7 @@
                                 <p>
                                     Exploring the containment tree is the easiest way to query a model. It will be possible with the imbrication relations in the model. To do so, it exist a really simple API on entities:
                                 </p>
-                                <table>
+                                <table class="table">
                                     <tbody>
                                     <tr>
                                         <td><strong>#children   </strong></td>
@@ -181,7 +181,101 @@ attribut1 allParents. "=> { class3 . package2 . package1 }"
                         <section id="navigation" class="doc-section">
                             <h2 class="section-title">Navigation queries</h2>
                             <div class="section-block">
+                                <p>In order to navigate into the interactions between entities, MooseQuery provide a generic API to gather entities's associations. Those association represent different kind of interaction such as References, Inheritance, Accesses or Invocations.
+                                </p>
+                                <p>
+                                    These queries are configured with two parameters:
+                                </p>
+                                <ul>
+                                    <li>
+                                        The direction of the association (Incoming or Outgoing). An incoming association will represent a relation where the receiver is the source of the relation. An outgoing association will represent a relation where the receiver is the target of the relation.
+                                    </li>
+                                    <li>
+                                        The association(s) to query
+                                    </li>
+                                </ul>
+                                <p>
+                                    On top of that, a query can be either local or not. A local query will search only in the associations of the receiver while a non-local query will also gather the entity children's associations. The main methods to realise those queries are:
+                                </p>
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <td><strong>#query:with:   </strong></td>
+                                        <td>This method will take as first parameter a symbol (#in or #out) to define the direction of the query and as second parameter an association class to query. It will return all the instances of this association class where the receiver or its children are the source/target depending on the symbol.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#queryAll:   </strong></td>
+                                        <td>This method will take as parameter a symbol (#in or #out) to define the direction of the query. It will return all the associations instances where the receiver or its children are the source/target depending on the symbol.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#queryLocal:with:   </strong></td>
+                                        <td>This method will take as first parameter a symbol (#in or #out) to define the direction of the query and as second parameter an association class to query. It will return all the instances of this association class where the receiver only is the source/target depending on the symbol.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#queryAllLocal:   </strong></td>
+                                        <td>This method will take as parameter a symbol (#in or #out) to define the direction of the query. It will return all the associations instances where the receiver only is the source/target depending on the symbol.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <br>
+                                <div style="text-align: center">
+                                    <img src="assets/images/navigationUser.png" alt="A schema of a containment tree with relations">
+                                    <figcaption>Example of a small model with associations.</figcaption>
+                                </div>
+                                <p>For example, if we take the model present in the figure as example we can do: </p>
+                                <div class="code-block">
+                                    <h6>Navigation examples</h6>
+                                    <pre><code class="language-smalltalk">
+class1 query: #in with: FAMIXInheritance. "=> { inheritance1 }"
+class1 queryLocal: #in with: FAMIXInheritance. "=> { inheritance1 }"
+class1 query: #out with: FAMIXInheritance. "=> { }"
 
+class1 query: #out with: FAMIXAccess. "=> { access1 }"
+classe1 queryLocal: #out with: FAMIXAccess. "=> { }"
+
+class1 queryAll: #in. "=> { inheritance1 . reference1 }"
+class1 queryAll: #out. "=> { access1 }"
+class1 queryAllLocal: #out. "=> { }"
+                                    </code></pre>
+                                </div><!--//code-block-->
+                                <p>
+                                    Now we can ask ourselves how to know which entity can be the source or target of which association. For this it exist an API based on the meta-model of your application.
+                                </p>
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <td><strong>#outgoingAssociationTypes   </strong></td>
+                                        <td>When send to an entity class, return all the possible outgoing association types for this entity. This does not includes the outgoing association types of its possible children.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#incomingAssociationTypes   </strong></td>
+                                        <td>When send to an entity class, return all the possible incoming association types for this entity. This does not includes the incoming association types of its possible children.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#allOutgoingAssociationTypes   </strong></td>
+                                        <td>When send to an entity class, return all the possible outgoing association types for this entity, including the outgoing association types of its possible children.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#allIncomingAssociationTypes   </strong></td>
+                                        <td>When send to an entity class, return all the possible incoming association types for this entity, including the incoming association types of its possible children.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="code-block">
+                                    <h6>Association types examples</h6>
+                                    <pre><code class="language-smalltalk">
+FAMIXType outgoingAssociationTypes. "=> { FAMIXInheritance }"
+FAMIXType incomingAssociationTypes. "=> { FAMIXInheritance . FAMIXTraitUsage . FAMIXReference }"
+FAMIXType allOutgoingAssociationTypes. "=> { FAMIXAccess . FAMIXInheritance . FAMIXInvocation . FAMIXReference }"
+FAMIXType allIncomingAssociationTypes. "=> { FAMIXAccess . FAMIXInheritance . FAMIXInvocation . FAMIXReference . FAMIXTraitUsage }"
+                                    </code></pre>
+                                </div><!--//code-block-->
+                            </div>
+                        </section>
+                        <section id="query-result" class="doc-section">
+                            <h2 class="section-title">Query result handling</h2>
+                            <div class="section-block">
+                                
                             </div>
                         </section>
                     </div><!--//content-inner-->
@@ -192,6 +286,7 @@ attribut1 allParents. "=> { class3 . package2 . package1 }"
                             <li><a class="scrollto" href="#introduction">Introduction</a></li>
                             <li><a class="scrollto" href="#containment-tree">Containment tree exploration</a></li>
                             <li><a class="scrollto" href="#navigation">Navigation queries</a></li>
+                            <li><a class="scrollto" href="#query-result">Query result handling</a></li>
                         </ul><!--//doc-menu-->
                     </nav>
                 </div><!--//doc-sidebar-->
