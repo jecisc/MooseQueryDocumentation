@@ -188,7 +188,7 @@ attribut1 allParents. "=> { class3 . package2 . package1 }"
                                 </p>
                                 <ul>
                                     <li>
-                                        The direction of the association (Incoming or Outgoing). An incoming association will represent a relation where the receiver is the source of the relation. An outgoing association will represent a relation where the receiver is the target of the relation.
+                                        The direction of the association (Incoming or Outgoing). An incoming association will represent a relation where the receiver is the target of the relation. An outgoing association will represent a relation where the receiver is the source of the relation.
                                     </li>
                                     <li>
                                         The association(s) to query
@@ -201,19 +201,19 @@ attribut1 allParents. "=> { class3 . package2 . package1 }"
                                     <tbody>
                                     <tr>
                                         <td><strong>#query:with:   </strong></td>
-                                        <td>This method will take as first parameter a symbol (#in or #out) to define the direction of the query and as second parameter an association class to query. It will return all the instances of this association class where the receiver or its children are the source/target depending on the symbol.</td>
+                                        <td>This method will take as first parameter a symbol (#out or #in) to define the direction of the query and as second parameter an association class to query. It will return all the instances of this association class where the receiver or its children are the source/target depending on the symbol.</td>
                                     </tr>
                                     <tr>
                                         <td><strong>#queryAll:   </strong></td>
-                                        <td>This method will take as parameter a symbol (#in or #out) to define the direction of the query. It will return all the associations instances where the receiver or its children are the source/target depending on the symbol.</td>
+                                        <td>This method will take as parameter a symbol (#out or #in) to define the direction of the query. It will return all the associations instances where the receiver or its children are the source/target depending on the symbol.</td>
                                     </tr>
                                     <tr>
                                         <td><strong>#queryLocal:with:   </strong></td>
-                                        <td>This method will take as first parameter a symbol (#in or #out) to define the direction of the query and as second parameter an association class to query. It will return all the instances of this association class where the receiver only is the source/target depending on the symbol.</td>
+                                        <td>This method will take as first parameter a symbol (#out or #in) to define the direction of the query and as second parameter an association class to query. It will return all the instances of this association class where the receiver only is the source/target depending on the symbol.</td>
                                     </tr>
                                     <tr>
                                         <td><strong>#queryAllLocal:   </strong></td>
-                                        <td>This method will take as parameter a symbol (#in or #out) to define the direction of the query. It will return all the associations instances where the receiver only is the source/target depending on the symbol.</td>
+                                        <td>This method will take as parameter a symbol (#out or #in) to define the direction of the query. It will return all the associations instances where the receiver only is the source/target depending on the symbol.</td>
                                     </tr>
                                     </tbody>
                                 </table>
