@@ -84,7 +84,7 @@
                             <h2 class="section-title">Introduction</h2>
                             <div class="section-block">
                                 <p>
-                                    MooseQuery is the result of Inria research team <a href="https://rmod.inria.fr/web/">RMoD</a>. This page is here to document the internal management of MooseQuery. As prerequisites it suppose the reader has a minimum of knowledge on Fame and Famix. If not, please read the <a href="http://themoosebook.org/book/index.html">Moose documentation.</a> if you wish to understand everything.
+                                    MooseQuery is the result of Inria research team <a href="https://rmod.inria.fr/web/">RMoD</a>. This page is here to document the internal management of MooseQuery. As prerequisites, it supposes the reader has a minimum of knowledge of Fame and Famix. If not, please read the <a href="http://themoosebook.org/book/index.html">Moose documentation.</a> if you wish to understand everything.
                                 </p>
                                 <p>
                                     It will cover:
@@ -130,7 +130,7 @@
                                 </figure>
                                 <br>
                                 <p>
-                                    Here for example Entity1 is the container of Entity2 and also Entity1 is the source of an association to Entity3.
+                                    Here, for example, Entity1 is the container of Entity2 and also Entity1 is the source of an association to Entity3.
                                 </p>
                                 <p>
                                     Moose query needs to know those relations in order to work. To declare them you just need to use three pragma: &lt;container&gt;, &lt;source&gt; and &lt;target&gt;
@@ -165,7 +165,7 @@ FAMIXAccess>>variable
                             <div id="traits" class="section-block">
                                 <h3 class="block-title">Traits usage</h3>
                                 <p>
-                                    The definition of the relations allow MooseQuery to have everything needed for the queries in the meta-model. Now, while creating entities, they need to have the behaviour to execute the queries. To do so, MooseQuery comes with a set of Traits to implement in the new entities.
+                                    The definition of the relations allows MooseQuery to have everything needed for the queries in the meta-model. Now, while creating entities, they need to have the behaviour to execute the queries. To do so, MooseQuery comes with a set of Traits to implement in the new entities.
                                 </p>
                                 <div class="table-responsive">
                                     <table class="table table-striped">
@@ -180,22 +180,22 @@ FAMIXAccess>>variable
                                             <tr>
                                                 <th scope="row">TAssociationMetaLevelDependency</th>
                                                 <td>FAMIXAssociation</td>
-                                                <td>This trait includes information about associations needed for the navigation queries. It need to be used by every associations in a meta-model.</td>
+                                                <td>This trait includes information about associations needed for the navigation queries. It needs to be used by every association in a meta-model.</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">TEntityMetaLevelDependency</th>
                                                 <td>FAMIXAnnotationInstance, FAMIXAnnotationInstanceAttribute, FAMIXNamedEntity</td>
-                                                <td>This trait includes the information about entities and add the behaviour to explore the containment tree and execute scope queries. It needs to be used by every entities in a meta-model.</td>
+                                                <td>This trait includes the information about entities and adds the behaviour to explore the containment tree and execute scope queries. It needs to be used by every entity in a meta-model.</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">TDependencyQuery</th>
                                                 <td>FAMIXAnnotationInstance, FAMIXAnnotationInstanceAttribute</td>
-                                                <td>This trait includes the information about entities and add the behaviour to execute navigation queries. It needs to be used by every entities in a meta-model.</td>
+                                                <td>This trait includes the information about entities and adds the behaviour to execute navigation queries. It needs to be used by every entity in a meta-model.</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">TOODependencyQuery</th>
                                                 <td>FAMIXNamedEntity</td>
-                                                <td>This trait includes the information about object oriented entities and add the behaviour to execute navigation queries. It needs to be used by every  object oriented entities in a meta-model instead of TDependencyQuery.</td>
+                                                <td>This trait includes the information about object-oriented entities and adds the behaviour to execute navigation queries. It needs to be used by every object-oriented entities in a meta-model instead of TDependencyQuery.</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -245,14 +245,12 @@ FAMIXNamedEntity class>>allChildrenTypes
                         <section id="containment" class="doc-section">
                             <h2 class="section-title">Containment tree exploration</h2>
                             <div class="section-block">
-                                <div class="callout-block callout-info">
-                                    <div class="icon-holder">
-                                        <i class="fa fa-info-circle"></i>
-                                    </div><!--//icon-holder-->
-                                    <div class="content">
-                                        <h4 class="callout-title">TODO</h4>
-                                    </div><!--//content-->
-                                </div>
+                                <p>
+                                    Now that we saw how to make entities queryable we can begin to check the internal mechanisms of MooseQuery. The easiest queries are the ones related to the exploration of the containment tree.
+                                </p>
+                                <p>
+
+                                </p>
                             </div>
                         </section>
                         <section id="navigation" class="doc-section">
