@@ -164,8 +164,82 @@ FAMIXAccess>>variable
                             </div>
                             <div id="traits" class="section-block">
                                 <h3 class="block-title">Traits usage</h3>
-                            </div>
+                                <p>
+                                    The definition of the relations allow MooseQuery to have everything needed for the queries in the meta-model. Now, while creating entities, they need to have the behaviour to execute the queries. To do so, MooseQuery comes with a set of Traits to implement in the new entities.
+                                </p>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Trait</th>
+                                                <th>Default users</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">TAssociationMetaLevelDependency</th>
+                                                <td>FAMIXAssociation</td>
+                                                <td>This trait includes information about associations needed for the navigation queries. It need to be used by every associations in a meta-model.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">TEntityMetaLevelDependency</th>
+                                                <td>FAMIXAnnotationInstance, FAMIXAnnotationInstanceAttribute, FAMIXNamedEntity</td>
+                                                <td>This trait includes the information about entities and add the behaviour to explore the containment tree and execute scope queries. It needs to be used by every entities in a meta-model.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">TDependencyQuery</th>
+                                                <td>FAMIXAnnotationInstance, FAMIXAnnotationInstanceAttribute</td>
+                                                <td>This trait includes the information about entities and add the behaviour to execute navigation queries. It needs to be used by every entities in a meta-model.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">TOODependencyQuery</th>
+                                                <td>FAMIXNamedEntity</td>
+                                                <td>This trait includes the information about object oriented entities and add the behaviour to execute navigation queries. It needs to be used by every  object oriented entities in a meta-model instead of TDependencyQuery.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div><!--//table-responsive-->
+                                <p>
+                                    All those traits need to be used when implementing a new meta-model. For performance reasons, some more work is needed when using those traits. Some methods exist in two versions. One private with the real behaviour, and the other explicitly required to get a cached version. Here is the list of caches to implement:
+                                </p>
+                                <ul>
+                                    <li>
+                                        TAssociationMetaLevelDependency class
+                                        <ul>
+                                            <li>#sourceTypes</li>
+                                            <li>#targetTypes</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        TEntityMetaLevelDependency class
+                                        <ul>
+                                            <li>#allChildrenTypes</li>
+                                            <li>#allParentTypes</li>
+                                            <li>#childrenSelector</li>
+                                            <li>#parentSelector</li>
+                                            <li>#allIncomingAssociationTypes</li>
+                                            <li>#allOutgoingAssociationTypes</li>
+                                            <li>#incomingMSEProperties</li>
+                                            <li>#outgoingMSEPreperties</li>
+                                        </ul>
+                                    </li>
+                                </ul>
 
+                                <div class="code-block">
+                                    <h6>Example of cache</h6>
+                                    <pre><code class="language-smalltalk">
+TEntityMetaLevelDependency class>>allChildrenTypes
+	^ self explicitRequirement
+
+TEntityMetaLevelDependency class>>privateAllChildrenTypes
+	^ (self childrenTypes withDeepCollect: #childrenTypes as: Set) asOrderedCollection
+
+FAMIXNamedEntity class>>allChildrenTypes
+	^ allChildrenTypes ifNil: [ allChildrenTypes := self privateAllChildrenTypes ]
+                                    </code></pre>
+                                </div><!--//code-block-->
+                            </div>
                         </div>
                         </section>
                         <section id="containment" class="doc-section">
