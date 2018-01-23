@@ -75,13 +75,127 @@
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><i class="icon fa fa-code"></i> Developer Documentation</h1>
-                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Jan 22th, 2018</div>
+                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Jan 23th, 2018</div>
             </div><!--//doc-header-->
             <div class="doc-body">
                 <div class="doc-content">
                     <div class="content-inner">
                         <section id="introduction" class="doc-section">
                             <h2 class="section-title">Introduction</h2>
+                            <div class="section-block">
+                                <p>
+                                    MooseQuery is the result of Inria research team <a href="https://rmod.inria.fr/web/">RMoD</a>. This page is here to document the internal management of MooseQuery. As prerequisites it suppose the reader has a minimum of knowledge on Fame and Famix. If not, please read the <a href="http://themoosebook.org/book/index.html">Moose documentation.</a> if you wish to understand everything.
+                                </p>
+                                <p>
+                                    It will cover:
+                                </p>
+                                <ul>
+                                    <li>How to complete Famix meta-model to make new entities/relations queryable via MooseQuery</li>
+                                    <li>How works the containment tree exploration described in the user documentation</li>
+                                    <li>How works the navigation queries</li>
+                                    <li>How works the scope queries</li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section id="metamodel" class="doc-section">
+                        <h2 class="section-title">Complete the meta-model</h2>
+                        <div class="section-block">
+                            <div class="callout-block callout-info">
+                                <div class="icon-holder">
+                                    <i class="fa fa-info-circle"></i>
+                                </div><!--//icon-holder-->
+                                <div class="content">
+                                    <p>The content of this section will cover the part of new entities/relations creation specific to MooseQuery. It will not cover how to create new Moose entities. For this, please refer to <a href="http://themoosebook.org/book/index.html">Moose documentation.</a></p>
+                                </div><!--//content-->
+                            </div>
+                            <p>
+                                To begin this developer documentation we will see how to make new entities/relations queryable via MooseQuery.
+                            </p>
+                            <div id="relations" class="section-block">
+                                <h3 class="block-title">Relations definitions</h3>
+                                <p>
+                                    As said in the user documentation, Moose query is based on two concepts:
+                                </p>
+                                <ul>
+                                    <li>
+                                        Imbrication of entities: Define which entity contains which entities.
+                                    </li>
+                                    <li>
+                                        Interactions between entities: Define how the entities interact with each other.
+                                    </li>
+                                </ul>
+                                <figure style="text-align: center">
+                                    <img src="assets/images/relationsDev.png" alt="Schema of the two relation types">
+                                    <figcaption>Schema of the relation types</figcaption>
+                                </figure>
+                                <br>
+                                <p>
+                                    Here for example Entity1 is the container of Entity2 and also Entity1 is the source of an association to Entity3.
+                                </p>
+                                <p>
+                                    Moose query needs to know those relations in order to work. To declare them you just need to use three pragma: &lt;container&gt;, &lt;source&gt; and &lt;target&gt;
+                                </p>
+                                <div class="code-block">
+                                    <h6>Containment relation definition</h6>
+                                    <pre><code class="language-smalltalk">
+FAMIXAttribute>>parentType
+	&lt;MSEProperty: #parentType type: #FAMIXType opposite: #attributes&gt;
+	&lt;MSEComment: 'Type declaring the attribute. belongsTo implementation'&gt;
+	&lt;container&gt; "<=== Here is the containment relation definition"
+	^ parentType
+                                    </code></pre>
+                                </div><!--//code-block-->
+                                <div class="code-block">
+                                    <h6>Association definition</h6>
+                                    <pre><code class="language-smalltalk">
+FAMIXAccess>>accessor
+	&lt;MSEProperty: #accessor type: #FAMIXBehaviouralEntity opposite: #accesses&gt;
+	&lt;MSEComment: 'Behavioural entity making the access to the variable. from-side of the association'&gt;
+	&lt;source&gt; "<=== Here is the association's source definition"
+	^ accessor
+
+FAMIXAccess>>variable
+	&lt;MSEProperty: #variable type: #FAMIXStructuralEntity opposite: #incomingAccesses&gt;
+	&lt;MSEComment: 'Variable accessed. to-side of the association'&gt;
+	&lt;target&gt; "<=== Here is the association's target definition"
+	^ variable
+                                    </code></pre>
+                                </div><!--//code-block-->
+                            </div>
+                            <div id="traits" class="section-block">
+                                <h3 class="block-title">Traits usage</h3>
+                            </div>
+
+                        </div>
+                        </section>
+                        <section id="containment" class="doc-section">
+                            <h2 class="section-title">Containment tree exploration</h2>
+                            <div class="section-block">
+                                <div class="callout-block callout-info">
+                                    <div class="icon-holder">
+                                        <i class="fa fa-info-circle"></i>
+                                    </div><!--//icon-holder-->
+                                    <div class="content">
+                                        <h4 class="callout-title">TODO</h4>
+                                    </div><!--//content-->
+                                </div>
+                            </div>
+                        </section>
+                        <section id="navigation" class="doc-section">
+                            <h2 class="section-title">Navigation queries</h2>
+                            <div class="section-block">
+                                <div class="callout-block callout-info">
+                                    <div class="icon-holder">
+                                        <i class="fa fa-info-circle"></i>
+                                    </div><!--//icon-holder-->
+                                    <div class="content">
+                                        <h4 class="callout-title">TODO</h4>
+                                    </div><!--//content-->
+                                </div>
+                            </div>
+                        </section>
+                        <section id="scope" class="doc-section">
+                            <h2 class="section-title">Scope queries</h2>
                             <div class="section-block">
                                 <div class="callout-block callout-info">
                                     <div class="icon-holder">
@@ -99,6 +213,16 @@
                     <nav id="doc-nav">
                         <ul id="doc-menu" class="nav doc-menu" data-spy="affix">
                             <li><a class="scrollto" href="#introduction">Introduction</a></li>
+                            <li>
+                                <a class="scrollto" href="#metamodel">Complete the meta-model</a>
+                                <ul class="nav doc-sub-menu">
+                                    <li><a class="scrollto" href="#relations">Relations definitions</a></li>
+                                    <li><a class="scrollto" href="#traits">Traits usage</a></li>
+                                </ul><!--//nav-->
+                            </li>
+                            <li><a class="scrollto" href="#containment">Containment tree exploration</a></li>
+                            <li><a class="scrollto" href="#navigation">Navigation queries</a></li>
+                            <li><a class="scrollto" href="#scope">Complete the meta-model</a></li>
                         </ul><!--//doc-menu-->
                     </nav>
                 </div><!--//doc-sidebar-->
