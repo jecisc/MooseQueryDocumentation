@@ -225,7 +225,6 @@ FAMIXAccess>>variable
                                         </ul>
                                     </li>
                                 </ul>
-
                                 <div class="code-block">
                                     <h6>Example of cache</h6>
                                     <pre><code class="language-smalltalk">
@@ -249,8 +248,71 @@ FAMIXNamedEntity class>>allChildrenTypes
                                     Now that we saw how to make entities queryable we can begin to check the internal mechanisms of MooseQuery. The easiest queries are the ones related to the exploration of the containment tree.
                                 </p>
                                 <p>
-
+                                    MooseQuery allows to query the children/parents of an entity. This behaviour is based on the meta-model of the application. Each Moose's entity possess a meta-description listing all the properties of the entity. These properties can be obtained like this:
                                 </p>
+                                <div class="code-block">
+                                    <h6>Getting the properties of an entity</h6>
+                                    <pre><code class="language-smalltalk">
+MooseEntity class>>allDeclaredProperties
+	"All properties described in the metamodel"
+	^self mooseDescription allAttributes
+
+
+FAMIXType allDeclaredProperties. "==> An array of property descriptions"
+                                    </code></pre>
+                                </div><!--//code-block-->
+                                <p>
+                                    Each property know:
+                                </p>
+                                <ul>
+                                    <li>
+                                        If it is a property defining the containment of other entities (via the "container" pragma)
+                                    </li>
+                                    <li>
+                                        If it is a property defining a parent entity (via the "container" pragma)
+                                    </li>
+                                    <li>
+                                        The selector returning the property in the entity's API
+                                    </li>
+                                </ul>
+                                <p>
+                                    So, it is possible to get the selectors of an entity returning the potential parents or children.
+                                </p>
+                                <div class="code-block">
+                                    <h6>Getting the parents/children selectors of an entity</h6>
+                                    <pre><code class="language-smalltalk">
+TEntityMetaLevelDependency class>>privateChildrenSelectors
+	^ self allDeclaredProperties select: #isChildrenProperty thenCollect: #implementingSelector
+
+TEntityMetaLevelDependency class>>privateParentSelectors
+	^ self allDeclaredProperties select: #isContainer thenCollect: #implementingSelector
+
+FAMIXType parentSelectors. "=> #(#container #parentPackage)"
+FAMIXType childrenSelectors.  "=> #(#annotationInstances #types #definedAnnotationTypes #attributes #functions #methods)"
+                                    </code></pre>
+                                </div><!--//code-block-->
+                                <p>
+                                    Once we retrieved all parents/children selectors it is possible to perform them on an entity to get their results and gather the children/parents of this entity.
+                                </p>
+                                <div class="code-block">
+                                    <h6>Getting the parents/children of an entity</h6>
+                                    <pre><code class="language-smalltalk">
+TEntityMetaLevelDependency>>children
+	| res |
+	res := OrderedCollection new.
+    "Since some selector can return nil, an entity or a collection of entities, we need to do a nil check and to ensure everything is a collection via #asCollection"
+	self childrenSelectors do: [ :accessor | (self perform: accessor) ifNotNil: [ :r | res addAll: r asCollection ] ].
+	^ res asSet
+
+
+TEntityMetaLevelDependency>>parents
+	| res |
+	res := OrderedCollection new.
+    "Since some selector can return nil, an entity or a collection of entities, we need to do a nil check and to ensure everything is a collection via #asCollection"
+	self parentSelectors do: [ :accessor | (self perform: accessor) ifNotNil: [ :r | res addAll: r asCollection ] ].
+	^ res asSet
+                                    </code></pre>
+                                </div><!--//code-block-->
                             </div>
                         </section>
                         <section id="navigation" class="doc-section">
