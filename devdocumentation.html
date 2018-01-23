@@ -338,13 +338,48 @@ TEntityMetaLevelDependency>>addAllChildrenIn: aCollection
                         <section id="navigation" class="doc-section">
                             <h2 class="section-title">Navigation queries</h2>
                             <div class="section-block">
-                                <div class="callout-block callout-info">
-                                    <div class="icon-holder">
-                                        <i class="fa fa-info-circle"></i>
-                                    </div><!--//icon-holder-->
-                                    <div class="content">
-                                        <h4 class="callout-title">TODO</h4>
-                                    </div><!--//content-->
+                                <p>
+                                    This section will explain how the navigation queries works.
+                                </p>
+                                <p>
+                                    Navigation queries, as explained in the user documentation, are parametrized by:
+                                </p>
+                                <ul>
+                                    <li>
+                                        The direction of the query. Should the receiver be the source or the target of the associations to gather?
+                                    </li>
+                                    <li>
+                                        The scope of the query. Should the query return the associations of the receiver, or the associations of the receiver and its children.
+                                    </li>
+                                    <li>
+                                        The association(s) to query. It is possible to query a specific association or all the associations.
+                                    </li>
+                                </ul>
+                                <p>
+                                    All those parameters will be explained in this section.
+                                </p>
+                                <figure style="text-align: center">
+                                    <img src="assets/images/navigationDev.png" alt="UML of MooseQuery navigation queries.">
+                                    <figcaption>UML of MooseQuery for navigation queries.</figcaption>
+                                </figure>
+                                <br>
+                                <p>
+                                    To launch a navigation query, all Moose entities can use an API provided by the trait TDependencyQueries, as explained previously. Those methods will all begin in the same way. They will send the request to a new instance of MooseQueryCalculator parametrized with the direction of the query.
+                                </p>
+                                <div id="directions" class="section-block">
+                                    <h3 class="block-title">Management of the queries direction</h3>
+                                    <p>
+                                        
+                                    </p>
+                                </div>
+                                <div id="local" class="section-block">
+                                    <h3 class="block-title">Local queries</h3>
+                                </div>
+                                <div id="global" class="section-block">
+                                    <h3 class="block-title">Global queries</h3>
+                                </div>
+                                <div id="all" class="section-block">
+                                    <h3 class="block-title">Queries on all associations</h3>
                                 </div>
                             </div>
                         </section>
@@ -375,7 +410,15 @@ TEntityMetaLevelDependency>>addAllChildrenIn: aCollection
                                 </ul><!--//nav-->
                             </li>
                             <li><a class="scrollto" href="#containment">Containment tree exploration</a></li>
-                            <li><a class="scrollto" href="#navigation">Navigation queries</a></li>
+                            <li>
+                                <a class="scrollto" href="#navigation">Navigation queries</a>
+                                <ul class="nav doc-sub-menu">
+                                    <li><a class="scrollto" href="#directions">Management of the queries direction</a></li>
+                                    <li><a class="scrollto" href="#local">Local queries</a></li>
+                                    <li><a class="scrollto" href="#global">Global queries</a></li>
+                                    <li><a class="scrollto" href="#all">Queries on all associations</a></li>
+                                </ul><!--//nav-->
+                            </li>
                             <li><a class="scrollto" href="#scope">Complete the meta-model</a></li>
                         </ul><!--//doc-menu-->
                     </nav>
