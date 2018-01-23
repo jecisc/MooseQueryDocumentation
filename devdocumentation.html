@@ -248,7 +248,7 @@ FAMIXNamedEntity class>>allChildrenTypes
                                     Now that we saw how to make entities queryable we can begin to check the internal mechanisms of MooseQuery. The easiest queries are the ones related to the exploration of the containment tree.
                                 </p>
                                 <p>
-                                    MooseQuery allows to query the children/parents of an entity. This behaviour is based on the meta-model of the application. Each Moose's entity possess a meta-description listing all the properties of the entity. These properties can be obtained like this:
+                                    MooseQuery allows querying the children/parents of an entity. This behaviour is based on the meta-model of the application. Each Moose's entity possesses a meta-description listing all the properties of the entity. These properties can be obtained like this:
                                 </p>
                                 <div class="code-block">
                                     <h6>Getting the properties of an entity</h6>
@@ -262,7 +262,7 @@ FAMIXType allDeclaredProperties. "==> An array of property descriptions"
                                     </code></pre>
                                 </div><!--//code-block-->
                                 <p>
-                                    Each property know:
+                                    Each property knows:
                                 </p>
                                 <ul>
                                     <li>
@@ -311,6 +311,26 @@ TEntityMetaLevelDependency>>parents
     "Since some selector can return nil, an entity or a collection of entities, we need to do a nil check and to ensure everything is a collection via #asCollection"
 	self parentSelectors do: [ :accessor | (self perform: accessor) ifNotNil: [ :r | res addAll: r asCollection ] ].
 	^ res asSet
+                                    </code></pre>
+                                </div><!--//code-block-->
+                                <p>
+                                    It is now possible to get all the children/parents of an entity via the meta-model. With this, you exclude the problem of human error.
+                                </p>
+                                <p>
+                                    The next step is to be able to get children/parents recursively. Since containment trees can be pretty big, we use an accumulator to avoid creating a lot of collections.
+                                </p>
+                                <div class="code-block">
+                                    <h6>Getting the parents/children of an entity recursively</h6>
+                                    <pre><code class="language-smalltalk">
+TEntityMetaLevelDependency>>allChildren
+	"Returns all the children and sub-children of an entity, i.e my children and those of my children, and those of the children of my children, etc"
+	^ self addAllChildrenIn: OrderedCollection new
+
+
+TEntityMetaLevelDependency>>addAllChildrenIn: aCollection
+	aCollection addAll: self children.
+	self children do: [ :each | each addAllChildrenIn: aCollection ].
+	^ aCollection
                                     </code></pre>
                                 </div><!--//code-block-->
                             </div>
