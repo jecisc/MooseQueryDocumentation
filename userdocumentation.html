@@ -138,22 +138,24 @@
                                 <p>
                                     Exploring the containment tree is the easiest way to query a model. It will be possible with the imbrication relations in the model. To do so, it exist a really simple API on entities:
                                 </p>
-                                <table class="table">
-                                    <tbody>
-                                    <tr>
-                                        <td><strong>#children   </strong></td>
-                                        <td>Will return the direct children of the entity</td></tr>
-                                    <tr>
-                                        <td><strong>#parents   </strong></td>
-                                        <td>Will return the direct parents of the entity</td></tr>
-                                    <tr>
-                                        <td><strong>#allChildren   </strong></td>
-                                        <td>Will return the children of the entity and there children recursively</td></tr>
-                                    <tr>
-                                        <td><strong>#allParents   </strong></td>
-                                        <td>Will return the parents of the entity and there parents recursively</td></tr>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <td><strong>#children   </strong></td>
+                                            <td>Will return the direct children of the entity</td></tr>
+                                        <tr>
+                                            <td><strong>#parents   </strong></td>
+                                            <td>Will return the direct parents of the entity</td></tr>
+                                        <tr>
+                                            <td><strong>#allChildren   </strong></td>
+                                            <td>Will return the children of the entity and there children recursively</td></tr>
+                                        <tr>
+                                            <td><strong>#allParents   </strong></td>
+                                            <td>Will return the parents of the entity and there parents recursively</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <br>
                                 <figure style="text-align: center">
                                     <img src="assets/images/containmentTreeUser.png" alt="A schema of a containement tree">
@@ -197,26 +199,28 @@ attribut1 allParents. "=> { class3 . package2 . package1 }"
                                 <p>
                                     On top of that, a query can be either local or not. A local query will search only in the associations of the receiver while a non-local query will also gather the entity children's associations. The main methods to realise those queries are:
                                 </p>
-                                <table class="table">
-                                    <tbody>
-                                    <tr>
-                                        <td><strong>#query:with:   </strong></td>
-                                        <td>This method will take as first parameter a symbol (#out or #in) to define the direction of the query and as second parameter an association class to query. It will return all the instances of this association class where the receiver or its children are the source/target depending on the symbol.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>#queryAll:   </strong></td>
-                                        <td>This method will take as parameter a symbol (#out or #in) to define the direction of the query. It will return all the associations instances where the receiver or its children are the source/target depending on the symbol.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>#queryLocal:with:   </strong></td>
-                                        <td>This method will take as first parameter a symbol (#out or #in) to define the direction of the query and as second parameter an association class to query. It will return all the instances of this association class where the receiver only is the source/target depending on the symbol.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>#queryAllLocal:   </strong></td>
-                                        <td>This method will take as parameter a symbol (#out or #in) to define the direction of the query. It will return all the associations instances where the receiver only is the source/target depending on the symbol.</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <td><strong>#query:with:   </strong></td>
+                                            <td>This method will take as first parameter a symbol (#out or #in) to define the direction of the query and as second parameter an association class to query. It will return all the instances of this association class where the receiver or its children are the source/target depending on the symbol.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#queryAll:   </strong></td>
+                                            <td>This method will take as parameter a symbol (#out or #in) to define the direction of the query. It will return all the associations instances where the receiver or its children are the source/target depending on the symbol.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#queryLocal:with:   </strong></td>
+                                            <td>This method will take as first parameter a symbol (#out or #in) to define the direction of the query and as second parameter an association class to query. It will return all the instances of this association class where the receiver only is the source/target depending on the symbol.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#queryAllLocal:   </strong></td>
+                                            <td>This method will take as parameter a symbol (#out or #in) to define the direction of the query. It will return all the associations instances where the receiver only is the source/target depending on the symbol.</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <br>
                                 <figure style="text-align: center">
                                     <img src="assets/images/navigationUser.png" alt="A schema of a containment tree with relations">
@@ -243,26 +247,28 @@ class1 queryAllLocal: #in. "=> { inheritance1 . reference1 }"
                                 <p>
                                     Now we can ask ourselves how to know which entity can be the source or target of which association. For this it exist an API based on the meta-model of your application.
                                 </p>
-                                <table class="table">
-                                    <tbody>
-                                    <tr>
-                                        <td><strong>#outgoingAssociationTypes   </strong></td>
-                                        <td>When send to an entity class, return all the possible outgoing association types for this entity. This does not includes the outgoing association types of its possible children.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>#incomingAssociationTypes   </strong></td>
-                                        <td>When send to an entity class, return all the possible incoming association types for this entity. This does not includes the incoming association types of its possible children.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>#allOutgoingAssociationTypes   </strong></td>
-                                        <td>When send to an entity class, return all the possible outgoing association types for this entity, including the outgoing association types of its possible children.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>#allIncomingAssociationTypes   </strong></td>
-                                        <td>When send to an entity class, return all the possible incoming association types for this entity, including the incoming association types of its possible children.</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <td><strong>#outgoingAssociationTypes   </strong></td>
+                                            <td>When send to an entity class, return all the possible outgoing association types for this entity. This does not includes the outgoing association types of its possible children.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#incomingAssociationTypes   </strong></td>
+                                            <td>When send to an entity class, return all the possible incoming association types for this entity. This does not includes the incoming association types of its possible children.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#allOutgoingAssociationTypes   </strong></td>
+                                            <td>When send to an entity class, return all the possible outgoing association types for this entity, including the outgoing association types of its possible children.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#allIncomingAssociationTypes   </strong></td>
+                                            <td>When send to an entity class, return all the possible incoming association types for this entity, including the incoming association types of its possible children.</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <div class="code-block">
                                     <h6>Association types examples</h6>
                                     <pre><code class="language-smalltalk">
@@ -308,7 +314,7 @@ class1 queryAll: #in. "=> { inheritance1 . reference1 }"
                                     </code></pre>
                                 </div><!--//code-block-->
                                 <p>
-                                    Another possibility is to exclude all the result where the opposite in included inside the receiver of the original query. This can be done via the method #witoutSelfLoop. It is handy when we want to query a model to find external dependencies without internal ones.
+                                    Another possibility is to exclude all the result where the opposite in included inside the receiver of the original query. This can be done via the method #withoutSelfLoop. It is handy when we want to query a model to find external dependencies without internal ones.
                                 </p>
                                 <p>
                                     Another feature is to be able to change the scope of the result. This feature will be covered in the next section.
@@ -335,23 +341,24 @@ class1 queryAll: #in. "=> { inheritance1 . reference1 }"
                                 <p>
                                     A scope query will have a direction to look for. You can look for entities higher, lower or both higher and lower than the receiver in the containment tree.
                                 </p>
-
-                                <table class="table">
-                                    <tbody>
-                                    <tr>
-                                        <td><strong>#atScope:   </strong></td>
-                                        <td>Return all the entities at a given famix class scope that are up in the containment tree of the metamodel.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>#toScope:   </strong></td>
-                                        <td>Return all the entities at a given famix class scope that are down in the containment tree of the metamodel.</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>#withScope:   </strong></td>
-                                        <td>Return all the entities at a given famix class scope that are both up and down in the containment tree of the metamodel.</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <td><strong>#atScope:   </strong></td>
+                                            <td>Return all the entities at a given famix class scope that are up in the containment tree of the metamodel.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#toScope:   </strong></td>
+                                            <td>Return all the entities at a given famix class scope that are down in the containment tree of the metamodel.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#withScope:   </strong></td>
+                                            <td>Return all the entities at a given famix class scope that are both up and down in the containment tree of the metamodel.</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <br>
                                 <figure style="text-align: center">
                                     <img src="assets/images/scopeUser.png" alt="A schema of a containement tree">
