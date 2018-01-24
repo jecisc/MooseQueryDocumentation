@@ -369,17 +369,184 @@ TEntityMetaLevelDependency>>addAllChildrenIn: aCollection
                                 <div id="directions" class="section-block">
                                     <h3 class="block-title">Management of the queries direction</h3>
                                     <p>
-                                        
+                                        This section will cover the query direction management.
                                     </p>
+                                    <p>
+                                        As shown in the UML diagram above, directions are managed via a Design Pattern strategy. A <b>MooseQueryCalculator</b> will refer to a strategy that will be either a <b>MooseQueryIncomingDirectionStartegy</b> or a <b>MooseQueryOutgoingDirectionStrategy</b>. The strategies will manage everything related to the direction inside the query. This includes:
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            Obtaining the possible associations types for a given entity depending on the direction
+                                        </li>
+                                        <li>
+                                            Obtaining the meta-properties of an entity defining a relation of source/target between the entity and an association
+                                        </li>
+                                        <li>
+                                            Creating a MooseQueryResult for the right direction
+                                        </li>
+                                    </ul>
+                                    <div class="code-block">
+                                        <h6>Example of Responsibility Dispatch Between Strategies</h6>
+                                        <pre><code class="language-smalltalk">
+MooseQueryAbstractDirectionStrategy class>>associationTypesFor: anEntity
+	^ self subclassResponsibility
+
+
+MooseQueryIncomingDirectionStrategy class>>associationTypesFor: anEntity
+	^ anEntity incomingAssociationTypes
+
+
+MooseQueryOutgoingDirectionStrategy class>>associationTypesFor: anEntity
+	^ anEntity outgoingAssociationTypes
+
+                                    </code></pre>
+                                    </div><!--//code-block-->
+                                    <p>
+                                        The selection of the right strategy is done via the symbol <b>#in</b> or <b>#out</b> given by the user. The <b>MooseQueryAbstractDirectionStrategy</b> is able to return the right strategy with this symbol as input.
+                                    </p>
+                                    <div class="code-block">
+                                        <h6>Strategy Selection Mechanism</h6>
+                                        <pre><code class="language-smalltalk">
+MooseQueryAbstractDirectionStrategy class>>fromSymbol: aSymbol
+	"I return the right strategy from a Symbol representing a direction"
+	^ self allSubclasses detect: [ :each | each determinatingSymbol = aSymbol ] ifNone: [ self error: 'The symbol passed to the query should be either #in or #out. Here we got ' , aSymbol asString ]
+
+
+MooseQueryIncomingDirectionStrategy class>>determinatingSymbol
+	^ #in
+
+
+MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
+	^ #out
+
+                                    </code></pre>
+                                    </div><!--//code-block-->
                                 </div>
                                 <div id="local" class="section-block">
                                     <h3 class="block-title">Local queries</h3>
+                                    <p>
+                                        Now that it is clear how the distinction around the direction of the query is managed, we can see how the navigation queries works. Let's begin with the local queries.
+                                    </p>
+                                    <p>
+                                        Local navigation queries gather associations related to an entity only. It will not gather associations of its children. It is possible to launch a local query via the selector TDependencyQuery>>#queryLocal:with: taking as parameter the direction of the query and the association class to gather. This method will create a new <b>MooseQueryCalculator</b> parametrized with the right direction strategy and call MooseQueryCalculator>>#queryLocal:for: with the association class and the receiving entity as parameters.
+                                    </p>
+                                    <p>
+                                        MooseQueryCalculator>>#queryLocal:for: will gather the associations and create a new <b>MooseQueryResult</b> with them, as shown in the script bellow.
+                                    </p>
+                                    <div class="code-block">
+                                        <h6> MooseQueryCalculator>>#queryLocal:for:</h6>
+                                        <pre><code class="language-smalltalk">
+ MooseQueryCalculator>>queryLocal: aFAMIXClassAssociation for: anEntity
+
+	^ self strategy queryResultOn: anEntity with: (self queryLocal: aFAMIXClassAssociation for: anEntity in: OrderedCollection new) asSet
+                                    </code></pre>
+                                    </div><!--//code-block-->
+                                    <p>
+                                        In order to gather the associations, we first check that the entity can have instances of the association class. For this, we ask via the strategy all the association types possible for the entity. If the association is in the list the query will proceed. Else, the query will return an empty result.
+                                    </p>
+                                    <p>
+                                        In the case the entity can contains instances of the association, the query will ask to the direction strategy the meta-properties returning associations in the right direction, iterate on them and collect the result of the property returning the right association.
+                                    </p>
+                                    <div class="code-block">
+                                        <h6> MooseQueryCalculator>>#queryLocal:for:in:</h6>
+                                        <pre><code class="language-smalltalk">
+ MooseQueryCalculator>>queryLocal: aFAMIXClassAssociation for: anEntity in: aCollection
+	"check that aFAMIXClassAssociation is well an incoming association type"
+
+	((self strategy associationTypesFor: anEntity) includes: aFAMIXClassAssociation) ifFalse: [ ^ aCollection ].
+
+	"I know that we could use #detect:ifFound: here, but this algo takes too long on big model, so this is a speed up while the sista vm is not ready for production"
+	(self strategy msePropertiesOf: anEntity)
+		do: [ :prop |
+			prop type implementingClass = aFAMIXClassAssociation
+				ifTrue: [ (anEntity perform: prop name)
+						ifNotNil: [ :coll |
+							aCollection addAll: coll asCollection.
+							^ aCollection ] ] ]
+                                    </code></pre>
+                                    </div><!--//code-block-->
+                                    <p>
+                                        The code of this method is more complex than it should be because of performance reasons. This method can be called a lot in certain case and it need to be as efficient as possible. A more readable but less efficient version could be:
+                                    </p>
+                                    <div class="code-block">
+                                        <h6> MooseQueryCalculator>>#queryLocal:for:in:, readable version</h6>
+                                        <pre><code class="language-smalltalk">
+ MooseQueryCalculator>>queryLocal: aFAMIXClassAssociation for: anEntity in: aCollection
+	"check that aFAMIXClassAssociation is well an incoming association type"
+
+	((self strategy associationTypesFor: anEntity) includes: aFAMIXClassAssociation) ifFalse: [ ^ aCollection ].
+
+	(self strategy msePropertiesOf: anEntity)
+		detect: [ :prop | prop type implementingClass = aFAMIXClassAssociation ]
+		ifFound: [ :prop | (anEntity perform: prop name) ifNotNil: [ :coll | aCollection addAll: coll asCollection ] ].
+	^ aCollection
+                                    </code></pre>
+                                    </div><!--//code-block-->
                                 </div>
                                 <div id="global" class="section-block">
                                     <h3 class="block-title">Global queries</h3>
+                                    <p>
+                                        Local queries are useful, but most of the time users want to get all the associations inside the entity, including in their children.
+                                    </p>
+                                    <p>
+                                        These queries begin in the same way as local navigation queries. The entity will create a new MooseQueryCalculator parametrized with a direction strategy and return a new MooseQueryResult with the gathered association. The only part changing is the gathering of the associations.
+                                    </p>
+                                    <p>
+                                        It will begin by gathering the associations of the receiver via the same method as the local navigation queries (MooseQueryCalculator>>queryLocal:for:in:), and then iterate on the children of the entity (which is possible via the methods of the containment tree exploration) to call recursively the query.
+                                    </p>
+                                    <div class="code-block">
+                                        <h6> MooseQueryCalculator>>#query:for:in:</h6>
+                                        <pre><code class="language-smalltalk">
+ MooseQueryCalculator>>query: aFAMIXClassAssociation for: anEntity in: aCollection
+	"I know that we could use #do: here, but this algo takes too long on big model, so this is a speed up while the sista vm is not ready for production"
+
+	| selectors |
+	self queryLocal: aFAMIXClassAssociation for: anEntity in: aCollection.
+	1 to: (selectors := anEntity childrenSelectors) size do: [ :index |
+		(anEntity perform: (selectors at: index))
+			ifNotNil: [ :children |
+				| coll |
+				1 to: (coll := children asCollection) size do: [ :i | self query: aFAMIXClassAssociation for: (coll at: i) in: aCollection ] ] ].
+	^ aCollection
+                                    </code></pre>
+                                    </div><!--//code-block-->
+                                    <p>
+                                        As for the local queries, the readability of the method is sacrificed for performances. Find bellow a more readable version.
+                                    </p>
+                                    <div class="code-block">
+                                        <h6> MooseQueryCalculator>>#queryLocal:for:in:, readable version</h6>
+                                        <pre><code class="language-smalltalk">
+ MooseQueryCalculator>>query: aFAMIXClassAssociation for: anEntity in: aCollection
+	"I know that we could use #do: here, but this algo takes too long on big model, so this is a speed up while the sista vm is not ready for production"
+
+	self queryLocal: aFAMIXClassAssociation for: anEntity in: aCollection.
+	anEntity childrenSelectors
+		do: [ :selector | (anEntity perform: selector) ifNotNil: [ :children | children asCollection do: [ :child | self query: aFAMIXClassAssociation for: child in: aCollection ] ] ].
+	^ aCollection
+                                    </code></pre>
+                                    </div><!--//code-block-->
                                 </div>
                                 <div id="all" class="section-block">
                                     <h3 class="block-title">Queries on all associations</h3>
+                                    <p>
+                                        One use of navigation queries is to find the dependencies between entities. To find all the dependencies of an entity it is necessary to gather all associations.
+                                    </p>
+                                    <p>
+                                        MooseQuery allows to directly gather all the associations incoming or outgoing of an entity at once. The implementation will gather them in one containment tree visit for performance reasons instead of iterating on all associations to execute the queries.
+                                    </p>
+                                    <p>
+                                        The main change in the implementation is done in the local query. Instead of selecting the meta-property where the implementing type is a specific association class, it will gather the result of all properties defining a incoming/outgoing relation with the entity.
+                                    </p>
+                                    <div class="code-block">
+                                        <h6> MooseQueryCalculator>>#queryAllLocalFor:in:</h6>
+                                        <pre><code class="language-smalltalk">
+ MooseQueryCalculator>>queryAllLocalFor: anEntity in: aCollection
+	| properties |
+	"Instead of #to:do: we could just use #do: but this implementation is much faster. Maybe sista will remove the needs of the todo later."
+	1 to: (properties := self strategy msePropertiesOf: anEntity) size do: [ :ind | (anEntity perform: (properties at: ind) name) ifNotNil: [ :coll | aCollection addAll: coll asCollection ] ].
+	^ aCollection
+                                    </code></pre>
+                                    </div><!--//code-block-->
                                 </div>
                             </div>
                         </section>
