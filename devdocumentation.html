@@ -517,8 +517,6 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                         <h6> MooseQueryCalculator>>#queryLocal:for:in:, readable version</h6>
                                         <pre><code class="language-smalltalk">
  MooseQueryCalculator>>query: aFAMIXClassAssociation for: anEntity in: aCollection
-	"I know that we could use #do: here, but this algo takes too long on big model, so this is a speed up while the sista vm is not ready for production"
-
 	self queryLocal: aFAMIXClassAssociation for: anEntity in: aCollection.
 	anEntity childrenSelectors
 		do: [ :selector | (anEntity perform: selector) ifNotNil: [ :children | children asCollection do: [ :child | self query: aFAMIXClassAssociation for: child in: aCollection ] ] ].
@@ -585,9 +583,65 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                     <p>
                                         Both those methods will begin to create a collection to store the results and call #atScope:in:/#toScope:in: with the newly created collection as parameter. This is done for performance reasons. Instead of creating multiple collection and use concatenation on them, we create on at the beginning and pass it as parameter of the query methods.
                                     </p>
+                                    <p>
+                                        The query will then check if the receiver is of the searched kind. In case it is, the query will end and result with the receiver as result. If it is not the case then the query will be repeated on the parents/children of the entity depending on the direction in the containment tree of the query.
+                                    </p>
+                                    <div class="code-block">
+                                        <h6> TEntityMetaLevelDependency>>#atScope:in:</h6>
+                                        <pre><code class="language-smalltalk">
+ TEntityMetaLevelDependency>>atScope: aClassFAMIX in: aCollection
+	(self isKindOf: aClassFAMIX)
+		ifTrue: [ aCollection add: self ]
+		ifFalse: [ "The content of this block could be much more readable with #do: but we do this solution for performances... We need this method to be really really performant."
+			| selectors |
+			1 to: (selectors := self parentSelectors) size do: [ :ind | (self perform: (selectors at: ind)) atScope: aClassFAMIX in: aCollection ] ].
+	^ aCollection
+                                        </code></pre>
+                                    </div><!--//code-block-->
+                                    <p>
+                                        As in the navigation queries, this code could be more readable but it is the way it is for performance reasons. Find the more readable code bellow.
+                                    </p>
+                                    <div class="code-block">
+                                        <h6> TEntityMetaLevelDependency>>#atScope:in:, readable version</h6>
+                                        <pre><code class="language-smalltalk">
+ TEntityMetaLevelDependency>>atScope: aClassFAMIX in: aCollection
+	(self isKindOf: aClassFAMIX)
+		ifTrue: [ aCollection add: self ]
+		ifFalse: [ self parentSelectors do: [ :selector | (self perform: selector) atScope: aClassFAMIX in: aCollection ] ].
+	^ aCollection
+                                        </code></pre>
+                                    </div><!--//code-block-->
+                                    <p>
+                                        In the case of the up and down queries, we will just check if the entity can do up/down scopes and apply them if needed.
+                                    </p>
+                                    <div class="code-block">
+                                        <h6> TEntityMetaLevelDependency>>#withScope:in:</h6>
+                                        <pre><code class="language-smalltalk">
+ TEntityMetaLevelDependency>>withScope: aClassFAMIX in: aCollection
+	self allParentTypes detect: [ :class | aClassFAMIX = class or: [ aClassFAMIX inheritsFrom: class ] ] ifFound: [ self atScope: aClassFAMIX in: aCollection ].
+	self allChildrenTypes detect: [ :class | aClassFAMIX = class or: [ aClassFAMIX inheritsFrom: class ] ] ifFound: [ self toScope: aClassFAMIX in: aCollection ].
+	^ aCollection
+                                        </code></pre>
+                                    </div><!--//code-block-->
                                 </div>
                                 <div id="queryresult" class="section-block">
                                     <h3 class="block-title">Query on a MooseQueryResult</h3>
+                                    <p>
+                                        Once we understand the scope queries applied on entities, it is easy to understand the scope queries on MooseQueryResult.
+                                    </p>
+                                    <p>
+                                        MooseQueryResults store the associations gathered via a navigation query. Applying a scope query on it will gather the opposites of the first query receiver and apply the scope query on each of them.
+                                    </p>
+                                    <div class="code-block">
+                                        <h6> TDependencyQueryResult>>#atScope:</h6>
+                                        <pre><code class="language-smalltalk">
+ TDependencyQueryResult>>atScope: aClassFamix
+	| res |
+	res := OrderedCollection new.
+	self storage do: [ :dep | (self opposite: dep) atScope: aClassFamix in: res ].
+	^ self newObjectResultWith: res asSet
+                                        </code></pre>
+                                    </div><!--//code-block-->
                                 </div>
                             </div>
                         </section>
