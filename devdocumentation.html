@@ -553,13 +553,41 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                         <section id="scope" class="doc-section">
                             <h2 class="section-title">Scope Queries</h2>
                             <div class="section-block">
-                                <div class="callout-block callout-info">
-                                    <div class="icon-holder">
-                                        <i class="fa fa-info-circle"></i>
-                                    </div><!--//icon-holder-->
-                                    <div class="content">
-                                        <h4 class="callout-title">TODO</h4>
-                                    </div><!--//content-->
+                                <p>
+                                    This section will explain how the scope queries works.
+                                </p>
+                                <p>
+                                    A scope query is parametrized by:
+                                </p>
+                                <ul>
+                                    <li>
+                                        The direction of the query.
+                                        <ul>
+                                            <li>Up in the containment tree</li>
+                                            <li>Down in the containment tree</li>
+                                            <li>Both up and down in the containment tree</li>
+                                        </ul>
+                                    </li>
+                                    <li>The Famix entity class defining the scope to query</li>
+                                </ul>
+                                <p>
+                                    A scope query can be applied on:
+                                </p>
+                                <ul>
+                                    <li>A Famix entity</li>
+                                    <li>A MooseQueryResult obtained from a navigation query</li>
+                                </ul>
+                                <div id="entity" class="section-block">
+                                    <h3 class="block-title">Query on a Famix entity</h3>
+                                    <p>
+                                        Queries going up or down in the containment tree for the scope search are usable via the methods TEntityMetaLevelDependency>>#atScope: and #toScope:.
+                                    </p>
+                                    <p>
+                                        Both those methods will begin to create a collection to store the results and call #atScope:in:/#toScope:in: with the newly created collection as parameter. This is done for performance reasons. Instead of creating multiple collection and use concatenation on them, we create on at the beginning and pass it as parameter of the query methods.
+                                    </p>
+                                </div>
+                                <div id="queryresult" class="section-block">
+                                    <h3 class="block-title">Query on a MooseQueryResult</h3>
                                 </div>
                             </div>
                         </section>
@@ -586,7 +614,13 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                     <li><a class="scrollto" href="#all">Queries on all associations</a></li>
                                 </ul><!--//nav-->
                             </li>
-                            <li><a class="scrollto" href="#scope">Scope Queries</a></li>
+                            <li>
+                                <a class="scrollto" href="#scope">Scope Queries</a>
+                                <ul class="nav doc-sub-menu">
+                                    <li><a class="scrollto" href="#entity">Query on a Famix entity</a></li>
+                                    <li><a class="scrollto" href="#queryresult">Query on a MooseQueryResult</a></li>
+                                </ul><!--//nav-->
+                            </li>
                         </ul><!--//doc-menu-->
                     </nav>
                 </div><!--//doc-sidebar-->
