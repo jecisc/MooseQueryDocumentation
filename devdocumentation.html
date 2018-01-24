@@ -109,7 +109,7 @@
                                 </div><!--//content-->
                             </div>
                             <p>
-                                First, the developer of the model have to make his new entities/relations queryable with MooseQuery.
+                                First, the developer of the model has to make his new entities/relations queryable with MooseQuery.
                             </p>
                             <div id="relations" class="section-block">
                                 <h3 class="block-title">Relations definitions</h3>
@@ -195,7 +195,7 @@ FAMIXAccess>>variable
                                             <tr>
                                                 <th scope="row">TOODependencyQuery</th>
                                                 <td>FAMIXNamedEntity</td>
-                                                <td>This trait includes the information about object-oriented entities and adds the behaviour to execute navigation queries. It needs to be used by every object-oriented entities in a meta-model instead of TDependencyQuery.</td>
+                                                <td>This trait includes the information about object-oriented entities and adds the behaviour to execute navigation queries. It needs to be used by every object-oriented entity in a meta-model instead of TDependencyQuery.</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -349,7 +349,7 @@ TEntityMetaLevelDependency>>addAllChildrenIn: aCollection
                                         The direction of the query. Should the receiver be the source or the target of the associations to gather?
                                     </li>
                                     <li>
-                                        The scope of the query. Should the query return the associations of the receiver, or the associations of the receiver and its children.
+                                        The scope of the query. Should the query return the associations of the receiver or the associations of the receiver and its children.
                                     </li>
                                     <li>
                                         The association(s) to query. It is possible to query a specific association or all the associations.
@@ -372,11 +372,11 @@ TEntityMetaLevelDependency>>addAllChildrenIn: aCollection
                                         This section will cover the query direction management.
                                     </p>
                                     <p>
-                                        As shown in the UML diagram above, directions are managed via a Design Pattern strategy. A <b>MooseQueryCalculator</b> will refer to a strategy that will be either a <b>MooseQueryIncomingDirectionStartegy</b> or a <b>MooseQueryOutgoingDirectionStrategy</b>. The strategies will manage everything related to the direction inside the query. This includes:
+                                        As shown in the UML diagram above, directions are managed via a Design Pattern strategy. A <b>MooseQueryCalculator</b> will refer to a strategy that will be either a <b>MooseQueryIncomingDirectionStartegy</b> or a <b>MooseQueryOutgoingDirectionStrategy</b>. The strategies will manage everything related to the direction of the query. This includes:
                                     </p>
                                     <ul>
                                         <li>
-                                            Obtaining the possible associations types for a given entity depending on the direction
+                                            Obtaining the possible association types for a given entity depending on the direction
                                         </li>
                                         <li>
                                             Obtaining the meta-properties of an entity defining a relation of source/target between the entity and an association
@@ -425,13 +425,13 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                 <div id="local" class="section-block">
                                     <h3 class="block-title">Local queries</h3>
                                     <p>
-                                        Now that it is clear how the distinction around the direction of the query is managed, we can see how the navigation queries works. Let's begin with the local queries.
+                                        Now that it is clear how the distinction between the directions of the query is managed, we can see how the navigation queries works. Let's begin with the local queries.
                                     </p>
                                     <p>
                                         Local navigation queries gather associations related to an entity only. It will not gather associations of its children. It is possible to launch a local query via the selector TDependencyQuery>>#queryLocal:with: taking as parameter the direction of the query and the association class to gather. This method will create a new <b>MooseQueryCalculator</b> parametrized with the right direction strategy and call MooseQueryCalculator>>#queryLocal:for: with the association class and the receiving entity as parameters.
                                     </p>
                                     <p>
-                                        MooseQueryCalculator>>#queryLocal:for: will gather the associations and create a new <b>MooseQueryResult</b> with them, as shown in the script bellow.
+                                        MooseQueryCalculator>>#queryLocal:for: will gather the associations and create a new <b>MooseQueryResult</b> with them, as shown in the script below.
                                     </p>
                                     <div class="code-block">
                                         <h6> MooseQueryCalculator>>#queryLocal:for:</h6>
@@ -445,7 +445,7 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                         In order to gather the associations, we first check that the entity can have instances of the association class. For this, we ask via the strategy all the association types possible for the entity. If the association is in the list the query will proceed. Else, the query will return an empty result.
                                     </p>
                                     <p>
-                                        In the case the entity can contains instances of the association, the query will ask to the direction strategy the meta-properties returning associations in the right direction, iterate on them and collect the result of the property returning the right association.
+                                        In the case the entity can contain instances of the association, the query will ask to the direction strategy the meta-properties returning associations in the right direction, iterate on them and collect the result of the property returning the right association.
                                     </p>
                                     <div class="code-block">
                                         <h6> MooseQueryCalculator>>#queryLocal:for:in:</h6>
@@ -466,7 +466,7 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                     </code></pre>
                                     </div><!--//code-block-->
                                     <p>
-                                        The code of this method is more complex than it should be because of performance reasons. This method can be called a lot in certain case and it need to be as efficient as possible. A more readable but less efficient version could be:
+                                        The code of this method is more complex than it should be because of performance reasons. This method can be called a lot in certain cases and it needs to be as efficient as possible. A more readable but less efficient version could be:
                                     </p>
                                     <div class="code-block">
                                         <h6> MooseQueryCalculator>>#queryLocal:for:in:, readable version</h6>
@@ -511,7 +511,7 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                     </code></pre>
                                     </div><!--//code-block-->
                                     <p>
-                                        As for the local queries, the readability of the method is sacrificed for performances. Find bellow a more readable version.
+                                        As for the local queries, the readability of the method is sacrificed for performances. Find below a more readable version.
                                     </p>
                                     <div class="code-block">
                                         <h6> MooseQueryCalculator>>#queryLocal:for:in:, readable version</h6>
@@ -533,7 +533,7 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                         MooseQuery allows to directly gather all the associations incoming or outgoing of an entity at once. The implementation will gather them in one containment tree visit for performance reasons instead of iterating on all associations to execute the queries.
                                     </p>
                                     <p>
-                                        The main change in the implementation is done in the local query. Instead of selecting the meta-property where the implementing type is a specific association class, it will gather the result of all properties defining a incoming/outgoing relation with the entity.
+                                        The main change in the implementation is done in the local query. Instead of selecting the meta-property where the implementing type is a specific association class, it will gather the result of all properties defining an incoming/outgoing relation with the entity.
                                     </p>
                                     <div class="code-block">
                                         <h6> MooseQueryCalculator>>#queryAllLocalFor:in:</h6>
@@ -581,7 +581,7 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                         Queries going up or down in the containment tree for the scope search are usable via the methods TEntityMetaLevelDependency>>#atScope: and #toScope:.
                                     </p>
                                     <p>
-                                        Both those methods will begin to create a collection to store the results and call #atScope:in:/#toScope:in: with the newly created collection as parameter. This is done for performance reasons. Instead of creating multiple collection and use concatenation on them, we create on at the beginning and pass it as parameter of the query methods.
+                                        Both those methods will begin to create a collection to store the results and call #atScope:in:/#toScope:in: with the newly created collection as a parameter. This is done for performance reasons. Instead of creating multiple collections and use concatenation on them, we create on at the beginning and pass it as a parameter of the query methods.
                                     </p>
                                     <p>
                                         The query will then check if the receiver is of the searched kind. In case it is, the query will end and result with the receiver as result. If it is not the case then the query will be repeated on the parents/children of the entity depending on the direction in the containment tree of the query.
@@ -599,7 +599,7 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                         </code></pre>
                                     </div><!--//code-block-->
                                     <p>
-                                        As in the navigation queries, this code could be more readable but it is the way it is for performance reasons. Find the more readable code bellow.
+                                        As in the navigation queries, this code could be more readable but it is the way it is for performance reasons. Find the more readable code below.
                                     </p>
                                     <div class="code-block">
                                         <h6> TEntityMetaLevelDependency>>#atScope:in:, readable version</h6>
@@ -627,7 +627,7 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                 <div id="queryresult" class="section-block">
                                     <h3 class="block-title">Query on a MooseQueryResult</h3>
                                     <p>
-                                        Once we understand the scope queries applied on entities, it is easy to understand the scope queries on MooseQueryResult.
+                                        Once we understand the scope queries applied to entities, it is easy to understand the scope queries on MooseQueryResult.
                                     </p>
                                     <p>
                                         MooseQueryResults store the associations gathered via a navigation query. Applying a scope query on it will gather the opposites of the first query receiver and apply the scope query on each of them.
