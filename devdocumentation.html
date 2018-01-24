@@ -74,7 +74,7 @@
     <div class="doc-wrapper">
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
-                <h1 class="doc-title"><i class="icon fa fa-code"></i> Developer Documentation</h1>
+                <h1 class="doc-title"><i class="icon fa fa-code"></i>Developer Documentation</h1>
                 <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Jan 23th, 2018</div>
             </div><!--//doc-header-->
             <div class="doc-body">
@@ -84,21 +84,21 @@
                             <h2 class="section-title">Introduction</h2>
                             <div class="section-block">
                                 <p>
-                                    MooseQuery is the result of Inria research team <a href="https://rmod.inria.fr/web/">RMoD</a>. This page is here to document the internal management of MooseQuery. As prerequisites, it supposes the reader has a minimum of knowledge of Fame and Famix. If not, please read the <a href="http://themoosebook.org/book/index.html">Moose documentation.</a> if you wish to understand everything.
+                                    MooseQuery is the result of the Inria research team <a href="https://rmod.inria.fr/web/">RMoD</a>. This page documents the internals of MooseQuery. As prerequisites, it supposes the reader has a minimum of knowledge of Fame and Famix. If not, please read the <a href="http://themoosebook.org/book/index.html">Moose documentation.</a> if you wish to understand everything.
                                 </p>
                                 <p>
-                                    It will cover:
+                                    This documentation covers:
                                 </p>
                                 <ul>
-                                    <li>How to complete Famix meta-model to make new entities/relations queryable via MooseQuery</li>
-                                    <li>How works the containment tree exploration described in the user documentation</li>
-                                    <li>How works the navigation queries</li>
-                                    <li>How works the scope queries</li>
+                                    <li>How to complete a Famix meta-model to make new entities/relations queryable via MooseQuery</li>
+                                    <li>How the containment tree exploration described in the user documentation works</li>
+                                    <li>How the navigation queries works</li>
+                                    <li>How the scope queries works</li>
                                 </ul>
                             </div>
                         </section>
                         <section id="metamodel" class="doc-section">
-                        <h2 class="section-title">Complete the meta-model</h2>
+                        <h2 class="section-title">Completion of the Meta-model</h2>
                         <div class="section-block">
                             <div class="callout-block callout-info">
                                 <div class="icon-holder">
@@ -109,19 +109,19 @@
                                 </div><!--//content-->
                             </div>
                             <p>
-                                To begin this developer documentation we will see how to make new entities/relations queryable via MooseQuery.
+                                First, the developer of the model have to make his new entities/relations queryable with MooseQuery.
                             </p>
                             <div id="relations" class="section-block">
                                 <h3 class="block-title">Relations definitions</h3>
                                 <p>
-                                    As said in the user documentation, Moose query is based on two concepts:
+                                    As said in the user documentation, MooseQuery is based on two concepts:
                                 </p>
                                 <ul>
                                     <li>
-                                        Imbrication of entities: Define which entity contains which entities.
+                                        Imbrication of entities: which entity contains which entities.
                                     </li>
                                     <li>
-                                        Interactions between entities: Define how the entities interact with each other.
+                                        Associations between the entities: how the entities interact with each other.
                                     </li>
                                 </ul>
                                 <figure style="text-align: center">
@@ -136,7 +136,7 @@
                                     Moose query needs to know those relations in order to work. To declare them you just need to use three pragma: &lt;container&gt;, &lt;source&gt; and &lt;target&gt;
                                 </p>
                                 <div class="code-block">
-                                    <h6>Containment relation definition</h6>
+                                    <h6>Containment Relation Definition</h6>
                                     <pre><code class="language-smalltalk">
 FAMIXAttribute>>parentType
 	&lt;MSEProperty: #parentType type: #FAMIXType opposite: #attributes&gt;
@@ -146,7 +146,7 @@ FAMIXAttribute>>parentType
                                     </code></pre>
                                 </div><!--//code-block-->
                                 <div class="code-block">
-                                    <h6>Association definition</h6>
+                                    <h6>Association Definition</h6>
                                     <pre><code class="language-smalltalk">
 FAMIXAccess>>accessor
 	&lt;MSEProperty: #accessor type: #FAMIXBehaviouralEntity opposite: #accesses&gt;
@@ -165,7 +165,7 @@ FAMIXAccess>>variable
                             <div id="traits" class="section-block">
                                 <h3 class="block-title">Traits usage</h3>
                                 <p>
-                                    The definition of the relations allows MooseQuery to have everything needed for the queries in the meta-model. Now, while creating entities, they need to have the behaviour to execute the queries. To do so, MooseQuery comes with a set of Traits to implement in the new entities.
+                                    The definition of the relations give to MooseQuery all the requirements for querying the meta-model. Now, the new entities of the model need to have the behaviour, i.e., the methods, to execute the queries. To do so, MooseQuery comes with a set of Traits to use in the new entities.
                                 </p>
                                 <div class="table-responsive">
                                     <table class="table table-striped">
@@ -180,7 +180,7 @@ FAMIXAccess>>variable
                                             <tr>
                                                 <th scope="row">TAssociationMetaLevelDependency</th>
                                                 <td>FAMIXAssociation</td>
-                                                <td>This trait includes information about associations needed for the navigation queries. It needs to be used by every association in a meta-model.</td>
+                                                <td>This trait includes the information about associations needed for the navigation queries. It needs to be used by every association in a meta-model.</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">TEntityMetaLevelDependency</th>
@@ -226,7 +226,7 @@ FAMIXAccess>>variable
                                     </li>
                                 </ul>
                                 <div class="code-block">
-                                    <h6>Example of cache</h6>
+                                    <h6>Example of Cache Implementation</h6>
                                     <pre><code class="language-smalltalk">
 TEntityMetaLevelDependency class>>allChildrenTypes
 	^ self explicitRequirement
@@ -242,16 +242,16 @@ FAMIXNamedEntity class>>allChildrenTypes
                         </div>
                         </section>
                         <section id="containment" class="doc-section">
-                            <h2 class="section-title">Containment tree exploration</h2>
+                            <h2 class="section-title">Containment Tree Exploration</h2>
                             <div class="section-block">
                                 <p>
-                                    Now that we saw how to make entities queryable we can begin to check the internal mechanisms of MooseQuery. The easiest queries are the ones related to the exploration of the containment tree.
+                                    Now that we saw how to make entities queryable, we begin to check the internal mechanisms of MooseQuery. The easiest queries are the ones related to the exploration of the containment tree.
                                 </p>
                                 <p>
-                                    MooseQuery allows querying the children/parents of an entity. This behaviour is based on the meta-model of the application. Each Moose's entity possesses a meta-description listing all the properties of the entity. These properties can be obtained like this:
+                                    MooseQuery allows querying the children/parents of an entity. This behaviour is based on the meta-model of the application. Each Moose's entity possesses a meta-description that lists all the properties of the entity. These properties can be obtained with:
                                 </p>
                                 <div class="code-block">
-                                    <h6>Getting the properties of an entity</h6>
+                                    <h6>Getting the Properties of an Entity</h6>
                                     <pre><code class="language-smalltalk">
 MooseEntity class>>allDeclaredProperties
 	"All properties described in the metamodel"
