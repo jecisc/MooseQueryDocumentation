@@ -238,6 +238,34 @@ FAMIXNamedEntity class>>allChildrenTypes
 	^ allChildrenTypes ifNil: [ allChildrenTypes := self privateAllChildrenTypes ]
                                     </code></pre>
                                 </div><!--//code-block-->
+                                <div class="callout-block callout-info">
+                                    <div class="icon-holder">
+                                        <i class="fa fa-info-circle"></i>
+                                    </div><!--//icon-holder-->
+                                    <div class="content">
+                                        <p>The model build caches on classes to speed up queries. It means that during the development of the meta-model it is often required to invalidate those caches.</a></p>
+                                    </div><!--//content-->
+                                </div>
+                                <p>
+                                    In order to invalidate the caches you can execute:
+                                </p>
+                                <div class="code-block">
+                                    <pre><code class="language-smalltalk">
+MooseModel resetMeta
+                                    </code></pre>
+                                </div><!--//code-block-->
+                                <p>
+                                    Also, if you add new caches, you need to override in the class side of your entity #resetMooseQueryCaches to invalidate the added caches.
+                                </p>
+
+                                <div class="code-block">
+                                    <h6>Example of Cache Invalidation</h6>
+                                    <pre><code class="language-smalltalk">
+FAMIXNamedEntity class>>resetMooseQueryCaches
+	super resetMooseQueryCaches.
+	childrenSelectors := parentSelectors := allChildrenTypes := allParentTypes := outgoingMSEProperties := incomingMSEProperties := incomingAssociationTypes := outgoingAssociationTypes := nil
+                                    </code></pre>
+                                </div><!--//code-block-->
                             </div>
                         </div>
                         </section>
