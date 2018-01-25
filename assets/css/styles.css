@@ -18,6 +18,11 @@ figcaption{
   font-style: italic;
 }
 
+.icon_blocked{
+  text-align: center;
+  display: block;
+}
+
 
 
 /* Theme default */
