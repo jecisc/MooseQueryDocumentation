@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="14.2">
+<diagram program="umlet" version="14.1.1">
   <zoom_level>10</zoom_level>
   <element>
     <id>UMLClass</id>
@@ -78,7 +78,8 @@ fg=blue</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-m1=parentType</panel_attributes>
+m1=parentType
+fg=orange</panel_attributes>
     <additional_attributes>10.0;10.0;140.0;10.0</additional_attributes>
   </element>
   <element>
@@ -90,7 +91,8 @@ m1=parentType</panel_attributes>
       <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-m1=superclass(target)</panel_attributes>
+m1=superclass(target)
+fg=blue</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
   </element>
   <element>
@@ -102,7 +104,8 @@ m1=superclass(target)</panel_attributes>
       <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-m1=subclass(source)</panel_attributes>
+m1=subclass(source)
+fg=blue</panel_attributes>
     <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -110,11 +113,12 @@ m1=subclass(source)</panel_attributes>
     <coordinates>
       <x>900</x>
       <y>310</y>
-      <w>110</w>
+      <w>120</w>
       <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-m1=varible(target)</panel_attributes>
+m1=variable(target)
+fg=blue</panel_attributes>
     <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
   </element>
   <element>
@@ -126,7 +130,8 @@ m1=varible(target)</panel_attributes>
       <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-m1=accessor(source)</panel_attributes>
+m1=accessor(source)
+fg=blue</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
   </element>
   <element>
@@ -161,7 +166,8 @@ fg=blue</panel_attributes>
       <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-m1=target(target)</panel_attributes>
+m1=target(target)
+fg=blue</panel_attributes>
     <additional_attributes>150.0;10.0;10.0;10.0;10.0;100.0</additional_attributes>
   </element>
   <element>
@@ -173,7 +179,8 @@ m1=target(target)</panel_attributes>
       <h>110</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-m1=source(source)</panel_attributes>
+m1=source(source)
+fg=blue</panel_attributes>
     <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>

@@ -75,7 +75,7 @@
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><i class="icon fa fa-user"></i> User Documentation</h1>
-                <div class="meta"><i class="fa fa-clock-o"></i>Last updated: Jan 24th, 2018</div>
+                <div class="meta"><i class="fa fa-clock-o"></i>Last updated: Jan 29th, 2018</div>
             </div><!--//doc-header-->
             <div class="doc-body">
                 <div class="doc-content">
@@ -86,8 +86,8 @@
                                 <p>
                                     Moose-Query is a domain-specific language to build queries for entities in <a
                                         href="http://www.moosetechnology.org/" class="text-highlight">Moose</a>. It
-                                    succeeds to Moose-Chef. It is designed to simplify and standardize the Moose
-                                    model internals.
+                                    succeeds to Moose-Chef. It is designed to simplify and standardize the way to query Moose
+                                    models.
                                 </p>
                                 <figure class="section-image">
                                     <img src="assets/images/mse-graph.png" alt="Image representing a small model with containment and associations examples.">
@@ -101,14 +101,14 @@
                                         Imbrication of entities
                                     </dt>
                                     <dd>
-                                        The defines which entity contains which entities. For example, it defines the classes contained in a package and the methods contained in a class. In the example image, it is the relations "parentPackage", "container", and "parentType"
+                                       Defines which entity contains which entities. For example, it defines the classes contained in a package and the methods contained in a class. In the example image, it is the relations "parentPackage", "container", and "parentType". This concept allow to build the containment tree of a model.
                                     </dd>
                                     <br>
                                     <dt>
                                         Associations between entities
                                     </dt>
                                     <dd>
-                                        Associations precise how the entities interact with each other. For example, an inheritance is an association between a subclass and its superclass. Another example is that a reference is an association between a behavioural entity and a type. In the example image, it can be the :Inheritance with the "superclass" and "subclass" relations.
+                                        Precise how the entities interact with each other. For example, an inheritance is an association between a subclass and its superclass. Another example is that a reference is an association between a behavioural entity and a type. In the example image, it can be the :Inheritance with the "superclass" and "subclass" relations.
                                     </dd>
                                 </dl>
                                 <p>
@@ -118,14 +118,14 @@
                                     <li>Explore the containment tree</li>
                                     <li>Gather associations</li>
                                     <li>Manipulate the gathered associations</li>
-                                    <li>Change the scope</li>
+                                    <li>Change the scope of entities (move from classes to the parent package or the children methods)</li>
                                 </ul>
                                 <p>
                                     In this documentation, we detail the use of the DSL. At the end, you will be able to query your Moose model, for example, to:
                                 </p>
                                 <ul>
                                     <li>Get the children of an entity (Exploration of the containment tree)</li>
-                                    <li>Get all the references contained in a class (Gathering of associations)</li>
+                                    <li>Get all the associations contained in a class (Gathering of associations)</li>
                                     <li>Get all the entities who depend on a specific entity (Manipulation of the gathered associations)</li>
                                     <li>Get all the methods contained in a package in a Java model, including those in inner/anonymous classes (Change of scope)</li>
                                 </ul>
@@ -167,7 +167,7 @@
                                     <img src="assets/images/containmentTreeUser.png" alt="A schema of a containement tree">
                                     <figcaption>Example of a containment tree.</figcaption>
                                 </figure>
-                                <p>For example, the model in the example figure can be request like that: </p>
+                                <p>For example, the model in the example figure can be requested like that: </p>
                                 <div class="code-block">
                                     <h6>Examples of Containment Tree Navigation</h6>
                                     <pre><code class="language-smalltalk">
@@ -179,6 +179,7 @@ class3 allChildren. "=> { attribut1 . attribut2 }"
 
 package1 parents. "=> { }"
 class3 parents. "=> { package2 }"
+class4 parents. "=> { package3 . namespace1 }"
 
 class3 allParents. "=> { package2 . package1 }"
 attribut1 allParents. "=> { class3 . package2 . package1 }"
@@ -189,17 +190,17 @@ attribut1 allParents. "=> { class3 . package2 . package1 }"
                         <section id="navigation" class="doc-section">
                             <h2 class="section-title">Navigation Queries</h2>
                             <div class="section-block">
-                                <p>In order to navigate into the links between entities, MooseQuery provides a generic API to gather entities' associations. Those associations represent a different kind of links such as References, Inheritance, Accesses, or Invocations.
+                                <p>In order to navigate into the links between entities, MooseQuery provides a generic API to gather entities' associations. Those associations represent a different kind of links such as References, Inheritance, Accesses, or, for object-oriented languages, Invocations.
                                 </p>
                                 <p>
                                     These queries are configured with two parameters:
                                 </p>
                                 <ul>
                                     <li>
-                                        The direction of the association (Incoming or Outgoing). An incoming association represents a relation where the receiver is the target of the relation. An outgoing association represents a relation where the receiver is the source of the relation.
+                                        The direction of the association (Incoming or Outgoing). An incoming association represents a relation where the studied entity (receiver of the query) is the target of the relation. An outgoing association represents a relation where the studied entity is the source of the relation.
                                     </li>
                                     <li>
-                                        The association(s) that will be queried
+                                        The association(s) that is queried
                                     </li>
                                 </ul>
                                 <p>
@@ -216,19 +217,19 @@ attribut1 allParents. "=> { class3 . package2 . package1 }"
                                         <tbody>
                                         <tr>
                                             <th scope="row">#query:with:   </th>
-                                            <td>This method takes as a first parameter a symbol (#out or #in) to define the direction of the query and as second parameter an association class to query. <b>Return:</b> All the instances of this association class where the receiver or its children are the source/target depending on the symbol.</td>
+                                            <td>This method takes as first parameter a symbol (#out or #in) to define the direction of the query and as second parameter an association class to query. <b>Return:</b> All the instances of this association class where the receiver or its children are the source/target depending on the symbol.</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">#queryAll:   </th>
-                                            <td>This method takes as parameter a symbol (#out or #in) to define the direction of the query. <b>Return:</b> All the association's instances where the receiver or its children are the source/target depending on the symbol.</td>
+                                            <td>This method takes as parameter a symbol (#out or #in) to define the direction of the query. It takes into account all kind of associations. <b>Return:</b> All the association's instances where the receiver or its children are the source/target depending on the symbol.</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">#queryLocal:with:   </th>
-                                            <td>This method takes as a first parameter a symbol (#out or #in) to define the direction of the query and as second parameter an association class to query. <b>Return:</b> All the instances of this association class where the receiver only is the source/target depending on the symbol.</td>
+                                            <td>This method is equivalent to #query:with: but takes into account only the studied entity without its children. It takes as first parameter a symbol (#out or #in) to define the direction of the query and as second parameter an association class to query. <b>Return:</b> All the instances of this association class where the receiver only is the source/target depending on the symbol.</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">#queryAllLocal:   </th>
-                                            <td>This method takes as parameter a symbol (#out or #in) to define the direction of the query. <b>Return:</b> All the association's instances where the receiver only is the source/target depending on the symbol.</td>
+                                            <td>This method is equivalent to #queryAll: but takes into account only the studied entity without its children. It takes as parameter a symbol (#out or #in) to define the direction of the query. It takes into account all kind of associations. <b>Return:</b> All the association's instances where the receiver only is the source/target depending on the symbol.</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -244,16 +245,16 @@ attribut1 allParents. "=> { class3 . package2 . package1 }"
                                     <pre><code class="language-smalltalk">
 class1 query: #in with: FAMIXInheritance. "=> { inheritance1 }"
 class1 query: #out with: FAMIXInheritance. "=> { }"
-class1 query: #out with: FAMIXAccess. "=> { access1 }"
+class1 query: #out with: FAMIXAccess. "=> { access1 }. Method1 contained in Class1 access to Attribute1 via Access1, result of the query. The access is not directly done via Class1, but via its children."
 
 class1 queryLocal: #in with: FAMIXInheritance. "=> { inheritance1 }"
-class1 queryLocal: #out with: FAMIXAccess. "=> { }"
+class1 queryLocal: #out with: FAMIXAccess. "=> { }. No result because Class1 is not directly the source of Access1."
 
 class1 queryAll: #in. "=> { inheritance1 . reference1 }"
 class1 queryAll: #out. "=> { access1 }"
 
-class1 queryAllLocal: #out. "=> { }"
 class1 queryAllLocal: #in. "=> { inheritance1 . reference1 }"
+class1 queryAllLocal: #out. "=> { }"
                                     </code></pre>
                                 </div><!--//code-block-->
                                 <p>
@@ -302,7 +303,7 @@ FAMIXType allIncomingAssociationTypes. "=> { FAMIXAccess . FAMIXInheritance . FA
                             <h2 class="section-title">Query Result Handling</h2>
                             <div class="section-block">
                                 <p>
-                                    A navigation query return a result as a MooseQueryResult. There are three types of query results:
+                                    A navigation query returns a result as a MooseQueryResult. There are three types of query results:
                                 </p>
                                 <ul>
                                     <li>
@@ -312,7 +313,7 @@ FAMIXType allIncomingAssociationTypes. "=> { FAMIXAccess . FAMIXInheritance . FA
                                         <b>MooseOutgoingQueryResult</b> manages the result of a query on outgoing associations.
                                     </li>
                                     <li>
-                                        <b>MooseObjectQueryResult</b> is special kind of query result that can be obtained via the two others ones and includes the opposites of the receiver associations.
+                                        <b>MooseObjectQueryResult</b> is special kind of query result that can be obtained via the two others ones and includes the opposites of the receiver associations. (For example if you query the outgoing accesses of a class, the opposites of the class associations will be the accessed attributes)
                                     </li>
                                 </ul>
                                 <p>
@@ -320,6 +321,9 @@ FAMIXType allIncomingAssociationTypes. "=> { FAMIXAccess . FAMIXInheritance . FA
                                 </p>
                                 <p>
                                     One of the most useful ones is the #opposites method present on MooseIncomingQueryResult and MooseOutgoingQueryResult. It returns a MooseObjectQueryResult containing all the opposites entities of the query result compared to the receiver of the query.
+                                </p>
+                                <p>
+                                    Indeed, when we query a model, it is often not the associations that we want as result but the source/target entities of these associations. For example, if we want the instance variables accessed by a given method, #query:with: will returns the accesses whereas sending the message #opposites on the result returns the variables themselves.
                                 </p>
                                 <p>
                                     Taking the previous model as an example we can do:
@@ -343,7 +347,7 @@ class1 queryAll: #in. "=> { inheritance1 . reference1 }"
                             <h2 class="section-title">Scoping Queries</h2>
                             <div class="section-block">
                                 <p>
-                                    Depending on the analyze we perform, we might need to handle the queries at a different scope. For example, if one want to know all the classes referencing another class, I can use a navigation query to get all the behavioural entities referencing this class, but then I need to find which classes include those behavioural entities.
+                                    Depending on the analysed we perform, it might be relevant to handle the queries at a different scope. For example, if we want to know the associations between a given class and all the other classes of the project, whatever the type of associations. The associations between classes can only be inheritance. But two classes are also linked if a method of one of them invoked a method of the other. It is necessary to consider the invocation at the scope of the class whereas it occur between some of their methods. Exactly the same occur for the other types of associations.
                                 </p>
                                 <p>
                                     For this scenario, it is possible to use the scope queries. A scope query can be applied to:
@@ -364,21 +368,25 @@ class1 queryAll: #in. "=> { inheritance1 . reference1 }"
                                         <thead>
                                         <tr>
                                             <th>Selector</th>
+                                            <th>Parameter</th>
                                             <th>Description</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr>
                                             <th scope="row">#atScope:   </th>
-                                            <td>Return all the entities at a given famix class scope that are up in the containment tree of the metamodel.</td>
+                                            <td>Famix class defining the scope of the query</td>
+                                            <td>Return all the entities at this given famix class scope that are up in the containment tree of the metamodel.</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">#toScope:   </th>
-                                            <td>Return all the entities at a given famix class scope that are down in the containment tree of the metamodel.</td>
+                                            <td>Famix class defining the scope of the query</td>
+                                            <td>Return all the entities at this given famix class scope that are down in the containment tree of the metamodel.</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">#withScope:   </th>
-                                            <td>Return all the entities at a given famix class scope that are both up and down in the containment tree of the metamodel.</td>
+                                            <td>Famix class defining the scope of the query</td>
+                                            <td>Return all the entities at this given famix class scope that are both up and down in the containment tree of the metamodel.</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -409,7 +417,7 @@ method2 withScope: FAMIXType. "=> { class3 . class4 }"
                                 <p>
                                     You will find here various example of the use of MooseQuery API.
                                 </p>
-                                <h3 class="question"><i class="fa fa-question-circle"></i>How do I get all the non-internal entities a class depend on at a method level?</h3>
+                                <h3 class="question"><i class="fa fa-question-circle"></i>How do I get all the external entities a class depends on at a method level?</h3>
                                 <div class="code-block">
                                     <pre><code class="language-smalltalk">
 (aClass query: #out) withoutSelfLoop withScope: FAMIXMethod
