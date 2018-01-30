@@ -172,17 +172,17 @@
                                     <h6>Examples of Containment Tree Navigation</h6>
                                     <pre><code class="language-smalltalk">
 package1 children. "=> { package2 . class1 }"
-class3 children. "=> { attribut1 . attribut2 }"
+class3 children. "=> { attribute1 . attribute2 }"
 
-package1 allChildren. "=> { package2 . class1 . class2 . class3 . attribut1 . attribut2 }"
-class3 allChildren. "=> { attribut1 . attribut2 }"
+package1 allChildren. "=> { package2 . class1 . class2 . class3 . attribute1 . attribute2 }"
+class3 allChildren. "=> { attribute1 . attribute2 }"
 
 package1 parents. "=> { }"
 class3 parents. "=> { package2 }"
 class4 parents. "=> { package3 . namespace1 }"
 
 class3 allParents. "=> { package2 . package1 }"
-attribut1 allParents. "=> { class3 . package2 . package1 }"
+attribute1 allParents. "=> { class3 . package2 . package1 }"
                                     </code></pre>
                                 </div><!--//code-block-->
                             </div>

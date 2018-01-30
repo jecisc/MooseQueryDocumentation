@@ -23,6 +23,15 @@ figcaption{
   display: block;
 }
 
+.callout-block{
+  padding: 15px !important;
+}
+
+.callout-block .icon-holder{
+  left: 25px !important;
+  top: 15px !important;
+}
+
 
 
 /* Theme default */

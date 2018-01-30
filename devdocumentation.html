@@ -75,7 +75,7 @@
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><i class="icon fa fa-code"></i> Developer Documentation</h1>
-                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Jan 25th, 2018</div>
+                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Jan 30th, 2018</div>
             </div><!--//doc-header-->
             <div class="doc-body">
                 <div class="doc-content">
@@ -130,11 +130,22 @@
                                 </figure>
                                 <br>
                                 <p>
-                                    Here, for example, Entity1 is the container of Entity2 and also Entity1 is the source of an association to Entity3.
+                                    Here, for example, Entity1 is the container of Entity2 and Entity1 is the source of an association whose Entity3 is the target.
                                 </p>
                                 <p>
                                     Moose query needs to know those relations in order to work. To declare them you just need to use three pragma: &lt;container&gt;, &lt;source&gt; and &lt;target&gt;
                                 </p>
+                                <p>
+                                    The container pragma should be put in the contained entity in the method defined to access the container.
+                                </p>
+                                <div class="callout-block callout-warning">
+                                    <div class="icon-holder">
+                                        <i class="fa fa-exclamation-triangle"></i>
+                                    </div><!--//icon-holder-->
+                                    <div class="content">
+                                        <p>At the meta-model level, an entity may have several parents. For example, the container of a class can be a package or a method in the case of inner class. In that case, both methods #parentPackage and #container must have the pragma.</p>
+                                    </div><!--//content-->
+                                </div>
                                 <div class="code-block">
                                     <h6>Containment Relation Definition</h6>
                                     <pre><code class="language-smalltalk">
@@ -145,6 +156,9 @@ FAMIXAttribute>>parentType
 	^ parentType
                                     </code></pre>
                                 </div><!--//code-block-->
+                                <p>
+                                    The source and target pragmas must be in the methods relevant of the association.
+                                </p>
                                 <div class="code-block">
                                     <h6>Association Definition</h6>
                                     <pre><code class="language-smalltalk">
@@ -165,7 +179,7 @@ FAMIXAccess>>variable
                             <div id="traits" class="section-block">
                                 <h3 class="block-title">Traits usage</h3>
                                 <p>
-                                    The definition of the relations give to MooseQuery all the requirements for querying the meta-model. Now, the new entities of the model need to have the behaviour, i.e., the methods, to execute the queries. To do so, MooseQuery comes with a set of Traits to use in the new entities.
+                                    Relations definitions (via the pragmas) give to MooseQuery all the requirements for querying the meta-model. Now, the new entities of the model need to have the behaviour, i.e., the methods, to execute the queries. To do so, MooseQuery comes with a set of Traits to use in the new entities.
                                 </p>
                                 <div class="table-responsive">
                                     <table class="table table-striped">
@@ -184,24 +198,24 @@ FAMIXAccess>>variable
                                             </tr>
                                             <tr>
                                                 <th scope="row">TEntityMetaLevelDependency</th>
-                                                <td>FAMIXAnnotationInstance, FAMIXAnnotationInstanceAttribute, FAMIXNamedEntity</td>
+                                                <td>FAMIXNamedEntity</td>
                                                 <td>This trait includes the information about entities and adds the behaviour to explore the containment tree and execute scope queries. It needs to be used in every entity's hierarchy in a meta-model.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">TDependencyQuery</th>
-                                                <td>FAMIXAnnotationInstance, FAMIXAnnotationInstanceAttribute</td>
+                                                <th scope="row">TDependencyQueries</th>
+                                                <td>FAMIXNamedEntity</td>
                                                 <td>This trait includes the information about entities and adds the behaviour to execute navigation queries. It needs to be used in every entity's hierarchy in a meta-model.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">TOODependencyQuery</th>
-                                                <td>FAMIXNamedEntity</td>
-                                                <td>This trait includes the information about object-oriented entities and adds the behaviour to execute navigation queries. It needs to be used in every entity's hierarchy in a meta-model instead of TDependencyQuery.</td>
+                                                <th scope="row">TOODependencyQueries</th>
+                                                <td>FAMIXContainerEntity</td>
+                                                <td>This trait includes the information about object-oriented entities and adds the behaviour to execute navigation queries. It needs to be used in every entity's hierarchy in a meta-model instead of TDependencyQueries.</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div><!--//table-responsive-->
                                 <p>
-                                    All those traits need to be used when implementing a new meta-model. For performance reasons, some more work is needed when using those traits. Some methods exist in two versions. One private with the real behaviour, and the other explicitly required to get a cached version. Here is the list of caches to implement:
+                                    All those traits need to be used when implementing a new meta-model. For performance reasons, some more work is needed when using those traits. Some methods exist in two versions. One private with the real behaviour, and the other public that access a class instance variable or, if nil, set it with the result of the private method. Due to the fact that traits are currently stateless in Pharo, all the public methods have to be implemented for your new metaclass using directly the traits and not by inheritance. For example, FAMIXAnnotationInstance does not inherit from FAMIXNamedEntity but can be queried similarly. The same occur for new links using TAssociationMetaLevelDependency without inheriting from FAMIXAssociation. Here is the list of caches to implement:
                                 </p>
                                 <ul>
                                     <li>
@@ -228,12 +242,14 @@ FAMIXAccess>>variable
                                 <div class="code-block">
                                     <h6>Example of Cache Implementation</h6>
                                     <pre><code class="language-smalltalk">
+"Already defined in MooseQuery:"
 TEntityMetaLevelDependency class>>allChildrenTypes
 	^ self explicitRequirement
 
 TEntityMetaLevelDependency class>>privateAllChildrenTypes
 	^ (self childrenTypes withDeepCollect: #childrenTypes as: Set) asOrderedCollection
 
+"Method to implement:"
 FAMIXNamedEntity class>>allChildrenTypes
 	^ allChildrenTypes ifNil: [ allChildrenTypes := self privateAllChildrenTypes ]
                                     </code></pre>
@@ -243,11 +259,11 @@ FAMIXNamedEntity class>>allChildrenTypes
                                         <i class="fa fa-info-circle"></i>
                                     </div><!--//icon-holder-->
                                     <div class="content">
-                                        <p>The model build caches on classes to speed up queries. It means that during the development of the meta-model it is often required to invalidate those caches.</a></p>
+                                        <p>The model builds caches on classes to speed up queries. It means that during the development of the meta-model it is often required to reset those caches.</a></p>
                                     </div><!--//content-->
                                 </div>
                                 <p>
-                                    In order to invalidate the caches you can execute:
+                                    In order to reset the caches you can execute:
                                 </p>
                                 <div class="code-block">
                                     <pre><code class="language-smalltalk">
@@ -255,11 +271,11 @@ MooseModel resetMeta
                                     </code></pre>
                                 </div><!--//code-block-->
                                 <p>
-                                    Also, if you add new caches, you need to override in the class side of your entity #resetMooseQueryCaches to invalidate the added caches.
+                                    This method will call #resetMooseQueryCaches on all subclasses of FAMIXEntity. If you add new caches (in a class that directly uses the trait and not through inheritance like FAMIXAnnotationInstance), you need to override in the class side of your entity #resetMooseQueryCaches to reset the added caches.
                                 </p>
 
                                 <div class="code-block">
-                                    <h6>Example of Cache Invalidation</h6>
+                                    <h6>Example of Cache Reset</h6>
                                     <pre><code class="language-smalltalk">
 FAMIXNamedEntity class>>resetMooseQueryCaches
 	super resetMooseQueryCaches.
@@ -273,58 +289,72 @@ FAMIXNamedEntity class>>resetMooseQueryCaches
                             <h2 class="section-title">Containment Tree Exploration</h2>
                             <div class="section-block">
                                 <p>
-                                    Now that we saw how to make entities queryable, we begin to check the internal mechanisms of MooseQuery. The easiest queries are the ones related to the exploration of the containment tree.
+                                    Now that we saw how to make entities queryable, this documentation will focus on explaining the internal mechanisms of MooseQuery. The easiest queries are the ones related to the exploration of the containment tree.
                                 </p>
                                 <p>
-                                    MooseQuery allows querying the children/parents of an entity. This behaviour is based on the meta-model of the application. Each Moose's entity possesses a meta-description that lists all the properties of the entity. These properties can be obtained with:
+                                    MooseQuery allows querying the children/parents of an entity. This behaviour is based on the meta-model of the application. Each Moose entity possesses a meta-description that lists all the properties of the entity. These properties can be obtained with:
                                 </p>
                                 <div class="code-block">
                                     <h6>Getting the Properties of an Entity</h6>
                                     <pre><code class="language-smalltalk">
 MooseEntity class>>allDeclaredProperties
-	"All properties described in the metamodel"
+	"All properties described in the meta-model"
 	^self mooseDescription allAttributes
 
 
-FAMIXType allDeclaredProperties. "==> An array of property descriptions"
+FAMIXType allDeclaredProperties. "==> An array of property descriptions (See screenshot bellow)"
                                     </code></pre>
                                 </div><!--//code-block-->
+                                <figure style="text-align: center">
+                                    <img src="assets/images/typesDescriptionsDev.png" alt="Screenshot of `FAMIXType allDeclaredProperties` result." width="85%">
+                                    <figcaption>Screenshot of `FAMIXType allDeclaredProperties` result.</figcaption>
+                                </figure>
                                 <p>
                                     Each property knows:
                                 </p>
                                 <ul>
                                     <li>
-                                        If it is a property defining the containment of other entities (via the "container" pragma)
+                                        If it is a property enabling to access the contained entities (via the method #isChildrenProperty)
                                     </li>
                                     <li>
-                                        If it is a property defining a parent entity (via the "container" pragma)
+                                        If it is a property defining a parent entity (via the method #isContainer)
                                     </li>
                                     <li>
-                                        The selector returning the property in the entity's API
+                                        The selector returning the property in the entity's API (via the method #implementingSelector)
                                     </li>
                                 </ul>
                                 <p>
-                                    So, it is possible to get the selectors of an entity returning the potential parents or children.
+                                    So, based on the meta-model and the moose pragma, it is possible for a Famix class to get the selectors to access its parents or children entity using the #parentSelectors and #childrenSelectors methods respectively. Here again a cache mechanism is used.
                                 </p>
                                 <div class="code-block">
                                     <h6>Getting the parents/children selectors of an entity</h6>
                                     <pre><code class="language-smalltalk">
+"Implementation details:"
 TEntityMetaLevelDependency class>>privateChildrenSelectors
 	^ self allDeclaredProperties select: #isChildrenProperty thenCollect: #implementingSelector
 
-TEntityMetaLevelDependency class>>privateParentSelectors
+FAMIXNamedEntity class>>childrenSelectors
+	^ childrenSelectors ifNil: [ childrenSelectors := self privateChildrenSelectors ]
+
+TEntityMetaLevelDependency class>privateParentSelectors
 	^ self allDeclaredProperties select: #isContainer thenCollect: #implementingSelector
 
+FAMIXNamedEntity class>>parentSelectors
+	^ parentSelectors ifNil: [ parentSelectors := self privateParentSelectors ]
+
+
+"Example of use:"
 FAMIXType parentSelectors. "=> #(#container #parentPackage)"
 FAMIXType childrenSelectors.  "=> #(#annotationInstances #types #definedAnnotationTypes #attributes #functions #methods)"
                                     </code></pre>
                                 </div><!--//code-block-->
                                 <p>
-                                    Once we retrieved all parents/children selectors it is possible to perform them on an entity to get their results and gather the children/parents of this entity.
+                                    So, whatever the selector used in the meta-model to access the contained elements of a given entity, it is possible to access them through the children method that dynamically call each selector returned by the #childrenSelectors methods. The same is possible to get the parents of a given entity. Once we retrieved all parents/children selectors it is possible to perform them on an entity to get their results and gather the children/parents of this entity.
                                 </p>
                                 <div class="code-block">
                                     <h6>Getting the parents/children of an entity</h6>
                                     <pre><code class="language-smalltalk">
+"Implementation details:"
 TEntityMetaLevelDependency>>children
 	| res |
 	res := OrderedCollection new.
@@ -339,17 +369,26 @@ TEntityMetaLevelDependency>>parents
     "Since some selector can return nil, an entity or a collection of entities, we need to do a nil check and to ensure everything is a collection via #asCollection"
 	self parentSelectors do: [ :accessor | (self perform: accessor) ifNotNil: [ :r | res addAll: r asCollection ] ].
 	^ res asSet
+
+"Example from the user documentation:"
+package1 children. "=> { package2 . class1 }"
+class3 children. "=> { attribute1 . attribute2 }"
+
+package1 parents. "=> { }"
+class3 parents. "=> { package2 }"
+class4 parents. "=> { package3 . namespace1 }"
                                     </code></pre>
                                 </div><!--//code-block-->
                                 <p>
-                                    It is now possible to get all the children/parents of an entity via the meta-model. With this, you exclude the problem of human error.
+                                    No risk to forget a selector, it is dynamically computed from the meta-model.
                                 </p>
                                 <p>
-                                    The next step is to be able to get children/parents recursively. Since containment trees can be pretty big, we use an accumulator to avoid creating a lot of collections.
+                                    Similarly, it is possible to get children/parents recursively. Since containment trees can be pretty big, we use an accumulator to avoid creating a lot of collections.
                                 </p>
                                 <div class="code-block">
                                     <h6>Getting the parents/children of an entity recursively</h6>
                                     <pre><code class="language-smalltalk">
+"Implementation details:"
 TEntityMetaLevelDependency>>allChildren
 	"Returns all the children and sub-children of an entity, i.e my children and those of my children, and those of the children of my children, etc"
 	^ self addAllChildrenIn: OrderedCollection new
@@ -359,6 +398,14 @@ TEntityMetaLevelDependency>>addAllChildrenIn: aCollection
 	aCollection addAll: self children.
 	self children do: [ :each | each addAllChildrenIn: aCollection ].
 	^ aCollection
+
+"Examples from the user documentation:"
+package1 allChildren. "=> { package2 . class1 . class2 . class3 . attribute1 . attribute2 }"
+class3 allChildren. "=> { attribute1 . attribute2 }"
+
+class3 allParents. "=> { package2 . package1 }"
+attribute1 allParents. "=> { class3 . package2 . package1 }"
+
                                     </code></pre>
                                 </div><!--//code-block-->
                             </div>
@@ -377,7 +424,7 @@ TEntityMetaLevelDependency>>addAllChildrenIn: aCollection
                                         The direction of the query. Should the receiver be the source or the target of the associations to gather?
                                     </li>
                                     <li>
-                                        The scope of the query. Should the query return the associations of the receiver or the associations of the receiver and its children.
+                                        The scope of the query. Should the query deal with the receiver or deal with the receiver and its children.
                                     </li>
                                     <li>
                                         The association(s) to query. It is possible to query a specific association or all the associations.
@@ -392,15 +439,15 @@ TEntityMetaLevelDependency>>addAllChildrenIn: aCollection
                                 </figure>
                                 <br>
                                 <p>
-                                    To launch a navigation query, all Moose entities can use an API provided by the trait TDependencyQueries, as explained previously. Those methods will all begin in the same way. They will send the request to a new instance of MooseQueryCalculator parametrized with the direction of the query.
+                                    To launch a navigation query, all Moose entities can use an API provided by the trait TDependencyQueries, as explained previously. Those methods all begin in the same way. They send the request to a new instance of MooseQueryCalculator parametrized with the direction of the query.
                                 </p>
                                 <div id="directions" class="section-block">
                                     <h3 class="block-title">Management of the queries direction</h3>
                                     <p>
-                                        This section will cover the query direction management.
+                                        This section covers the query direction management.
                                     </p>
                                     <p>
-                                        As shown in the UML diagram above, directions are managed via a Design Pattern strategy. A <b>MooseQueryCalculator</b> will refer to a strategy that will be either a <b>MooseQueryIncomingDirectionStartegy</b> or a <b>MooseQueryOutgoingDirectionStrategy</b>. The strategies will manage everything related to the direction of the query. This includes:
+                                        As shown in the UML diagram above, directions are managed via a Design Pattern strategy. A <b>MooseQueryCalculator</b> refers to a strategy that will be either a <b>MooseQueryIncomingDirectionStartegy</b> or a <b>MooseQueryOutgoingDirectionStrategy</b>. The strategies manage everything related to the direction of the query. This includes:
                                     </p>
                                     <ul>
                                         <li>
@@ -456,10 +503,13 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                         Now that it is clear how the distinction between the directions of the query is managed, we can see how the navigation queries works. Let's begin with the local queries.
                                     </p>
                                     <p>
-                                        Local navigation queries gather associations related to an entity only. It will not gather associations of its children. It is possible to launch a local query via the selector TDependencyQuery>>#queryLocal:with: taking as parameter the direction of the query and the association class to gather. This method will create a new <b>MooseQueryCalculator</b> parametrized with the right direction strategy and call MooseQueryCalculator>>#queryLocal:for: with the association class and the receiving entity as parameters.
+                                        Local navigation queries focus only on an entity and do not care about its children. Considering that we want to compute the incoming references of a class. With local queries, we don't care if the class contains inner classes that are referenced or not. It will not gather associations of its children.
                                     </p>
                                     <p>
-                                        MooseQueryCalculator>>#queryLocal:for: will gather the associations and create a new <b>MooseQueryResult</b> with them, as shown in the script below.
+                                        It is possible to launch a local query via the selector TDependencyQueries>>#queryLocal:with: taking as parameter the direction of the query and the studied association class. This method creates a new <b>MooseQueryCalculator</b> parametrized with the right direction strategy and call MooseQueryCalculator>>#queryLocal:for: with the association class and the receiving entity as parameters.
+                                    </p>
+                                    <p>
+                                    MooseQueryCalculator>>#queryLocal:for: gather the associations and creates a new <b>MooseQueryResult</b> with them via the method #queryResultOn:with:. This method, sent to <b>MooseQueryIncomingDirectionStrategy</b>, return a <b>MooseIncomingQueryResult</b> for the entity. Sent to <b>MooseQueryOutgoingDirectionStrategy</b>, return a <b>MooseOutgoingQueryResult</b>. This is shown in the script bellow.
                                     </p>
                                     <div class="code-block">
                                         <h6> MooseQueryCalculator>>#queryLocal:for:</h6>
@@ -470,10 +520,10 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                     </code></pre>
                                     </div><!--//code-block-->
                                     <p>
-                                        In order to gather the associations, we first check that the entity can have instances of the association class. For this, we ask via the strategy all the association types possible for the entity. If the association is in the list the query will proceed. Else, the query will return an empty result.
+                                        It is important to check if the query makes sens. In other terms, we need to check that the class of the studied entity accepts the association class in parameter as source in the case of an outgoing query or as target in the case of an incoming query. For this, we ask via the strategy all possible association types for the cass of the entity. If the association class is in the list, the query proceeds. Else, the query returns an empty result.
                                     </p>
                                     <p>
-                                        In the case the entity can contain instances of the association, the query will ask to the direction strategy the meta-properties returning associations in the right direction, iterate on them and collect the result of the property returning the right association.
+                                        In the case the entity can contain instances of the association, the query will ask to the direction strategy the meta-properties of the entity class susceptible to return an association where the entity is a target in the case of an incoming query or a source in the care of an outgoing query. Then we iterate on them and collect the result of the property returning the right association.
                                     </p>
                                     <div class="code-block">
                                         <h6> MooseQueryCalculator>>#queryLocal:for:in:</h6>
