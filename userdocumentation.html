@@ -420,6 +420,7 @@ method2 withScope: FAMIXType. "=> { class3 . class4 }"
                                 <h3 class="question"><i class="fa fa-question-circle"></i>How do I get all the external entities a class depends on at a method level?</h3>
                                 <div class="code-block">
                                     <pre><code class="language-smalltalk">
+"Since #withScope: will takes the ooposites of the associations by itself, there is no need to call explicitly #opposites."
 (aClass query: #out) withoutSelfLoop withScope: FAMIXMethod
                                     </code></pre>
                                 </div><!--//code-block-->
@@ -467,5 +468,4 @@ method2 withScope: FAMIXType. "=> { class3 . class4 }"
 <script type="text/javascript" src="assets/js/main.js"></script>
 
 </body>
-</html> 
-
+</html>
