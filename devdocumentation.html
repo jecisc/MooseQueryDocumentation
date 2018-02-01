@@ -75,7 +75,7 @@
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><i class="icon fa fa-code"></i> Developer Documentation</h1>
-                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Jan 30th, 2018</div>
+                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Feb 1st, 2018</div>
             </div><!--//doc-header-->
             <div class="doc-body">
                 <div class="doc-content">
@@ -520,10 +520,7 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                     </code></pre>
                                     </div><!--//code-block-->
                                     <p>
-                                        It is important to check if the query makes sens. In other terms, we need to check that the class of the studied entity accepts the association class in parameter as source in the case of an outgoing query or as target in the case of an incoming query. For this, we ask via the strategy all possible association types for the cass of the entity. If the association class is in the list, the query proceeds. Else, the query returns an empty result.
-                                    </p>
-                                    <p>
-                                        In the case the entity can contain instances of the association, the query will ask to the direction strategy the meta-properties of the entity class susceptible to return an association where the entity is a target in the case of an incoming query or a source in the care of an outgoing query. Then we iterate on them and collect the result of the property returning the right association.
+                                        It is important to check if the query makes sens. In other terms, we need to check that the class of the studied entity accepts the association class in parameter as source in the case of an outgoing query or as target in the case of an incoming query. In our studied case, can a FAMIXClass have incoming references?  For this we look if all association types the class of the studied entity can be source (respectively target). If the association class in parameter does not belongs to the list of possible associations, the query returns an empty result. In the opposite, if the class of the entity can be source (resp target) of the association whose class is in parameter, we dynamically get the name of the corresponding property and perform it to collect the relevant associations.
                                     </p>
                                     <div class="code-block">
                                         <h6> MooseQueryCalculator>>#queryLocal:for:in:</h6>
@@ -564,13 +561,13 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                 <div id="global" class="section-block">
                                     <h3 class="block-title">Global queries</h3>
                                     <p>
-                                        Local queries are useful, but most of the time users want to get all the associations inside the entity, including in their children.
+                                        Local queries are useful, but most of the time users want to get all the associations taking into account the entity itself as source (resp. target) or its contained entities. For example it can be relevant to know all the incoming invocations of class1 (cf. user documentation examples). In this case, a class cannot be the target of an invocation, but what we want to get are all the invocations targeting any methods contained in the class.
                                     </p>
                                     <p>
-                                        These queries begin in the same way as local navigation queries. The entity will create a new MooseQueryCalculator parametrized with a direction strategy and return a new MooseQueryResult with the gathered association. The only part changing is the gathering of the associations.
+                                        These queries begin in the same way as local navigation queries. The entity will create a new MooseQueryCalculator parametrized with a direction strategy and return a new MooseQueryResult with the resulting associations. The only part changing is the way of the resulting associations are computed.
                                     </p>
                                     <p>
-                                        It will begin by gathering the associations of the receiver via the same method as the local navigation queries (MooseQueryCalculator>>queryLocal:for:in:), and then iterate on the children of the entity (which is possible via the methods of the containment tree exploration) to call recursively the query.
+                                        It will begin by computing the associations of the receiver via the same method as the local navigation queries (MooseQueryCalculator>>queryLocal:for:in:), and then iterate on the children of the entity (which is possible via the methods of the containment tree exploration) to call recursively the query.
                                     </p>
                                     <div class="code-block">
                                         <h6> MooseQueryCalculator>>#query:for:in:</h6>
@@ -591,6 +588,9 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                     <p>
                                         As for the local queries, the readability of the method is sacrificed for performances. Find below a more readable version.
                                     </p>
+                                    <p>
+                                        If we compute "MooseQueryCalculator query: FAMIXInvocation for: class1", "MooseQueryCalculator queryLocal: FAMIXInvocation for: class1" returns an empty collection since aFAMIXClass cannot be the target of an invocation. Then for each child of this entity the search is done. Concretely, it is compute only for the methods of class1 or the methods of any other entity contained recursively in class1.
+                                    </p>
                                     <div class="code-block">
                                         <h6> MooseQueryCalculator>>#queryLocal:for:in:, readable version</h6>
                                         <pre><code class="language-smalltalk">
@@ -605,10 +605,10 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                 <div id="all" class="section-block">
                                     <h3 class="block-title">Queries on all associations</h3>
                                     <p>
-                                        One use of navigation queries is to find the dependencies between entities. To find all the dependencies of an entity it is necessary to gather all associations.
+                                        One use of navigation queries is to find the dependencies between entities. To find all the dependencies of an entity it is necessary to compute all associations.
                                     </p>
                                     <p>
-                                        MooseQuery allows to directly gather all the associations incoming or outgoing of an entity at once. The implementation will gather them in one containment tree visit for performance reasons instead of iterating on all associations to execute the queries.
+                                        MooseQuery allows to directly compute all the associations incoming or outgoing of an entity at once. For performance reasons, the implementation visit the containment tree on time instead of iterating on all associations to execute the queries.
                                     </p>
                                     <p>
                                         The main change in the implementation is done in the local query. Instead of selecting the meta-property where the implementing type is a specific association class, it will gather the result of all properties defining an incoming/outgoing relation with the entity.
@@ -630,7 +630,7 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                             <h2 class="section-title">Scope Queries</h2>
                             <div class="section-block">
                                 <p>
-                                    This section will explain how the scope queries works.
+                                    This section explains how the scope queries works.
                                 </p>
                                 <p>
                                     A scope query is parametrized by:
@@ -639,9 +639,9 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                     <li>
                                         The direction of the query
                                         <ul>
-                                            <li>Up in the containment tree</li>
-                                            <li>Down in the containment tree</li>
-                                            <li>Both up and down in the containment tree</li>
+                                            <li>Up in the containment tree (#atScope:)</li>
+                                            <li>Down in the containment tree (#toScope:)</li>
+                                            <li>Both up and down in the containment tree (#withScope:)</li>
                                         </ul>
                                     </li>
                                     <li>The Famix entity class defining the scope to query</li>
@@ -656,13 +656,13 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                 <div id="entity" class="section-block">
                                     <h3 class="block-title">Query on a Famix entity</h3>
                                     <p>
-                                        Queries going up or down in the containment tree for the scope search are usable via the methods TEntityMetaLevelDependency>>#atScope: and #toScope:.
+                                        Queries going up or down in the containment tree for the scope search are usable respectively via the methods TEntityMetaLevelDependency>>#atScope: and #toScope:. For example we can want all the incoming invocations of package P2 (cf. user documentation examples) at class scope. Meaning that we want to compute all the invocations that reach a method recursively contained in P2. But, as a result, we don't want neither the invocations nor the target methods of these invocations. We want the classes containing these methods.
                                     </p>
                                     <p>
-                                        Both those methods will begin to create a collection to store the results and call #atScope:in:/#toScope:in: with the newly created collection as a parameter. This is done for performance reasons. Instead of creating multiple collections and use concatenation on them, we create on at the beginning and pass it as a parameter of the query methods.
+                                        These methods begin to create a collection to store the results and call #atScope:in:/#toScope:in: with the newly created collection as a parameter. This is done for performance reasons. Instead of creating multiple collections and use concatenation on them, we create one at the beginning and pass it as a parameter of the query methods.
                                     </p>
                                     <p>
-                                        The query will then check if the receiver is of the searched kind. In case it is, the query will end and result with the receiver as result. If it is not the case then the query will be repeated on the parents/children of the entity depending on the direction in the containment tree of the query.
+                                        The query then checks if the receiver is of the searched kind. In case it is, the query end and returns the receiver as result. If it is not the case then the query is repeated on the parents/children of the entity depending on the direction in the containment tree of the query.
                                     </p>
                                     <div class="code-block">
                                         <h6> TEntityMetaLevelDependency>>#atScope:in:</h6>
@@ -708,7 +708,7 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                         Once we understand the scope queries applied to entities, it is easy to understand the scope queries on MooseQueryResult.
                                     </p>
                                     <p>
-                                        MooseQueryResults store the associations gathered via a navigation query. Applying a scope query on it will gather the opposites of the first query receiver and apply the scope query on each of them.
+                                        MooseQueryResults store the associations gathered via a navigation query. Applying a scope query on it gathers the opposites of the first query receiver and apply the scope query on each of them.
                                     </p>
                                     <div class="code-block">
                                         <h6> TDependencyQueryResult>>#atScope:</h6>
