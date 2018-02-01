@@ -95,6 +95,9 @@
                                     <li>How the navigation queries works</li>
                                     <li>How the scope queries works</li>
                                 </ul>
+                                <p>
+                                    The first section will be useful if you wish to extend/create a meta-model. The three next sections only describe how the query system works. It does not requires any change from the developers of a meta-model.
+                                </p>
                             </div>
                         </section>
                         <section id="metamodel" class="doc-section">
@@ -288,6 +291,14 @@ FAMIXNamedEntity class>>resetMooseQueryCaches
                         <section id="containment" class="doc-section">
                             <h2 class="section-title">Containment Tree Exploration</h2>
                             <div class="section-block">
+                                <div class="callout-block callout-info">
+                                    <div class="icon-holder">
+                                        <i class="fa fa-info-circle"></i>
+                                    </div><!--//icon-holder-->
+                                    <div class="content">
+                                        <p>This section and the next ones explains how works MooseQuery's queries. From this point, no more action is required from the developer to have working queries on its meta-model.</p>
+                                    </div><!--//content-->
+                                </div>
                                 <p>
                                     Now that we saw how to make entities queryable, this documentation will focus on explaining the internal mechanisms of MooseQuery. The easiest queries are the ones related to the exploration of the containment tree.
                                 </p>
