@@ -75,7 +75,7 @@
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><i class="icon fa fa-user"></i> User Documentation</h1>
-                <div class="meta"><i class="fa fa-clock-o"></i>Last updated: Jan 30th, 2018</div>
+                <div class="meta"><i class="fa fa-clock-o"></i>Last updated: Feb 1st, 2018</div>
             </div><!--//doc-header-->
             <div class="doc-body">
                 <div class="doc-content">
@@ -101,14 +101,13 @@
                                         Imbrication of entities
                                     </dt>
                                     <dd>
-                                       Defines which entity contains which entities. For example, it defines the classes contained in a package and the methods contained in a class. In the example image, it is the relations "parentPackage", "container", and "parentType". This concept allow to build the containment tree of a model.
+                                        Defines which entity contains which entities. For example, it defines the classes contained in a package and the methods contained in a class. In the example image, it is the relations <var>parentPackage</var>, <var>container</var>, and <var>parentType</var>. This concept allow to build the containment tree of a model.
                                     </dd>
-                                    <br>
                                     <dt>
                                         Associations between entities
                                     </dt>
                                     <dd>
-                                        Precise how the entities interact with each other. For example, an inheritance is an association between a subclass and its superclass. Another example is that a reference is an association between a behavioural entity and a type. In the example image, it can be the :Inheritance with the "superclass" and "subclass" relations.
+                                        Precise how the entities interact with each other. For example, an inheritance is an association between a subclass and its superclass. Another example is that a reference is an association between a behavioural entity and a type. In the example image, it can be the <var>:Inheritance</var> with the <var>superclass</var> and <var>subclass</var> relations.
                                     </dd>
                                 </dl>
                                 <p>
@@ -148,16 +147,16 @@
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <th scope="row">#children   </th>
+                                            <th scope="row"><var>#children</var></th>
                                             <td>Direct children of the entity</td></tr>
                                         <tr>
-                                            <th scope="row">#parents   </th>
+                                            <th scope="row"><var>#parents</var></th>
                                             <td>Direct parents of the entity</td></tr>
                                         <tr>
-                                            <th scope="row">#allChildren   </th>
+                                            <th scope="row"><var>#allChildren</var></th>
                                             <td>Children of the entity and their children recursively</td></tr>
                                         <tr>
-                                            <th scope="row">#allParents   </th>
+                                            <th scope="row"><var>#allParents</var></th>
                                             <td>Parents of the entity and their parents recursively</td></tr>
                                         </tbody>
                                     </table>
@@ -190,14 +189,14 @@ attribute1 allParents. "=> { class3 . package2 . package1 }"
                         <section id="navigation" class="doc-section">
                             <h2 class="section-title">Navigation Queries</h2>
                             <div class="section-block">
-                                <p>In order to navigate into the links between entities, MooseQuery provides a generic API to gather entities' associations. Those associations represent a different kind of links such as References, Inheritance, Accesses, or, for object-oriented languages, Invocations.
+                                <p>In order to navigate into the links between entities, MooseQuery provides a generic API to gather entities' associations. Those associations represent a different kind of links such as <var>References</var>, <var>Inheritance</var>, <var>Accesses</var>, or, for object-oriented languages, <var>Invocations</var>.
                                 </p>
                                 <p>
                                     These queries are configured with two parameters:
                                 </p>
                                 <ul>
                                     <li>
-                                        The direction of the association (Incoming or Outgoing). An incoming association represents a relation where the studied entity (receiver of the query) is the target of the relation. An outgoing association represents a relation where the studied entity is the source of the relation.
+                                        The direction of the association (incoming or outgoing). An incoming association represents a relation where the studied entity (receiver of the query) is the target of the relation. An outgoing association represents a relation where the studied entity is the source of the relation.
                                     </li>
                                     <li>
                                         The association(s) that is queried
@@ -216,20 +215,20 @@ attribute1 allParents. "=> { class3 . package2 . package1 }"
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <th scope="row">#query:with:   </th>
-                                            <td>This method takes as first parameter a symbol (#out or #in) to define the direction of the query and as second parameter an association class to query. <b>Return:</b> All the instances of this association class where the receiver or its children are the source/target depending on the symbol.</td>
+                                            <th scope="row"><var>#query:with:</var></th>
+                                            <td>This method takes as first parameter a symbol (<var>#out</var> or <var>#in</var>) to define the direction of the query and as second parameter an association class to query. <b>Return:</b> All the instances of this association class where the receiver or its children are the source/target depending on the symbol.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#queryAll:   </th>
-                                            <td>This method takes as parameter a symbol (#out or #in) to define the direction of the query. It takes into account all kind of associations. <b>Return:</b> All the association's instances where the receiver or its children are the source/target depending on the symbol.</td>
+                                            <th scope="row"><var>#queryAll:</var></th>
+                                            <td>This method takes as parameter a symbol (<var>#out</var> or <var>#in</var>) to define the direction of the query. It takes into account all kind of associations. <b>Return:</b> All the association's instances where the receiver or its children are the source/target depending on the symbol.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#queryLocal:with:   </th>
-                                            <td>This method is equivalent to #query:with: but takes into account only the studied entity without its children. It takes as first parameter a symbol (#out or #in) to define the direction of the query and as second parameter an association class to query. <b>Return:</b> All the instances of this association class where the receiver only is the source/target depending on the symbol.</td>
+                                            <th scope="row"><var>#queryLocal:with:</var></th>
+                                            <td>This method is equivalent to <var>#query:with:</var> but takes into account only the studied entity without its children. It takes as first parameter a symbol (<var>#out</var> or <var>#in</var>) to define the direction of the query and as second parameter an association class to query. <b>Return:</b> All the instances of this association class where the receiver only is the source/target depending on the symbol.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#queryAllLocal:   </th>
-                                            <td>This method is equivalent to #queryAll: but takes into account only the studied entity without its children. It takes as parameter a symbol (#out or #in) to define the direction of the query. It takes into account all kind of associations. <b>Return:</b> All the association's instances where the receiver only is the source/target depending on the symbol.</td>
+                                            <th scope="row"><var>#queryAllLocal:</var></th>
+                                            <td>This method is equivalent to <var>#queryAll:</var> but takes into account only the studied entity without its children. It takes as parameter a symbol (<var>#out</var> or <var>#in</var>) to define the direction of the query. It takes into account all kind of associations. <b>Return:</b> All the association's instances where the receiver only is the source/target depending on the symbol.</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -270,19 +269,19 @@ class1 queryAllLocal: #out. "=> { }"
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <th scope="row">#outgoingAssociationTypes   </th>
+                                            <th scope="row"><var>#outgoingAssociationTypes</var></th>
                                             <td>Return all the possible outgoing association types for this entity. This does not include the outgoing association types of its possible children.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#incomingAssociationTypes   </th>
+                                            <th scope="row"><var>#incomingAssociationTypes</var></th>
                                             <td>Return all the possible incoming association types for this entity. This does not include the incoming association types of its possible children.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#allOutgoingAssociationTypes   </th>
+                                            <th scope="row"><var>#allOutgoingAssociationTypes</var></th>
                                             <td>Return all the possible outgoing association types for this entity, including the outgoing association types of its possible children.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#allIncomingAssociationTypes   </th>
+                                            <th scope="row"><var>#allIncomingAssociationTypes</var></th>
                                             <td>Return all the possible incoming association types for this entity, including the incoming association types of its possible children.</td>
                                         </tr>
                                         </tbody>
@@ -303,27 +302,27 @@ FAMIXType allIncomingAssociationTypes. "=> { FAMIXAccess . FAMIXInheritance . FA
                             <h2 class="section-title">Query Result Handling</h2>
                             <div class="section-block">
                                 <p>
-                                    A navigation query returns a result as a MooseQueryResult. There are three types of query results:
+                                    A navigation query returns a result as a <var>MooseQueryResult</var>. There are three types of query results:
                                 </p>
                                 <ul>
                                     <li>
-                                        <b>MooseIncomingQueryResult</b> manages the result of a query on incoming associations.
+                                        <var>MooseIncomingQueryResult</var> manages the result of a query on incoming associations.
                                     </li>
                                     <li>
-                                        <b>MooseOutgoingQueryResult</b> manages the result of a query on outgoing associations.
+                                        <var>MooseOutgoingQueryResult</var> manages the result of a query on outgoing associations.
                                     </li>
                                     <li>
-                                        <b>MooseObjectQueryResult</b> is special kind of query result that can be obtained via the two others ones and includes the opposites of the receiver associations. (For example if you query the outgoing accesses of a class, the opposites of the class associations will be the accessed attributes)
+                                        <var>MooseObjectQueryResult</var> is special kind of query result that can be obtained via the two others ones and includes the opposites of the receiver associations. (For example if you query the outgoing accesses of a class, the opposites of the class associations will be the accessed attributes)
                                     </li>
                                 </ul>
                                 <p>
                                     These query results classes are special collections with some new features.
                                 </p>
                                 <p>
-                                    One of the most useful ones is the #opposites method present on MooseIncomingQueryResult and MooseOutgoingQueryResult. It returns a MooseObjectQueryResult containing all the opposites entities of the query result compared to the receiver of the query.
+                                    One of the most useful ones is the <var>#opposites</var> method present on <var>MooseIncomingQueryResult</var> and <var>MooseOutgoingQueryResult</var>. It returns a <var>MooseObjectQueryResult</var> containing all the opposites entities of the query result compared to the receiver of the query.
                                 </p>
                                 <p>
-                                    Indeed, when we query a model, it is often not the associations that we want as result but the source/target entities of these associations. For example, if we want the instance variables accessed by a given method, #query:with: will returns the accesses whereas sending the message #opposites on the result returns the variables themselves.
+                                    Indeed, when we query a model, it is often not the associations that we want as result but the source/target entities of these associations. For example, if we want the instance variables accessed by a given method, <var>#query:with:</var> will returns the accesses whereas sending the message <var>#opposites</var> on the result returns the variables themselves.
                                 </p>
                                 <p>
                                     Taking the previous model as an example we can do:
@@ -336,7 +335,7 @@ class1 queryAll: #in. "=> { inheritance1 . reference1 }"
                                     </code></pre>
                                 </div><!--//code-block-->
                                 <p>
-                                    Another possibility is to exclude all the results where the opposite is included in the receiver of the original query. This can be done via the method #withoutSelfLoop. It is handy when we want to query a model to find external dependencies without internal ones.
+                                    Another possibility is to exclude all the results where the opposite is included in the receiver of the original query. This can be done via the method <var>#withoutSelfLoop</var>. It is handy when we want to query a model to find external dependencies without internal ones.
                                 </p>
                                 <p>
                                     Another feature is to be able to change the scope of the result. This feature is covered in the next section.
@@ -357,7 +356,7 @@ class1 queryAll: #in. "=> { inheritance1 . reference1 }"
                                         A moose entity
                                     </li>
                                     <li>
-                                        A MooseQueryResult obtained through a navigation query
+                                        A <var>MooseQueryResult</var> obtained through a navigation query
                                     </li>
                                 </ul>
                                 <p>
@@ -374,19 +373,19 @@ class1 queryAll: #in. "=> { inheritance1 . reference1 }"
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <th scope="row">#atScope:   </th>
+                                            <th scope="row"><var>#atScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
-                                            <td>Return all the entities at this given famix class scope that are up in the containment tree of the metamodel.</td>
+                                            <td>Return all the entities at this given famix class scope that are up in the containment tree of the meta-model.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#toScope:   </th>
+                                            <th scope="row"><var>#toScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
-                                            <td>Return all the entities at this given famix class scope that are down in the containment tree of the metamodel.</td>
+                                            <td>Return all the entities at this given famix class scope that are down in the containment tree of the meta-model.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#withScope:   </th>
+                                            <th scope="row"><var>#withScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
-                                            <td>Return all the entities at this given famix class scope that are both up and down in the containment tree of the metamodel.</td>
+                                            <td>Return all the entities at this given famix class scope that are both up and down in the containment tree of the meta-model.</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -451,7 +450,7 @@ method2 withScope: FAMIXType. "=> { class3 . class4 }"
     <div class="container">
         <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can check out other license options via our website: themes.3rdwavemedia.com */-->
         <small class="copyright">Designed with <i class="fa fa-heart"></i> by <a href="http://themes.3rdwavemedia.com/"
-                                                                                 targe="_blank">Xiaoying Riley</a> for
+                                                                                 target="_blank">Xiaoying Riley</a> for
             developers
         </small>
 

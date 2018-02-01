@@ -75,7 +75,7 @@
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><i class="icon fa fa-exchange"></i> API Documentation</h1>
-                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Jan 25th, 2018</div>
+                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Feb 1st, 2018</div>
             </div><!--//doc-header-->
             <div class="doc-body">
                 <div class="doc-content">
@@ -84,7 +84,7 @@
                             <h2 class="section-title">TEntityMetaLevelDependency</h2>
                             <div class="section-block">
                                 <p>
-                                    <b>TEntityMetaLevelDependency</b> is a Trait adding to an entity the possibility to use meta-descriptions to execute containment tree exploration and scope queries.
+                                    <var>TEntityMetaLevelDependency</var> is a Trait adding to an entity the possibility to use meta-descriptions to execute containment tree exploration and scope queries.
                                 </p>
                                 <div id="tree" class="section-block">
                                     <h3 class="block-title">Containment tree exploration</h3>
@@ -98,43 +98,43 @@
                                             </thead>
                                             <tbody>
                                             <tr>
-                                                <th scope="row">#allChildren</th>
+                                                <th scope="row"><var>#allChildren</var></th>
                                                 <td>Return the receiver's children in the containment tree of the model, including the children's children recursively.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">#allChildrenTypes</th>
+                                                <th scope="row"><var>#allChildrenTypes</var></th>
                                                 <td>Return all the possible children types of the receiver, including the possible type of the children's children recursively.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">#allParents</th>
+                                                <th scope="row"><var>#allParents</var></th>
                                                 <td>Return the receiver's parents in the containment tree of the model, including the parents' parents recursively.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">#allParentTypes</th>
+                                                <th scope="row"><var>#allParentTypes</var></th>
                                                 <td>Return all the possible parents types of the receiver, including the possible type of the parents' parents recursively.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">#children</th>
+                                                <th scope="row"><var>#children</var></th>
                                                 <td>Return the receiver's children in the containment tree of the model. This method is not recursive.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">#childrenSelectors</th>
+                                                <th scope="row"><var>#childrenSelectors</var></th>
                                                 <td>Return the selectors applicable to the receiver that can return some of the receiver's children.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">#childrenTypes</th>
+                                                <th scope="row"><var>#childrenTypes</var></th>
                                                 <td>Return the possible children types of the receiver. This method is not recursive.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">#parents</th>
+                                                <th scope="row"><var>#parents</var></th>
                                                 <td>Return the receiver's parents in the containment tree of the model. This method is not recursive.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">#parentSelectors</th>
+                                                <th scope="row"><var>#parentSelectors</var></th>
                                                 <td>Return the selectors applicable to the receiver that can return some of the receiver's parents.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">#parentTypes</th>
+                                                <th scope="row"><var>#parentTypes</var></th>
                                                 <td>Return the possible parents types of the receiver. This method is not recursive.</td>
                                             </tr>
                                             </tbody>
@@ -154,17 +154,17 @@
                                             </thead>
                                             <tbody>
                                             <tr>
-                                                <th scope="row">#atScope:</th>
+                                                <th scope="row"><var>#atScope:</var></th>
                                                 <td>Famix class defining the scope of the query</td>
                                                 <td>Return the entities of the parameter's kind up in the containment tree of the model compared to the receiver.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">#toScope:</th>
+                                                <th scope="row"><var>#toScope:</var></th>
                                                 <td>Famix class defining the scope of the query</td>
                                                 <td>Return the entities of the parameter's kind down in the containment tree of the model compared to the receiver.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">#withScope:</th>
+                                                <th scope="row"><var>#withScope:</var></th>
                                                 <td>Famix class defining the scope of the query</td>
                                                 <td>Return the entities of the parameter's kind up and down in the containment tree of the model compared to the receiver.</td>
                                             </tr>
@@ -185,31 +185,31 @@
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <th scope="row">#allIncomingAssociationTypes</th>
+                                            <th scope="row"><var>#allIncomingAssociationTypes</var></th>
                                             <td>Return all the possible association types where the receiver can be the target of the association, including the possible types of the children's children recursively.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#allOutgoingAssociationTypes</th>
+                                            <th scope="row"><var>#allOutgoingAssociationTypes</var></th>
                                             <td>Return all the possible association types where the receiver can be the source of the association, including the possible types of the children's children recursively.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#dependencyFM3PropertyDescription</th>
+                                            <th scope="row"><var>#dependencyFM3PropertyDescription</var></th>
                                             <td>Return all the meta-properties defining a relation to an association (source/target).</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#incomingAssociationTypes</th>
+                                            <th scope="row"><var>#incomingAssociationTypes</var></th>
                                             <td>Return the possible association types where the receiver can be the target of the association. This method is not recursive.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#incomingMSEProperties</th>
+                                            <th scope="row"><var>#incomingMSEProperties</var></th>
                                             <td>Return all the meta-properties defining a relation to an association where the receiver can be the target of the association.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#outgoingAssociationTypes</th>
+                                            <th scope="row"><var>#outgoingAssociationTypes</var></th>
                                             <td>Return the possible association types where the receiver can be the source of the association. This method is not recursive.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#outgoingMSEProperties</th>
+                                            <th scope="row"><var>#outgoingMSEProperties</var></th>
                                             <td>Return all the meta-properties defining a relation to an association where the receiver can be the source of the association.</td>
                                         </tr>
                                         </tbody>
@@ -221,7 +221,7 @@
                             <h2 class="section-title">TDependencyQuery</h2>
                             <div class="section-block">
                                 <p>
-                                    <b>TDependencyQuery</b> is a Trait adding to an entity the possibility to use meta-descriptions to execute navigation queries.
+                                    <var>TDependencyQuery</var> is a Trait adding to an entity the possibility to use meta-descriptions to execute navigation queries.
                                 </p>
                                 <div class="table-responsive">
                                     <table class="table table-striped">
@@ -234,75 +234,75 @@
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <th scope="row">#query:with:</th>
+                                            <th scope="row"><var>#query:with:</var></th>
                                             <td>
-                                                <p>A symbol #in or #out defining the query's direction</p>
+                                                <p>A symbol <var>#in</var> or <var>#out</var> defining the query's direction</p>
                                                 <p>A Famix association class defining the associations to gather</p>
                                             </td>
                                             <td>Return all the incoming or outgoing associations, depending on the symbol given as parameter, of the Famix association class for the receiver and its children.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#queryAll:</th>
-                                            <td>A symbol #in or #out defining the query's direction</td>
+                                            <th scope="row"><var>#queryAll:</var></th>
+                                            <td>A symbol <var>#in</var> or <var>#out</var> defining the query's direction</td>
                                             <td>Return all the incoming or outgoing associations, depending on the symbol given as parameter, of the receiver or its children.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#queryAllIncoming</th>
+                                            <th scope="row"><var>#queryAllIncoming</var></th>
                                             <td><span class="icon icon_blocked "></span></td>
                                             <td>Return all the incoming associations of the receiver and its children.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#queryAllLocal:</th>
-                                            <td>A symbol #in or #out defining the query's direction</td>
+                                            <th scope="row"><var>#queryAllLocal:</var></th>
+                                            <td>A symbol <var>#in</var> or <var>#out</var> defining the query's direction</td>
                                             <td>Return all the incoming or outgoing associations, depending on the symbol given as parameter, of the receiver.
-                                                This method differ from #queryAll: in the fact that it will not check the associations of the receiver's children.</td>
+                                                This method differ from <var>#queryAll:</var> in the fact that it will not check the associations of the receiver's children.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#queryAllLocalIncoming</th>
+                                            <th scope="row"><var>#queryAllLocalIncoming</var></th>
                                             <td><span class="icon icon_blocked"></span></td>
                                             <td>Return all the incoming associations of the receiver.
-                                                This method differ from #queryAllIncoming in the fact that it will not check the associations of the receiver's children.</td>
+                                                This method differ from <var>#queryAllIncoming</var> in the fact that it will not check the associations of the receiver's children.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#queryAllLocalOutgoing</th>
+                                            <th scope="row"><var>#queryAllLocalOutgoing</var></th>
                                             <td><span class="icon icon_blocked "></span></td>
                                             <td>Return all the outgoing associations of the receiver.
-                                                This method differ from #queryAllOutgoing in the fact that it will not check the associations of the receiver's children.</td>
+                                                This method differ from <var>#queryAllOutgoing</var> in the fact that it will not check the associations of the receiver's children.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#queryAllOutgoing</th>
+                                            <th scope="row"><var>#queryAllOutgoing</var></th>
                                             <td><span class="icon icon_blocked "></span></td>
                                             <td>Return all the outgoing associations of the receiver and its children.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#queryIncoming:</th>
+                                            <th scope="row"><var>#queryIncoming:</var></th>
                                             <td>A Famix association class defining the associations to gather</td>
                                             <td>Return all the incoming associations of the Famix association class for the receiver and its children.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#queryLocal:with:</th>
+                                            <th scope="row"><var>#queryLocal:with:</var></th>
                                             <td>
-                                                <p>A symbol #in or #out defining the query's direction</p>
+                                                <p>A symbol <var>#in</var> or <var>#out defining the query's direction</var></p>
                                                 <p>A Famix association class defining the associations to gather</p>
                                             </td>
                                             <td>Return all the incoming or outgoing associations, depending on the symbol given as parameter, of the Famix association class for the receiver.
-                                                This method differ from #query:with: in the fact that it will not check the associations of the receiver's children.</td>
+                                                This method differ from <var>#query:with:</var> in the fact that it will not check the associations of the receiver's children.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#queryLocalIncoming:</th>
+                                            <th scope="row"><var>#queryLocalIncoming:</var></th>
                                             <td>A Famix association class defining the associations to gather</td>
                                             <td>Return all the incoming associations of the Famix association class for the receiver.
-                                                This method differ from #queryIncoming: in the fact that it will not check the associations of the receiver's children.
+                                                This method differ from <var>#queryIncoming:</var> in the fact that it will not check the associations of the receiver's children.
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#queryLocalOutgoing:</th>
+                                            <th scope="row"><var>#queryLocalOutgoing:</var></th>
                                             <td>A Famix association class defining the associations to gather</td>
                                             <td>Return all the outgoing associations of the Famix association class for the receiver.
-                                                This method differ from #queryOutgoing: in the fact that it will not check the associations of the receiver's children.</td>
+                                                This method differ from <var>#queryOutgoing:</var> in the fact that it will not check the associations of the receiver's children.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#queryOutgoing:</th>
+                                            <th scope="row"><var>#queryOutgoing:</var></th>
                                             <td>A Famix association class defining the associations to gather</td>
                                             <td>Return all the outgoing associations of the Famix association class for the receiver and its children.</td>
                                         </tr>
@@ -315,7 +315,7 @@
                             <h2 class="section-title">TAssociationMetaLevelDependency</h2>
                             <div class="section-block">
                                 <p>
-                                    <b>TAssociationMetaLevelDependency</b> is a Trait adding to an association the possibility to use meta-descriptions to get some informations.
+                                    <var>TAssociationMetaLevelDependency</var> is a Trait adding to an association the possibility to use meta-descriptions to get some informations.
                                 </p>
                                 <div class="table-responsive">
                                     <table class="table table-striped">
@@ -327,15 +327,15 @@
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <th scope="row">#dependencyFM3PropertyDescription</th>
+                                            <th scope="row"><var>#dependencyFM3PropertyDescription</var></th>
                                             <td>Return all the meta-properties defining a relation between entities (source/target).</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#sourceTypes</th>
+                                            <th scope="row"><var>#sourceTypes</var></th>
                                             <td>Return the types possible as source of the association.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#targetTypes</th>
+                                            <th scope="row"><var>#targetTypes</var></th>
                                             <td>Return the types possible as target of the association.</td>
                                         </tr>
                                         </tbody>
@@ -347,7 +347,7 @@
                             <h2 class="section-title">TDependencyQueryResult</h2>
                             <div class="section-block">
                                 <p>
-                                    <b>TDependencyQueryResult</b> is a Trait adding to MooseQueryResult some behaviour on navigation query results.
+                                    <var>TDependencyQueryResult</var> is a Trait adding to <var>MooseQueryResult</var> some behaviour on navigation query results.
                                 </p>
                                 <div class="table-responsive">
                                     <table class="table table-striped">
@@ -360,37 +360,37 @@
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <th scope="row">#atScope:</th>
+                                            <th scope="row"><var>#atScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
                                             <td>Return the entities of the parameter's kind up in the containment tree of the model compared to the association opposites relative to the navigation query receiver.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#opposites</th>
+                                            <th scope="row"><var>#opposites</var></th>
                                             <td><span class="icon icon_blocked "></span></td>
                                             <td>Return the opposite entities of the query result's associations compared to the receiver of the original query.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#rejectDependencies:</th>
+                                            <th scope="row"><var>#rejectDependencies:</var></th>
                                             <td>A conditional block</td>
                                             <td>Reject the dependencies matching the block as parameter.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#selectDependencies:</th>
+                                            <th scope="row"><var>#selectDependencies:</var></th>
                                             <td>A conditional block</td>
                                             <td>Reject the dependencies not matching the block as parameter.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#toScope:</th>
+                                            <th scope="row"><var>#toScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
                                             <td>Return the entities of the parameter's kind down in the containment tree of the model compared to the association opposites relative to the navigation query receiver.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#withScope:</th>
+                                            <th scope="row"><var>#withScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
                                             <td>Return the entities of the parameter's kind up and down in the containment tree of the model compared to the association opposites relative to the navigation query receiver.</td>
                                         </tr>
                                         <tr>
-                                            <th scope="row">#withoutSelfLoops</th>
+                                            <th scope="row"><var>#withoutSelfLoops</var></th>
                                             <td><span class="icon icon_blocked "></span></td>
                                             <td>Reject all associations whose opposite is contained in the original query's receiver.</td>
                                         </tr>
@@ -429,7 +429,7 @@
     <div class="container">
         <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can check out other license options via our website: themes.3rdwavemedia.com */-->
         <small class="copyright">Designed with <i class="fa fa-heart"></i> by <a href="http://themes.3rdwavemedia.com/"
-                                                                                 targe="_blank">Xiaoying Riley</a> for
+                                                                                 target="_blank">Xiaoying Riley</a> for
             developers
         </small>
 

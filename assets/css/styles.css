@@ -32,7 +32,15 @@ figcaption{
   top: 15px !important;
 }
 
+var {
+  font-style: normal;
+  font-family: Monospace, Consolas, serif;
+  font-weight: 700;
+}
 
+dd{
+  margin-bottom: 10px;
+}
 
 /* Theme default */
 /* ======= Base ======= */

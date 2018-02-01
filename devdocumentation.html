@@ -84,13 +84,13 @@
                             <h2 class="section-title">Introduction</h2>
                             <div class="section-block">
                                 <p>
-                                    MooseQuery is the result of the Inria research team <a href="https://rmod.inria.fr/web/">RMoD</a>. This page documents the internals of MooseQuery. As prerequisites, it supposes the reader has a minimum of knowledge of Fame and Famix. If not, please read the <a href="http://themoosebook.org/book/index.html">Moose documentation</a>, if you wish to understand everything.
+                                    MooseQuery is the result of the Inria research team <a href="https://rmod.inria.fr/web/">RMoD</a>. This page documents the internals of MooseQuery. As prerequisites, it supposes the reader has a minimum of knowledge of <var>Fame</var> and <var>Famix</var>. If not, please read the <a href="http://themoosebook.org/book/index.html">Moose documentation</a>, if you wish to understand everything.
                                 </p>
                                 <p>
                                     This documentation covers:
                                 </p>
                                 <ul>
-                                    <li>How to complete a Famix meta-model to make new entities/relations queryable via MooseQuery</li>
+                                    <li>How to complete a <var>Famix</var> meta-model to make new entities/relations queryable via MooseQuery</li>
                                     <li>How the containment tree exploration described in the user documentation works</li>
                                     <li>How the navigation queries works</li>
                                     <li>How the scope queries works</li>
@@ -130,10 +130,10 @@
                                 </figure>
                                 <br>
                                 <p>
-                                    Here, for example, Entity1 is the container of Entity2 and Entity1 is the source of an association whose Entity3 is the target.
+                                    Here, for example, <var>Entity1</var> is the container of <var>Entity2</var> and <var>Entity1</var> is the source of an association whose <var>Entity3</var> is the target.
                                 </p>
                                 <p>
-                                    Moose query needs to know those relations in order to work. To declare them you just need to use three pragma: &lt;container&gt;, &lt;source&gt; and &lt;target&gt;
+                                    Moose query needs to know those relations in order to work. To declare them you just need to use three pragma: <var>&lt;container&gt;</var>, <var>&lt;source&gt;</var> and <var>&lt;target&gt;</var>
                                 </p>
                                 <p>
                                     The container pragma should be put in the contained entity in the method defined to access the container.
@@ -143,7 +143,7 @@
                                         <i class="fa fa-exclamation-triangle"></i>
                                     </div><!--//icon-holder-->
                                     <div class="content">
-                                        <p>At the meta-model level, an entity may have several parents. For example, the container of a class can be a package or a method in the case of inner class. In that case, both methods #parentPackage and #container must have the pragma.</p>
+                                        <p>At the meta-model level, an entity may have several parents. For example, the container of a class can be a package or a method in the case of inner class. In that case, both methods <var>#parentPackage</var> and <var>#container</var> must have the pragma.</p>
                                     </div><!--//content-->
                                 </div>
                                 <div class="code-block">
@@ -192,50 +192,50 @@ FAMIXAccess>>variable
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <th scope="row">TAssociationMetaLevelDependency</th>
-                                                <td>FAMIXAssociation</td>
+                                                <th scope="row"><var>TAssociationMetaLevelDependency</var></th>
+                                                <td><var>FAMIXAssociation</var></td>
                                                 <td>This trait includes the information about associations needed for the navigation queries. It needs to be used by every association in a meta-model.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">TEntityMetaLevelDependency</th>
-                                                <td>FAMIXNamedEntity</td>
+                                                <th scope="row"><var>TEntityMetaLevelDependency</var></th>
+                                                <td><var>FAMIXNamedEntity</var></td>
                                                 <td>This trait includes the information about entities and adds the behaviour to explore the containment tree and execute scope queries. It needs to be used in every entity's hierarchy in a meta-model.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">TDependencyQueries</th>
-                                                <td>FAMIXNamedEntity</td>
+                                                <th scope="row"><var>TDependencyQueries</var></th>
+                                                <td><var>FAMIXNamedEntity</var></td>
                                                 <td>This trait includes the information about entities and adds the behaviour to execute navigation queries. It needs to be used in every entity's hierarchy in a meta-model.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">TOODependencyQueries</th>
-                                                <td>FAMIXContainerEntity</td>
-                                                <td>This trait includes the information about object-oriented entities and adds the behaviour to execute navigation queries. It needs to be used in every entity's hierarchy in a meta-model instead of TDependencyQueries.</td>
+                                                <th scope="row"><var>TOODependencyQueries</var></th>
+                                                <td><var>FAMIXContainerEntity</var></td>
+                                                <td>This trait includes the information about object-oriented entities and adds the behaviour to execute navigation queries. It needs to be used in every entity's hierarchy in a meta-model instead of <var>TDependencyQueries</var>.</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div><!--//table-responsive-->
                                 <p>
-                                    All those traits need to be used when implementing a new meta-model. For performance reasons, some more work is needed when using those traits. Some methods exist in two versions. One private with the real behaviour, and the other public that access a class instance variable or, if nil, set it with the result of the private method. Due to the fact that traits are currently stateless in Pharo, all the public methods have to be implemented for your new metaclass using directly the traits and not by inheritance. For example, FAMIXAnnotationInstance does not inherit from FAMIXNamedEntity but can be queried similarly. The same occur for new links using TAssociationMetaLevelDependency without inheriting from FAMIXAssociation. Here is the list of caches to implement:
+                                    All those traits need to be used when implementing a new meta-model. For performance reasons, some more work is needed when using those traits. Some methods exist in two versions. One private with the real behaviour, and the other public that access a class instance variable or, if nil, set it with the result of the private method. Due to the fact that traits are currently stateless in Pharo, all the public methods have to be implemented for your new metaclass using directly the traits and not by inheritance. For example, <var>FAMIXAnnotationInstance</var> does not inherit from <var>FAMIXNamedEntity</var> but can be queried similarly. The same occur for new links using <var>TAssociationMetaLevelDependency</var> without inheriting from <var>FAMIXAssociation</var>. Here is the list of caches to implement:
                                 </p>
                                 <ul>
                                     <li>
-                                        TAssociationMetaLevelDependency class
+                                        <var>TAssociationMetaLevelDependency class</var>
                                         <ul>
-                                            <li>#sourceTypes</li>
-                                            <li>#targetTypes</li>
+                                            <li><var>#sourceTypes</var></li>
+                                            <li><var>#targetTypes</var></li>
                                         </ul>
                                     </li>
                                     <li>
-                                        TEntityMetaLevelDependency class
+                                        <var>TEntityMetaLevelDependency class</var>
                                         <ul>
-                                            <li>#allChildrenTypes</li>
-                                            <li>#allParentTypes</li>
-                                            <li>#childrenSelector</li>
-                                            <li>#parentSelector</li>
-                                            <li>#allIncomingAssociationTypes</li>
-                                            <li>#allOutgoingAssociationTypes</li>
-                                            <li>#incomingMSEProperties</li>
-                                            <li>#outgoingMSEPreperties</li>
+                                            <li><var>#allChildrenTypes</var></li>
+                                            <li><var>#allParentTypes</var></li>
+                                            <li><var>#childrenSelector</var></li>
+                                            <li><var>#parentSelector</var></li>
+                                            <li><var>#allIncomingAssociationTypes</var></li>
+                                            <li><var>#allOutgoingAssociationTypes</var></li>
+                                            <li><var>#incomingMSEProperties</var></li>
+                                            <li><var>#outgoingMSEPreperties</var></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -259,7 +259,7 @@ FAMIXNamedEntity class>>allChildrenTypes
                                         <i class="fa fa-info-circle"></i>
                                     </div><!--//icon-holder-->
                                     <div class="content">
-                                        <p>The model builds caches on classes to speed up queries. It means that during the development of the meta-model it is often required to reset those caches.</a></p>
+                                        <p>The model builds caches on classes to speed up queries. It means that during the development of the meta-model it is often required to reset those caches.</p>
                                     </div><!--//content-->
                                 </div>
                                 <p>
@@ -271,7 +271,7 @@ MooseModel resetMeta
                                     </code></pre>
                                 </div><!--//code-block-->
                                 <p>
-                                    This method will call #resetMooseQueryCaches on all subclasses of FAMIXEntity. If you add new caches (in a class that directly uses the trait and not through inheritance like FAMIXAnnotationInstance), you need to override in the class side of your entity #resetMooseQueryCaches to reset the added caches.
+                                    This method will call <var>#resetMooseQueryCaches</var> on all subclasses of <var>FAMIXEntity</var>. If you add new caches (in a class that directly uses the trait and not through inheritance like <var>FAMIXAnnotationInstance</var>), you need to override in the class side of your entity <var>#resetMooseQueryCaches</var> to reset the added caches.
                                 </p>
 
                                 <div class="code-block">
@@ -307,24 +307,18 @@ FAMIXType allDeclaredProperties. "==> An array of property descriptions (See scr
                                 </div><!--//code-block-->
                                 <figure style="text-align: center">
                                     <img src="assets/images/typesDescriptionsDev.png" alt="Screenshot of `FAMIXType allDeclaredProperties` result." width="85%">
-                                    <figcaption>Screenshot of `FAMIXType allDeclaredProperties` result.</figcaption>
+                                    <figcaption>Screenshot of <var>FAMIXType allDeclaredProperties</var> result.</figcaption>
                                 </figure>
                                 <p>
                                     Each property knows:
                                 </p>
                                 <ul>
-                                    <li>
-                                        If it is a property enabling to access the contained entities (via the method #isChildrenProperty)
-                                    </li>
-                                    <li>
-                                        If it is a property defining a parent entity (via the method #isContainer)
-                                    </li>
-                                    <li>
-                                        The selector returning the property in the entity's API (via the method #implementingSelector)
-                                    </li>
+                                    <li>If it is a property enabling to access the contained entities (via the method <var>#isChildrenProperty</var>)</li>
+                                    <li>If it is a property defining a parent entity (via the method <var>#isContainer</var>)</li>
+                                    <li> The selector returning the property in the entity's API (via the method <var>#implementingSelector</var>)</li>
                                 </ul>
                                 <p>
-                                    So, based on the meta-model and the moose pragma, it is possible for a Famix class to get the selectors to access its parents or children entity using the #parentSelectors and #childrenSelectors methods respectively. Here again a cache mechanism is used.
+                                    So, based on the meta-model and the moose pragma, it is possible for a Famix class to get the selectors to access its parents or children entity using the <var>#parentSelectors</var> and <var>#childrenSelectors</var> methods respectively. Here again a cache mechanism is used.
                                 </p>
                                 <div class="code-block">
                                     <h6>Getting the parents/children selectors of an entity</h6>
@@ -349,7 +343,7 @@ FAMIXType childrenSelectors.  "=> #(#annotationInstances #types #definedAnnotati
                                     </code></pre>
                                 </div><!--//code-block-->
                                 <p>
-                                    So, whatever the selector used in the meta-model to access the contained elements of a given entity, it is possible to access them through the children method that dynamically call each selector returned by the #childrenSelectors methods. The same is possible to get the parents of a given entity. Once we retrieved all parents/children selectors it is possible to perform them on an entity to get their results and gather the children/parents of this entity.
+                                    So, whatever the selector used in the meta-model to access the contained elements of a given entity, it is possible to access them through the children method that dynamically call each selector returned by the <var>#childrenSelectors</var> methods. The same is possible to get the parents of a given entity. Once we retrieved all parents/children selectors it is possible to perform them on an entity to get their results and gather the children/parents of this entity.
                                 </p>
                                 <div class="code-block">
                                     <h6>Getting the parents/children of an entity</h6>
@@ -439,7 +433,7 @@ attribute1 allParents. "=> { class3 . package2 . package1 }"
                                 </figure>
                                 <br>
                                 <p>
-                                    To launch a navigation query, all Moose entities can use an API provided by the trait TDependencyQueries, as explained previously. Those methods all begin in the same way. They send the request to a new instance of MooseQueryCalculator parametrized with the direction of the query.
+                                    To launch a navigation query, all Moose entities can use an API provided by the trait <var>TDependencyQueries</var>, as explained previously. Those methods all begin in the same way. They send the request to a new instance of <var>MooseQueryCalculator</var> parametrized with the direction of the query.
                                 </p>
                                 <div id="directions" class="section-block">
                                     <h3 class="block-title">Management of the queries direction</h3>
@@ -447,7 +441,7 @@ attribute1 allParents. "=> { class3 . package2 . package1 }"
                                         This section covers the query direction management.
                                     </p>
                                     <p>
-                                        As shown in the UML diagram above, directions are managed via a Design Pattern strategy. A <b>MooseQueryCalculator</b> refers to a strategy that will be either a <b>MooseQueryIncomingDirectionStartegy</b> or a <b>MooseQueryOutgoingDirectionStrategy</b>. The strategies manage everything related to the direction of the query. This includes:
+                                        As shown in the UML diagram above, directions are managed via a Design Pattern strategy. A <var>MooseQueryCalculator</var> refers to a strategy that will be either a <var>MooseQueryIncomingDirectionStrategy</var> or a <var>MooseQueryOutgoingDirectionStrategy</var>. The strategies manage everything related to the direction of the query. This includes:
                                     </p>
                                     <ul>
                                         <li>
@@ -457,7 +451,7 @@ attribute1 allParents. "=> { class3 . package2 . package1 }"
                                             Obtaining the meta-properties of an entity defining a relation of source/target between the entity and an association
                                         </li>
                                         <li>
-                                            Creating a MooseQueryResult for the right direction
+                                            Creating a <var>MooseQueryResult</var> for the right direction
                                         </li>
                                     </ul>
                                     <div class="code-block">
@@ -477,7 +471,7 @@ MooseQueryOutgoingDirectionStrategy class>>associationTypesFor: anEntity
                                     </code></pre>
                                     </div><!--//code-block-->
                                     <p>
-                                        The selection of the right strategy is done via the symbol <b>#in</b> or <b>#out</b> given by the user. The <b>MooseQueryAbstractDirectionStrategy</b> is able to return the right strategy with this symbol as input.
+                                        The selection of the right strategy is done via the symbol <var>#in</var> or <var>#out</var> given by the user. The <var>MooseQueryAbstractDirectionStrategy</var> is able to return the right strategy with this symbol as input.
                                     </p>
                                     <div class="code-block">
                                         <h6>Strategy Selection Mechanism</h6>
@@ -506,13 +500,13 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                         Local navigation queries focus only on an entity and do not care about its children. Considering that we want to compute the incoming references of a class. With local queries, we don't care if the class contains inner classes that are referenced or not. It will not gather associations of its children.
                                     </p>
                                     <p>
-                                        It is possible to launch a local query via the selector TDependencyQueries>>#queryLocal:with: taking as parameter the direction of the query and the studied association class. This method creates a new <b>MooseQueryCalculator</b> parametrized with the right direction strategy and call MooseQueryCalculator>>#queryLocal:for: with the association class and the receiving entity as parameters.
+                                        It is possible to launch a local query via the selector <var>TDependencyQueries>>#queryLocal:with:</var> taking as parameter the direction of the query and the studied association class. This method creates a new <var>MooseQueryCalculator</var> parametrized with the right direction strategy and call <var>MooseQueryCalculator>>#queryLocal:for:</var> with the association class and the receiving entity as parameters.
                                     </p>
                                     <p>
-                                    MooseQueryCalculator>>#queryLocal:for: gather the associations and creates a new <b>MooseQueryResult</b> with them via the method #queryResultOn:with:. This method, sent to <b>MooseQueryIncomingDirectionStrategy</b>, return a <b>MooseIncomingQueryResult</b> for the entity. Sent to <b>MooseQueryOutgoingDirectionStrategy</b>, return a <b>MooseOutgoingQueryResult</b>. This is shown in the script bellow.
+                                        <var>MooseQueryCalculator>>#queryLocal:for:</var> gather the associations and creates a new <var>MooseQueryResult</var> with them via the method #queryResultOn:with:. This method, sent to <var>MooseQueryIncomingDirectionStrategy</var>, return a <var>MooseIncomingQueryResult</var> for the entity. Sent to <var>MooseQueryOutgoingDirectionStrategy</var>, return a <var>MooseOutgoingQueryResult</var>. This is shown in the script bellow.
                                     </p>
                                     <div class="code-block">
-                                        <h6> MooseQueryCalculator>>#queryLocal:for:</h6>
+                                        <h6>MooseQueryCalculator>>#queryLocal:for:</h6>
                                         <pre><code class="language-smalltalk">
  MooseQueryCalculator>>queryLocal: aFAMIXClassAssociation for: anEntity
 
@@ -520,7 +514,7 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                     </code></pre>
                                     </div><!--//code-block-->
                                     <p>
-                                        It is important to check if the query makes sens. In other terms, we need to check that the class of the studied entity accepts the association class in parameter as source in the case of an outgoing query or as target in the case of an incoming query. In our studied case, can a FAMIXClass have incoming references?  For this we look if all association types the class of the studied entity can be source (respectively target). If the association class in parameter does not belongs to the list of possible associations, the query returns an empty result. In the opposite, if the class of the entity can be source (resp target) of the association whose class is in parameter, we dynamically get the name of the corresponding property and perform it to collect the relevant associations.
+                                        It is important to check if the query makes sens. In other terms, we need to check that the class of the studied entity accepts the association class in parameter as source in the case of an outgoing query or as target in the case of an incoming query. In our studied case, can a <var>FAMIXClass</var> have incoming references?  For this we look if all association types the class of the studied entity can be source (respectively target). If the association class in parameter does not belongs to the list of possible associations, the query returns an empty result. In the opposite, if the class of the entity can be source (resp target) of the association whose class is in parameter, we dynamically get the name of the corresponding property and perform it to collect the relevant associations.
                                     </p>
                                     <div class="code-block">
                                         <h6> MooseQueryCalculator>>#queryLocal:for:in:</h6>
@@ -564,10 +558,10 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                         Local queries are useful, but most of the time users want to get all the associations taking into account the entity itself as source (resp. target) or its contained entities. For example it can be relevant to know all the incoming invocations of class1 (cf. user documentation examples). In this case, a class cannot be the target of an invocation, but what we want to get are all the invocations targeting any methods contained in the class.
                                     </p>
                                     <p>
-                                        These queries begin in the same way as local navigation queries. The entity will create a new MooseQueryCalculator parametrized with a direction strategy and return a new MooseQueryResult with the resulting associations. The only part changing is the way of the resulting associations are computed.
+                                        These queries begin in the same way as local navigation queries. The entity will create a new <var>MooseQueryCalculator</var> parametrized with a direction strategy and return a new <var>MooseQueryResult</var> with the resulting associations. The only part changing is the way of the resulting associations are computed.
                                     </p>
                                     <p>
-                                        It will begin by computing the associations of the receiver via the same method as the local navigation queries (MooseQueryCalculator>>queryLocal:for:in:), and then iterate on the children of the entity (which is possible via the methods of the containment tree exploration) to call recursively the query.
+                                        It will begin by computing the associations of the receiver via the same method as the local navigation queries (<var>MooseQueryCalculator>>queryLocal:for:in:</var>), and then iterate on the children of the entity (which is possible via the methods of the containment tree exploration) to call recursively the query.
                                     </p>
                                     <div class="code-block">
                                         <h6> MooseQueryCalculator>>#query:for:in:</h6>
@@ -589,7 +583,7 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                         As for the local queries, the readability of the method is sacrificed for performances. Find below a more readable version.
                                     </p>
                                     <p>
-                                        If we compute "MooseQueryCalculator query: FAMIXInvocation for: class1", "MooseQueryCalculator queryLocal: FAMIXInvocation for: class1" returns an empty collection since aFAMIXClass cannot be the target of an invocation. Then for each child of this entity the search is done. Concretely, it is compute only for the methods of class1 or the methods of any other entity contained recursively in class1.
+                                        If we compute <var>MooseQueryCalculator query: FAMIXInvocation for: class1</var>, <var>MooseQueryCalculator queryLocal: FAMIXInvocation for: class1</var> returns an empty collection since <var>aFAMIXClass</var> cannot be the target of an invocation. Then for each child of this entity the search is done. Concretely, it is compute only for the methods of class1 or the methods of any other entity contained recursively in class1.
                                     </p>
                                     <div class="code-block">
                                         <h6> MooseQueryCalculator>>#queryLocal:for:in:, readable version</h6>
@@ -639,9 +633,9 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                     <li>
                                         The direction of the query
                                         <ul>
-                                            <li>Up in the containment tree (#atScope:)</li>
-                                            <li>Down in the containment tree (#toScope:)</li>
-                                            <li>Both up and down in the containment tree (#withScope:)</li>
+                                            <li>Up in the containment tree (<var>#atScope:</var>)</li>
+                                            <li>Down in the containment tree (<var>#toScope:</var>)</li>
+                                            <li>Both up and down in the containment tree (<var>#withScope:</var>)</li>
                                         </ul>
                                     </li>
                                     <li>The Famix entity class defining the scope to query</li>
@@ -651,15 +645,15 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                 </p>
                                 <ul>
                                     <li>A Famix entity</li>
-                                    <li>A MooseQueryResult obtained from a navigation query</li>
+                                    <li>A <var>MooseQueryResult</var> obtained from a navigation query</li>
                                 </ul>
                                 <div id="entity" class="section-block">
                                     <h3 class="block-title">Query on a Famix entity</h3>
                                     <p>
-                                        Queries going up or down in the containment tree for the scope search are usable respectively via the methods TEntityMetaLevelDependency>>#atScope: and #toScope:. For example we can want all the incoming invocations of package P2 (cf. user documentation examples) at class scope. Meaning that we want to compute all the invocations that reach a method recursively contained in P2. But, as a result, we don't want neither the invocations nor the target methods of these invocations. We want the classes containing these methods.
+                                        Queries going up or down in the containment tree for the scope search are usable respectively via the methods <var>TEntityMetaLevelDependency>>#atScope:</var> and <var>#toScope:</var>. For example we can want all the incoming invocations of package P2 (cf. user documentation examples) at class scope. Meaning that we want to compute all the invocations that reach a method recursively contained in P2. But, as a result, we don't want neither the invocations nor the target methods of these invocations. We want the classes containing these methods.
                                     </p>
                                     <p>
-                                        These methods begin to create a collection to store the results and call #atScope:in:/#toScope:in: with the newly created collection as a parameter. This is done for performance reasons. Instead of creating multiple collections and use concatenation on them, we create one at the beginning and pass it as a parameter of the query methods.
+                                        These methods begin to create a collection to store the results and call <var>#atScope:in:/#toScope:in:</var> with the newly created collection as a parameter. This is done for performance reasons. Instead of creating multiple collections and use concatenation on them, we create one at the beginning and pass it as a parameter of the query methods.
                                     </p>
                                     <p>
                                         The query then checks if the receiver is of the searched kind. In case it is, the query end and returns the receiver as result. If it is not the case then the query is repeated on the parents/children of the entity depending on the direction in the containment tree of the query.
@@ -705,10 +699,10 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                 <div id="queryresult" class="section-block">
                                     <h3 class="block-title">Query on a MooseQueryResult</h3>
                                     <p>
-                                        Once we understand the scope queries applied to entities, it is easy to understand the scope queries on MooseQueryResult.
+                                        Once we understand the scope queries applied to entities, it is easy to understand the scope queries on <var>MooseQueryResult</var>.
                                     </p>
                                     <p>
-                                        MooseQueryResults store the associations gathered via a navigation query. Applying a scope query on it gathers the opposites of the first query receiver and apply the scope query on each of them.
+                                        <var>MooseQueryResults</var> store the associations gathered via a navigation query. Applying a scope query on it gathers the opposites of the first query receiver and apply the scope query on each of them.
                                     </p>
                                     <div class="code-block">
                                         <h6> TDependencyQueryResult>>#atScope:</h6>
@@ -767,7 +761,7 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
     <div class="container">
         <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can check out other license options via our website: themes.3rdwavemedia.com */-->
         <small class="copyright">Designed with <i class="fa fa-heart"></i> by <a href="http://themes.3rdwavemedia.com/"
-                                                                                 targe="_blank">Xiaoying Riley</a> for
+                                                                                 target="_blank">Xiaoying Riley</a> for
             developers
         </small>
 
