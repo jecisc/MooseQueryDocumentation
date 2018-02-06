@@ -75,7 +75,7 @@
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><i class="icon fa fa-code"></i> Developer Documentation</h1>
-                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Feb 1st, 2018</div>
+                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Feb 6th, 2018</div>
             </div><!--//doc-header-->
             <div class="doc-body">
                 <div class="doc-content">
@@ -719,10 +719,7 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                         <h6> TDependencyQueryResult>>#atScope:</h6>
                                         <pre><code class="language-smalltalk">
  TDependencyQueryResult>>atScope: aClassFamix
-	| res |
-	res := OrderedCollection new.
-	self storage do: [ :dep | (self opposite: dep) atScope: aClassFamix in: res ].
-	^ self newObjectResultWith: res asSet
+	^ self newObjectResultWith: (self storage inject: OrderedCollection new into: [ :res :dep | (self opposite: dep) atScope: aClassFamix in: res ]) asSet
                                         </code></pre>
                                     </div><!--//code-block-->
                                 </div>
