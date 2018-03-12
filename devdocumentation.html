@@ -75,7 +75,7 @@
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><i class="icon fa fa-code"></i> Developer Documentation</h1>
-                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Feb 6th, 2018</div>
+                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Mar 12th, 2018</div>
             </div><!--//doc-header-->
             <div class="doc-body">
                 <div class="doc-content">
@@ -525,24 +525,18 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                     </code></pre>
                                     </div><!--//code-block-->
                                     <p>
-                                        It is important to check if the query makes sens. In other terms, we need to check that the class of the studied entity accepts the association class in parameter as source in the case of an outgoing query or as target in the case of an incoming query. In our studied case, can a <var>FAMIXClass</var> have incoming references?  For this we look if all association types the class of the studied entity can be source (respectively target). If the association class in parameter does not belongs to the list of possible associations, the query returns an empty result. In the opposite, if the class of the entity can be source (resp target) of the association whose class is in parameter, we dynamically get the name of the corresponding property and perform it to collect the relevant associations.
+                                        To gather the associations we get all the properties returning associations in the right direction from the direction strategy. We then perform all the property names on the entity and select the ones which type match the one as parameter.
                                     </p>
                                     <div class="code-block">
                                         <h6> MooseQueryCalculator>>#queryLocal:for:in:</h6>
                                         <pre><code class="language-smalltalk">
  MooseQueryCalculator>>queryLocal: aFAMIXClassAssociation for: anEntity in: aCollection
-	"check that aFAMIXClassAssociation is well an incoming association type"
+	"The goal here is to get all the entity's direct associations of the class in parameter. This will not check the associations of the entity's children."
 
-	((self strategy associationTypesFor: anEntity) includes: aFAMIXClassAssociation) ifFalse: [ ^ aCollection ].
-
-	"I know that we could use #detect:ifFound: here, but this algo takes too long on big model, so this is a speed up while the sista vm is not ready for production"
-	(self strategy msePropertiesOf: anEntity)
-		do: [ :prop |
-			prop type implementingClass = aFAMIXClassAssociation
-				ifTrue: [ (anEntity perform: prop name)
-						ifNotNil: [ :coll |
-							aCollection addAll: coll asCollection.
-							^ aCollection ] ] ]
+	| properties |
+	"Instead of #to:do: we could just use #do: but this implementation is much faster. Maybe sista will remove the needs of the todo later."
+	1 to: (properties := self strategy msePropertiesOf: anEntity) size do: [ :ind | (anEntity perform: (properties at: ind) name) ifNotNil: [ :coll | aCollection addAll: (coll asCollection select: [ :each | each isKindOf: aFAMIXClassAssociation ]) ] ].
+	^ aCollection
                                     </code></pre>
                                     </div><!--//code-block-->
                                     <p>
@@ -552,13 +546,9 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                         <h6> MooseQueryCalculator>>#queryLocal:for:in:, readable version</h6>
                                         <pre><code class="language-smalltalk">
  MooseQueryCalculator>>queryLocal: aFAMIXClassAssociation for: anEntity in: aCollection
-	"check that aFAMIXClassAssociation is well an incoming association type"
+	"The goal here is to get all the entity's direct associations of the class in parameter. This will not check the associations of the entity's children."
 
-	((self strategy associationTypesFor: anEntity) includes: aFAMIXClassAssociation) ifFalse: [ ^ aCollection ].
-
-	(self strategy msePropertiesOf: anEntity)
-		detect: [ :prop | prop type implementingClass = aFAMIXClassAssociation ]
-		ifFound: [ :prop | (anEntity perform: prop name) ifNotNil: [ :coll | aCollection addAll: coll asCollection ] ].
+    (self strategy msePropertiesOf: anEntity) do: [ :property | (anEntity perform: property name) ifNotNil: [ :coll | aCollection addAll: (coll asCollection select: [ :each | each isKindOf: aFAMIXClassAssociation ]) ] ].
 	^ aCollection
                                     </code></pre>
                                     </div><!--//code-block-->
