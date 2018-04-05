@@ -75,7 +75,7 @@
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><i class="icon fa fa-user"></i> User Documentation</h1>
-                <div class="meta"><i class="fa fa-clock-o"></i>Last updated: Feb 1st, 2018</div>
+                <div class="meta"><i class="fa fa-clock-o"></i>Last updated: Apr 5th, 2018</div>
             </div><!--//doc-header-->
             <div class="doc-body">
                 <div class="doc-content">
@@ -399,13 +399,73 @@ class1 queryAll: #in. "=> { inheritance1 . reference1 }"
                                 <div class="code-block">
                                     <h6>Scope Queries Examples</h6>
                                     <pre><code class="language-smalltalk">
-package2 atScope: FAMIXPackage. "=> { package1 }"
+package2 atScope: FAMIXPackage. "=> { package2 }"
 package2 toScope: FAMIXPackage. "=> { }"
-package2 withScope: FAMIXPackage. "=> { package1 }"
+package2 withScope: FAMIXPackage. "=> { package2 }"
 
 method1 atScope: FAMIXType. "=> { class3 }"
 method1 toScope: FAMIXType. "=> { class4 }"
-method2 withScope: FAMIXType. "=> { class3 . class4 }"
+method1 withScope: FAMIXType. "=> { class3 . class4 }"
+
+method1 atScope: FAMIXPackage. "=> { package2 }"
+method1 toScope: FAMIXPackage. "=> {  }"
+method1 withScope: FAMIXPackage. "=> { package2 }"
+                                    </code></pre>
+                                </div><!--//code-block-->
+                                <p>
+                                    As we see in those examples, if we find and entity matching the search kind (possibly the receiver of the query), we stop here and we do not check its parents.
+                                    This is the reason why <var>package2 atScope: FAMIXPackage</var> does not return <var>package1</var> and why <var>method1 atScope: FAMIXPackage</var> only returns <var>package2</var>.
+                                </p>
+                                <p>
+                                    If we want to query all the entity matching the searched kind, it is possible to use a variant of those methods.
+                                </p>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Selector</th>
+                                            <th>Parameter</th>
+                                            <th>Description</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row"><var>#allAtScope:</var></th>
+                                            <td>Famix class defining the scope of the query</td>
+                                            <td>Return all the entities at this given famix class scope that are up in the containment tree of the meta-model on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#allToScope:</var></th>
+                                            <td>Famix class defining the scope of the query</td>
+                                            <td>Return all the entities at this given famix class scope that are down in the containment tree of the meta-model on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#allWithScope:</var></th>
+                                            <td>Famix class defining the scope of the query</td>
+                                            <td>Return all the entities at this given famix class scope that are both up and down in the containment tree of the meta-model on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br>
+                                <p>For example, if we take the model present in the figure as an example we can do: </p>
+                                <div class="code-block">
+                                    <h6>Scope Queries Examples</h6>
+                                    <pre><code class="language-smalltalk">
+package2 allAtScope: FAMIXPackage. "=> { package2. package1 }"
+package2 allToScope: FAMIXPackage. "=> { }"
+package2 allWithScope: FAMIXPackage. "=> { package2. package1 }"
+
+method1 allAtScope: FAMIXType. "=> { class3 }"
+method1 allToScope: FAMIXType. "=> { class4 }"
+method1 allWithScope: FAMIXType. "=> { class3 . class4 }"
+
+method1 allAtScope: FAMIXPackage. "=> { package2. package1 }"
+method1 allToScope: FAMIXPackage. "=> {  }"
+method1 allWithScope: FAMIXPackage. "=> { package2. package1 }"
+
+package1 allToScope: FAMIXType. "=> { class1 . class2 . class3 . class4 }"
+class4 allAtScope: FAMIXType. "=> { class3 . class4  }"
                                     </code></pre>
                                 </div><!--//code-block-->
                             </div>

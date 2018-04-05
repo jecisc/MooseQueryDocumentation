@@ -75,7 +75,7 @@
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><i class="icon fa fa-code"></i> Developer Documentation</h1>
-                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Mar 12th, 2018</div>
+                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Apr 5th, 2018</div>
             </div><!--//doc-header-->
             <div class="doc-body">
                 <div class="doc-content">
@@ -634,9 +634,9 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
                                     <li>
                                         The direction of the query
                                         <ul>
-                                            <li>Up in the containment tree (<var>#atScope:</var>)</li>
-                                            <li>Down in the containment tree (<var>#toScope:</var>)</li>
-                                            <li>Both up and down in the containment tree (<var>#withScope:</var>)</li>
+                                            <li>Up in the containment tree (<var>#atScope:</var>, <var>#allAtScope:</var>)</li>
+                                            <li>Down in the containment tree (<var>#toScope:</var>, <var>#allToScope:</var>)</li>
+                                            <li>Both up and down in the containment tree (<var>#withScope:</var>, <var>#allWithScope:</var>)</li>
                                         </ul>
                                     </li>
                                     <li>The Famix entity class defining the scope to query</li>
@@ -693,6 +693,22 @@ MooseQueryOutgoingDirectionStrategy class>>determinatingSymbol
  TEntityMetaLevelDependency>>withScope: aClassFAMIX in: aCollection
 	self allParentTypes detect: [ :class | aClassFAMIX = class or: [ aClassFAMIX inheritsFrom: class ] ] ifFound: [ self atScope: aClassFAMIX in: aCollection ].
 	self allChildrenTypes detect: [ :class | aClassFAMIX = class or: [ aClassFAMIX inheritsFrom: class ] ] ifFound: [ self toScope: aClassFAMIX in: aCollection ].
+	^ aCollection
+                                        </code></pre>
+                                    </div><!--//code-block-->
+                                    <p>
+                                        The recursive version (<var>#allAtScope:</var>, <var>#allToScope:</var> and <var>#allWithScope:</var>) is approximately the same, except it will not stop if an entity of the right kind is found.
+                                    </p>
+                                    <div class="code-block">
+                                        <h6> TEntityMetaLevelDependency>>#allAtScope:in:</h6>
+                                        <pre><code class="language-smalltalk">
+ TEntityMetaLevelDependency>>allAtScope: aClassFAMIX in: aCollection
+	| selectors |
+	(self isKindOf: aClassFAMIX) ifTrue: [ aCollection add: self ].
+
+	"The content of this block could be much more readable with #do: but we do this solution for performances... We need this method to be really really performant."
+	1 to: (selectors := self parentSelectors) size do: [ :ind | (self perform: (selectors at: ind)) allAtScope: aClassFAMIX in: aCollection ].
+
 	^ aCollection
                                         </code></pre>
                                     </div><!--//code-block-->

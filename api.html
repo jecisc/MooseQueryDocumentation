@@ -75,7 +75,7 @@
         <div class="container">
             <div id="doc-header" class="doc-header text-center">
                 <h1 class="doc-title"><i class="icon fa fa-exchange"></i> API Documentation</h1>
-                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Feb 1st, 2018</div>
+                <div class="meta"><i class="fa fa-clock-o"></i> Last updated: Apr 5th, 2018</div>
             </div><!--//doc-header-->
             <div class="doc-body">
                 <div class="doc-content">
@@ -167,6 +167,21 @@
                                                 <th scope="row"><var>#withScope:</var></th>
                                                 <td>Famix class defining the scope of the query</td>
                                                 <td>Return the entities of the parameter's kind up and down in the containment tree of the model compared to the receiver.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><var>#allAtScope:</var></th>
+                                                <td>Famix class defining the scope of the query</td>
+                                                <td>Return all the entities at this given famix class scope that are up in the containment tree of the meta-model on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><var>#allToScope:</var></th>
+                                                <td>Famix class defining the scope of the query</td>
+                                                <td>Return all the entities at this given famix class scope that are down in the containment tree of the meta-model on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><var>#allWithScope:</var></th>
+                                                <td>Famix class defining the scope of the query</td>
+                                                <td>Return all the entities at this given famix class scope that are both up and down in the containment tree of the meta-model on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -359,6 +374,21 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        <tr>
+                                            <th scope="row"><var>#allAtScope:</var></th>
+                                            <td>Famix class defining the scope of the query</td>
+                                            <td>Return all the entities at this given famix class scope that are up in the containment tree of the model compared to the association opposites relative to the navigation query receiver on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#allToScope:</var></th>
+                                            <td>Famix class defining the scope of the query</td>
+                                            <td>Return all the entities at this given famix class scope that are down in the containment tree of the model compared to the association opposites relative to the navigation query receiver on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#allWithScope:</var></th>
+                                            <td>Famix class defining the scope of the query</td>
+                                            <td>Return all the entities at this given famix class scope that are both up and down in the containment tree of the model compared to the association opposites relative to the navigation query receiver on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                        </tr>
                                         <tr>
                                             <th scope="row"><var>#atScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
