@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Documentation of Moose Query, the query systeme of the Moose platform.">
-    <meta name="author" content="Cyril Ferlicot-Delbecque">
+    <meta name="author" content="Anquetil" >
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="57x57" href="assets/favicon/apple-icon-57x57.png">
@@ -118,10 +118,6 @@
                                                 <td>Return the receiver's children in the containment tree of the model. This method is not recursive.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row"><var>#childrenSelectors</var></th>
-                                                <td>Return the selectors applicable to the receiver that can return some of the receiver's children.</td>
-                                            </tr>
-                                            <tr>
                                                 <th scope="row"><var>#childrenTypes</var></th>
                                                 <td>Return the possible children types of the receiver. This method is not recursive.</td>
                                             </tr>
@@ -130,12 +126,16 @@
                                                 <td>Return the receiver's parents in the containment tree of the model. This method is not recursive.</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row"><var>#parentSelectors</var></th>
-                                                <td>Return the selectors applicable to the receiver that can return some of the receiver's parents.</td>
-                                            </tr>
-                                            <tr>
                                                 <th scope="row"><var>#parentTypes</var></th>
                                                 <td>Return the possible parents types of the receiver. This method is not recursive.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><var>#childrenSelectors</var></th>
+                                                <td>(meta-selector) Returns the selectors, understood by the receiver, that can return some or all of its children in the containment tree.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><var>#parentSelectors</var></th>
+                                                <td>(meta-selector) Returns the selectors, understood by the receiver, that can return some or all of its parents in the containment tree.</td>
                                             </tr>
                                             </tbody>
                                         </table>
