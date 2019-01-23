@@ -84,9 +84,9 @@
                             <h2 class="section-title">Introduction</h2>
                             <div class="section-block">
                                 <p>
-                                    Moose-Query is a domain-specific language to build queries for entities in <a
+                                    Moose-Query is an internal domain-specific language (DSL) to build queries for entities in <a
                                         href="http://www.moosetechnology.org/" class="text-highlight">Moose</a>. It
-                                    succeeds to Moose-Chef. It is designed to simplify and standardize the way to query Moose
+                                    replaces Moose-Chef, and is designed to simplify and standardize the way to query Moose
                                     models.
                                 </p>
                                 <figure class="section-image">
@@ -98,16 +98,16 @@
                                 </p>
                                 <dl>
                                     <dt>
-                                        Imbrication of entities
+                                        Nesting of entities
                                     </dt>
                                     <dd>
-                                        Defines which entity contains which entities. For example, it defines the classes contained in a package and the methods contained in a class. In the example image, it is the relations <var>parentPackage</var>, <var>container</var>, and <var>parentType</var>. This concept allow to build the containment tree of a model.
+                                        Defines which entity contains which entities. For example, it defines the classes contained in a package and the methods contained in a class. In the example image, it is the relations <var>parentPackage</var>, <var>container</var>, and <var>parentType</var>. This concept allows one to build the containment tree of a model.
                                     </dd>
                                     <dt>
                                         Associations between entities
                                     </dt>
                                     <dd>
-                                        Precise how the entities interact with each other. For example, an inheritance is an association between a subclass and its superclass. Another example is that a reference is an association between a behavioural entity and a type. In the example image, it can be the <var>:Inheritance</var> with the <var>superclass</var> and <var>subclass</var> relations.
+                                        Specifies how the entities interact with each other. For example, an inheritance is an association between a subclass and its superclass. Another example is that a reference is an association between a behavioral entity and a type. In the example image, it can be the <var>:Inheritance</var> with the <var>superclass</var> and <var>subclass</var> relations.
                                     </dd>
                                 </dl>
                                 <p>
@@ -120,22 +120,22 @@
                                     <li>Change the scope of entities (move from classes to the parent package or the children methods)</li>
                                 </ul>
                                 <p>
-                                    In this documentation, we detail the use of the DSL. At the end, you will be able to query your Moose model, for example, to:
+                                    In this documentation, we detail the use of the DSL. With this tool, you will be able to query your Moose model, for example, to:
                                 </p>
                                 <ul>
-                                    <li>Get the children of an entity (Exploration of the containment tree)</li>
-                                    <li>Get all the associations contained in a class (Gathering of associations)</li>
-                                    <li>Get all the entities who depend on a specific entity (Manipulation of the gathered associations)</li>
-                                    <li>Get all the methods contained in a package in a Java model, including those in inner/anonymous classes (Change of scope)</li>
+                                    <li>Get the children of an entity (Exploring a containment tree)</li>
+                                    <li>Get all the associations contained in a class (Navigating associations)</li>
+                                    <li>Get all the entities who depend on a specific entity (Manipulating the gathered associations)</li>
+                                    <li>Get all the methods contained in a package in a Java model, including those in inner/anonymous classes (Changing scope)</li>
                                 </ul>
 
                             </div>
                         </section>
                         <section id="containment-tree" class="doc-section">
-                            <h2 class="section-title">Containment Tree Exploration</h2>
+                            <h2 class="section-title">Exploring a Containment Tree</h2>
                             <div class="section-block">
                                 <p>
-                                    Navigate the containment tree is the easiest way to query a model. It is possible with the associations relations in the model. To do so, it exists a really simple API on entities:
+                                    Navigating the containment tree is the easiest way to query a model. It is possible with the association relations in the model. To do this, there is a really simple API on entities:
                                 </p>
                                 <div class="table-responsive">
                                     <table class="table table-striped">
@@ -166,7 +166,7 @@
                                     <img src="assets/images/containmentTreeUser.png" alt="A schema of a containement tree">
                                     <figcaption>Example of a containment tree.</figcaption>
                                 </figure>
-                                <p>For example, the model in the example figure can be requested like that: </p>
+                                <p>For example, the model in the example figure can be requested as follows: </p>
                                 <div class="code-block">
                                     <h6>Examples of Containment Tree Navigation</h6>
                                     <pre><code class="language-smalltalk">
@@ -187,9 +187,9 @@ attribute1 allParents. "=> { class3 . package2 . package1 }"
                             </div>
                         </section>
                         <section id="navigation" class="doc-section">
-                            <h2 class="section-title">Navigation Queries</h2>
+                            <h2 class="section-title">Navigating Associations</h2>
                             <div class="section-block">
-                                <p>In order to navigate into the links between entities, MooseQuery provides a generic API to gather entities' associations. Those associations represent a different kind of links such as <var>References</var>, <var>Inheritance</var>, <var>Accesses</var>, or, for object-oriented languages, <var>Invocations</var>.
+                                <p>To navigate the links between entities (associations), MooseQuery provides a generic API to gather entities' associations. Those associations represent the different kinds of links such as <var>References</var>, <var>Inheritance</var>, <var>Accesses</var>, or, for object-oriented languages, <var>Invocations</var>.
                                 </p>
                                 <p>
                                     These queries are configured with two parameters:
@@ -199,11 +199,11 @@ attribute1 allParents. "=> { class3 . package2 . package1 }"
                                         The direction of the association (incoming or outgoing). An incoming association represents a relation where the studied entity (receiver of the query) is the target of the relation. An outgoing association represents a relation where the studied entity is the source of the relation.
                                     </li>
                                     <li>
-                                        The association(s) that is queried
+                                        The associations that are queried
                                     </li>
                                 </ul>
                                 <p>
-                                    On top of that, a query can be either local or not. A local query searches only in the associations of the receiver while a non-local query also gathers the entity children's associations. The main methods to perform those queries are:
+                                    On top of that, a query can be either local or not. A local query searches only in the associations of the receiver, while a non-local query also gathers the associations of the receiver's children. Here are the main methods to perform these queries:
                                 </p>
                                 <div class="table-responsive">
                                     <table class="table table-striped">
@@ -224,11 +224,11 @@ attribute1 allParents. "=> { class3 . package2 . package1 }"
                                         </tr>
                                         <tr>
                                             <th scope="row"><var>#queryLocal:with:</var></th>
-                                            <td>This method is equivalent to <var>#query:with:</var> but takes into account only the studied entity without its children. It takes as first parameter a symbol (<var>#out</var> or <var>#in</var>) to define the direction of the query and as second parameter an association class to query. <b>Return:</b> All the instances of this association class where the receiver only is the source/target depending on the symbol.</td>
+                                            <td>This method is equivalent to <var>#query:with:</var> but only takes into account the receiver (without its children). It takes as first parameter a symbol (<var>#out</var> or <var>#in</var>) to define the direction of the query and as second parameter an association class to query. <b>Return:</b> All the instances of this association class where the receiver is the source/target depending on the symbol.</td>
                                         </tr>
                                         <tr>
                                             <th scope="row"><var>#queryAllLocal:</var></th>
-                                            <td>This method is equivalent to <var>#queryAll:</var> but takes into account only the studied entity without its children. It takes as parameter a symbol (<var>#out</var> or <var>#in</var>) to define the direction of the query. It takes into account all kind of associations. <b>Return:</b> All the association's instances where the receiver only is the source/target depending on the symbol.</td>
+                                            <td>This method is equivalent to <var>#queryAll:</var> but only takes into account the studied entity (without its children). It takes as parameter a symbol (<var>#out</var> or <var>#in</var>) to define the direction of the query. It takes into account all kind of associations. <b>Return:</b> All the association's instances where the receiver only is the source/target depending on the symbol.</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -240,7 +240,7 @@ attribute1 allParents. "=> { class3 . package2 . package1 }"
                                 </figure>
                                 <p>For example, if we take the model present in the figure as an example we can do: </p>
                                 <div class="code-block">
-                                    <h6>Navigation Queries Examples</h6>
+                                    <h6>Navigation Query Examples</h6>
                                     <pre><code class="language-smalltalk">
 class1 query: #in with: FAMIXInheritance. "=> { inheritance1 }"
 class1 query: #out with: FAMIXInheritance. "=> { }"
@@ -257,7 +257,7 @@ class1 queryAllLocal: #out. "=> { }"
                                     </code></pre>
                                 </div><!--//code-block-->
                                 <p>
-                                    Now we can ask ourselves how to know which entity can be the source or target of which type of association. For this, it exists an API based on the meta-model of your application. These methods have to be sent to an entity class:
+                                    How do we know which entity can be the source or target of which type of association? To answer this kind of question, there is an API based on the meta-model of your application. These methods have to be sent to an entity class:
                                 </p>
                                 <div class="table-responsive">
                                     <table class="table table-striped">
@@ -299,7 +299,7 @@ FAMIXType allIncomingAssociationTypes. "=> { FAMIXAccess . FAMIXInheritance . FA
                             </div>
                         </section>
                         <section id="query-result" class="doc-section">
-                            <h2 class="section-title">Query Result Handling</h2>
+                            <h2 class="section-title">Manipulating the gathered associations</h2>
                             <div class="section-block">
                                 <p>
                                     A navigation query returns a result as a <var>MooseQueryResult</var>. There are three types of query results:
@@ -312,17 +312,17 @@ FAMIXType allIncomingAssociationTypes. "=> { FAMIXAccess . FAMIXInheritance . FA
                                         <var>MooseOutgoingQueryResult</var> manages the result of a query on outgoing associations.
                                     </li>
                                     <li>
-                                        <var>MooseObjectQueryResult</var> is special kind of query result that can be obtained via the two others ones and includes the opposites of the receiver associations. (For example if you query the outgoing accesses of a class, the opposites of the class associations will be the accessed attributes)
+                                        <var>MooseObjectQueryResult</var> is special kind of query result that can be obtained via the two others and includes the opposites of the receiver associations. For example, if you query the outgoing accesses of a class, the opposites of the class associations will be the accessed attributes.
                                     </li>
                                 </ul>
                                 <p>
-                                    These query results classes are special collections with some new features.
+                                    These query result classes are special collections with some new features.
                                 </p>
                                 <p>
-                                    One of the most useful ones is the <var>#opposites</var> method present on <var>MooseIncomingQueryResult</var> and <var>MooseOutgoingQueryResult</var>. It returns a <var>MooseObjectQueryResult</var> containing all the opposites entities of the query result compared to the receiver of the query.
+                                    One of the most useful ones is the <var>#opposites</var> method present on <var>MooseIncomingQueryResult</var> and <var>MooseOutgoingQueryResult</var>. It returns a <var>MooseObjectQueryResult</var> containing all the opposite entities of the query result relative to the receiver of the query.
                                 </p>
                                 <p>
-                                    Indeed, when we query a model, it is often not the associations that we want as result but the source/target entities of these associations. For example, if we want the instance variables accessed by a given method, <var>#query:with:</var> will returns the accesses whereas sending the message <var>#opposites</var> on the result returns the variables themselves.
+                                    Indeed, when we query a model, it is often not the associations that we want as result but the source/target entities of these associations. For example, if we want the instance variables accessed by a given method, <var>#query:with:</var> will return the accesses, whereas sending the message <var>#opposites</var> on the result returns the variables themselves.
                                 </p>
                                 <p>
                                     Taking the previous model as an example we can do:
@@ -346,10 +346,10 @@ class1 queryAll: #in. "=> { inheritance1 . reference1 }"
                             <h2 class="section-title">Scoping Queries</h2>
                             <div class="section-block">
                                 <p>
-                                    Depending on the analysed we perform, it might be relevant to handle the queries at a different scope. For example, if we want to know the associations between a given class and all the other classes of the project, whatever the type of associations. The associations between classes can only be inheritance. But two classes are also linked if a method of one of them invoked a method of the other. It is necessary to consider the invocation at the scope of the class whereas it occur between some of their methods. Exactly the same occur for the other types of associations.
+                                    Depending on the analysis we perform, it might be relevant to handle the queries at a different scope. For example, we might want to know the associations between a given class and all the other classes of the project, whatever the type of the associations. But maybe the associations between classes can only be inheritance. Or maybe two classes are also linked if a method of one of them invoked a method of the other. So, it is necessary to consider the invocation at the scope of the class whereas it occurs between some of their methods. Exactly the same occurs for the other types of associations.
                                 </p>
                                 <p>
-                                    For this scenario, it is possible to use the scope queries. A scope query can be applied to:
+                                    For this scenario, it is possible to use the scoped queries. A scoped query can be applied to:
                                 </p>
                                 <ul>
                                     <li>
@@ -360,7 +360,7 @@ class1 queryAll: #in. "=> { inheritance1 . reference1 }"
                                     </li>
                                 </ul>
                                 <p>
-                                    A scope query will have a direction to look for. You can look for entities higher, lower or both higher and lower than the receiver in the containment tree.
+                                    A scoped query will specify a direction, i.e., look for entities higher, lower or both higher and lower than the receiver in the containment tree.
                                 </p>
                                 <div class="table-responsive">
                                     <table class="table table-striped">
@@ -375,17 +375,17 @@ class1 queryAll: #in. "=> { inheritance1 . reference1 }"
                                         <tr>
                                             <th scope="row"><var>#atScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
-                                            <td>Return all the entities at this given famix class scope that are up in the containment tree of the meta-model.</td>
+                                            <td>Return all the entities at this given famix class scope that are above the entity in the containment tree of the meta-model.</td>
                                         </tr>
                                         <tr>
                                             <th scope="row"><var>#toScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
-                                            <td>Return all the entities at this given famix class scope that are down in the containment tree of the meta-model.</td>
+                                            <td>Return all the entities at this given famix class scope that are below the entity in the containment tree of the meta-model.</td>
                                         </tr>
                                         <tr>
                                             <th scope="row"><var>#withScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
-                                            <td>Return all the entities at this given famix class scope that are both up and down in the containment tree of the meta-model.</td>
+                                            <td>Return all the entities at this given famix class scope that are both above and below the entity in the containment tree of the meta-model.</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -395,7 +395,7 @@ class1 queryAll: #in. "=> { inheritance1 . reference1 }"
                                     <img src="assets/images/scopeUser.png" alt="A schema of a containement tree">
                                     <figcaption>Example of a containment tree.</figcaption>
                                 </figure>
-                                <p>For example, if we take the model present in the figure as an example we can do: </p>
+                                <p>For example, if we take the model present in the figure as an example, we can do: </p>
                                 <div class="code-block">
                                     <h6>Scope Queries Examples</h6>
                                     <pre><code class="language-smalltalk">
@@ -417,7 +417,7 @@ method1 withScope: FAMIXPackage. "=> { package2 }"
                                     This is the reason why <var>package2 atScope: FAMIXPackage</var> does not return <var>package1</var> and why <var>method1 atScope: FAMIXPackage</var> only returns <var>package2</var>.
                                 </p>
                                 <p>
-                                    If we want to query all the entity matching the searched kind, it is possible to use a variant of those methods.
+                                    If we want to query all the entities matching the searched kind, it is possible to use a variant of those methods.
                                 </p>
                                 <div class="table-responsive">
                                     <table class="table table-striped">
@@ -432,23 +432,23 @@ method1 withScope: FAMIXPackage. "=> { package2 }"
                                         <tr>
                                             <th scope="row"><var>#allAtScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
-                                            <td>Return all the entities at this given famix class scope that are up in the containment tree of the meta-model on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                            <td>Return all the entities at this given Famix class scope that are above the entity in the containment tree of the meta-model on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
                                         </tr>
                                         <tr>
                                             <th scope="row"><var>#allToScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
-                                            <td>Return all the entities at this given famix class scope that are down in the containment tree of the meta-model on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                            <td>Return all the entities at this given Famix class scope that are below the entity in the containment tree of the meta-model on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
                                         </tr>
                                         <tr>
                                             <th scope="row"><var>#allWithScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
-                                            <td>Return all the entities at this given famix class scope that are both up and down in the containment tree of the meta-model on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                            <td>Return all the entities at this given famix class scope that are both above and below the entity in the containment tree of the meta-model on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <br>
-                                <p>For example, if we take the model present in the figure as an example we can do: </p>
+                                <p>For example, if we take the model present in the figure as an example, we can do: </p>
                                 <div class="code-block">
                                     <h6>Scope Queries Examples</h6>
                                     <pre><code class="language-smalltalk">
@@ -474,12 +474,12 @@ class4 allAtScope: FAMIXType. "=> { class3 . class4  }"
                             <h2 class="section-title">Miscellaneous Examples</h2>
                             <div class="section-block">
                                 <p>
-                                    You will find here various example of the use of MooseQuery API.
+                                    You will find here various examples of the use of MooseQuery API.
                                 </p>
-                                <h3 class="question"><i class="fa fa-question-circle"></i>How do I get all the external entities a class depends on at a method level?</h3>
+                                <h3 class="question"><i class="fa fa-question-circle"></i>How do I get all the external entities that a class depends on at the method level?</h3>
                                 <div class="code-block">
                                     <pre><code class="language-smalltalk">
-"Since #withScope: will takes the ooposites of the associations by itself, there is no need to call explicitly #opposites."
+"Since #withScope: will take the opposites of the associations by itself, there is no need to call explicitly #opposites."
 (aClass query: #out) withoutSelfLoop withScope: FAMIXMethod
                                     </code></pre>
                                 </div><!--//code-block-->
