@@ -321,6 +321,64 @@
                                             <td>A Famix association class defining the associations to gather</td>
                                             <td>Return all the outgoing associations of the Famix association class for the receiver and its children.</td>
                                         </tr>
+                                        <tr>
+                                            <th scope="row"><var>#has:</var></th>
+                                            <td>A symbol <var>#in</var> or <var>#out</var> defining the query's direction</td>
+                                            <td>Check the incoming or outgoing associations of the receiver or its children.</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#has:with:</var></th>
+                                            <td>
+                                                <p>A symbol <var>#in</var> or <var>#out defining the query's direction</var></p>
+                                                <p>A Famix association class defining the associations to gather</p>
+                                            </td>
+                                            <td>Check all the incoming or outgoing associations of the Famix association class for the receiver and its children.</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#hasIncoming</var></th>
+                                            <td><span class="icon icon_blocked"></span></td>
+                                            <td>Checks for incoming associations of the receiver and its children.</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#hasIncoming:</var></th>
+                                            <td>A Famix association class defining the associations to gather</td>
+                                            <td>Checks for incoming associations of the Famix association class for the receiver and its children.</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#hasOutgoing</var></th>
+                                            <td><span class="icon icon_blocked"></span></td>
+                                            <td>Checks for outgoing associations of the receiver and its children.</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#hasOutgoing:</var></th>
+                                            <td>A Famix association class defining the associations to gather</td>
+                                            <td>Checks for outgoing associations of the Famix association class for the receiver and its children.</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#hasLocal:</var></th>
+                                            <p>A symbol <var>#in</var> or <var>#out defining the query's direction</var></p>
+                                            <td>Check the incoming or outgoing associations of the receiver.</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#hasLocalIncoming</var></th>
+                                            <td><span class="icon icon_blocked"></span></td>
+                                            <td>Check the incoming or outgoing associations of the receiver.</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#hasLocalIncoming:</var></th>
+                                            <td>A Famix association class defining the associations to gather</td>
+                                            <td>Checks for incoming associations of the Famix association class for the receiver.</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#hasLocalOutgoing</var></th>
+                                            <td><span class="icon icon_blocked"></span></td>
+                                            <td>Check the outgoing or outgoing associations of the receiver.</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#hasLocalOutgoing:</var></th>
+                                            <td>A Famix association class defining the associations to gather</td>
+                                            <td>Checks for outgoing associations of the Famix association class for the receiver.</td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div><!--//table-responsive-->
@@ -375,9 +433,19 @@
                                         </thead>
                                         <tbody>
                                         <tr>
+                                            <th scope="row"><var>#allAtAnyScope:</var></th>
+                                            <td>A collection of Famix class defining the scope of the query</td>
+                                            <td>Return all the entities at one of the given famix classes scope that are up in the containment tree of the model compared to the association opposites relative to the navigation query receiver on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                        </tr>
+                                        <tr>
                                             <th scope="row"><var>#allAtScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
                                             <td>Return all the entities at this given famix class scope that are up in the containment tree of the model compared to the association opposites relative to the navigation query receiver on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#allToAnyScope:</var></th>
+                                            <td>A collection of Famix class defining the scope of the query</td>
+                                            <td>Return all the entities at one of the given famix classes scope that are down in the containment tree of the model compared to the association opposites relative to the navigation query receiver on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
                                         </tr>
                                         <tr>
                                             <th scope="row"><var>#allToScope:</var></th>
@@ -385,9 +453,19 @@
                                             <td>Return all the entities at this given famix class scope that are down in the containment tree of the model compared to the association opposites relative to the navigation query receiver on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
                                         </tr>
                                         <tr>
+                                            <th scope="row"><var>#allWithAnyScope:</var></th>
+                                            <td>A collection of Famix class defining the scope of the query</td>
+                                            <td>Return all the entities at one of the given famix classes scope that are both up and down in the containment tree of the model compared to the association opposites relative to the navigation query receiver on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                        </tr>
+                                        <tr>
                                             <th scope="row"><var>#allWithScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
                                             <td>Return all the entities at this given famix class scope that are both up and down in the containment tree of the model compared to the association opposites relative to the navigation query receiver on multiple levels (it will not stop at the first encountered entity of the right kind).</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#atAnyScope:</var></th>
+                                            <td>A collection of Famix class defining the scope of the query</td>
+                                            <td>Return the entities at one of the given famix classes scope up in the containment tree of the model compared to the association opposites relative to the navigation query receiver.</td>
                                         </tr>
                                         <tr>
                                             <th scope="row"><var>#atScope:</var></th>
@@ -410,9 +488,19 @@
                                             <td>Reject the dependencies not matching the block as parameter.</td>
                                         </tr>
                                         <tr>
+                                            <th scope="row"><var>#toAnyScope:</var></th>
+                                            <td>A collection of Famix class defining the scope of the query</td>
+                                            <td>Return the entities at one of the given famix classes scope down in the containment tree of the model compared to the association opposites relative to the navigation query receiver.</td>
+                                        </tr>
+                                        <tr>
                                             <th scope="row"><var>#toScope:</var></th>
                                             <td>Famix class defining the scope of the query</td>
                                             <td>Return the entities of the parameter's kind down in the containment tree of the model compared to the association opposites relative to the navigation query receiver.</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><var>#withAnyScope:</var></th>
+                                            <td>A collection of Famix class defining the scope of the query</td>
+                                            <td>Return the entities at one of the given famix classes up and down in the containment tree of the model compared to the association opposites relative to the navigation query receiver.</td>
                                         </tr>
                                         <tr>
                                             <th scope="row"><var>#withScope:</var></th>
